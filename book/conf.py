@@ -205,3 +205,9 @@ latex_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'http://docs.python.org/': None}
+
+
+# Other options
+# If this is True, todo and todolist produce output, else they produce
+# nothing. The default is False.
+todo_include_todos = True
