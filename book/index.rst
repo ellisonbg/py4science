@@ -11,6 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   why_python.rst
+
 Indices and tables
 ==================
 

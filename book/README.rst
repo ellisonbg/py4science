@@ -24,7 +24,3 @@ In depth stuff
 * software carpentry: version control, unit testing, buildbots, code
   review
 
-
-
-
-
