@@ -461,69 +461,143 @@ the standard deviation of the trading volume, etc...
 
 .. _wordcount_demo:
 
-But it's not just numbers
----------------------------
-
-
 Dictionaries for counting words
 -------------------------------
 
+It's not just numerical computing that Python excels at.  While much
+of your time doing scientific computing in Python will be spent in the
+core extension packages that provide fast arrays, statistics and
+visualization, a strong advantage that Python has over many
+alternatives is that Python is a full blow object oriented language
+with rich data structures, built in libraries, and support for
+multiple programming paradigms.  We'll take a break from crunching
+numbers to illustrate python's power in string processing, utilizing
+one of the essential data structures in python: the dictionary.
 
 A common task in text processing is to produce a count of word frequencies.
-While NumPy has a builtin histogram function for doing numerical histograms,
+While numpy has a builtin histogram function for doing numerical histograms,
 it won't work out of the box for couting discrete items, since it
 is a binning histogram for a range of real values.
 
 But the Python language provides very powerful string manipulation
 capabilities, as well as a very flexible and efficiently implemented
-builtin data type, the \emph{dictionary}, that makes this task a very
-simple one.
-
-In this problem, you will need to count the frequencies of all the
-words contained in a compressed text file supplied as input. 
-
-The listing~\ref{code:wordfreqs} contains a skeleton for this
-problem, with ``XXX`` marking various places that are incomplete. 
-
-\lstinputlisting[label=code:wordfreqs,caption={IGNORED}]{problems/wordfreqs.py}
+builtin data type, the *dictionary*, that makes this task a very
+simple one.  Below, count the frequencies of all the words contained
+in a compressed text file of *Alice's Adventures in Wonderland* by
+Lewis Carroll, downloaded from `Project Gutenberg <http://www.gutenberg.org/wiki/Main_Page>`_.
 
 
-Hints
-~~~~~
+Consider "words" simply the result of splitting the input text into a
+list, using any form of whitespace as a separator. This is obviously a
+very naïve definition of word, but it shall suffice for the
+purposes of this exercise.  Python strings have a ``.split()``
+method that allows for very flexible splitting. You can easily get
+more details on it in IPython:
+
+.. sourcecode:: ipython
+
+   In [70]: a = 'some string'
+
+   In [71]: a.split?
+
+   Type:           builtin_function_or_method
+   Base Class:     <type 'builtin_function_or_method'>
+   String Form:    <built-in method split of str object at 0x98e2548>
+   Namespace:      Interactive
+   Docstring:
+       S.split([sep [,maxsplit]]) -> list of strings
+
+       Return a list of the words in the string S, using sep as the
+       delimiter string.  If maxsplit is given, at most maxsplit
+       splits are done. If sep is not specified or is None, any
+       whitespace string is a separator.
 
 
-\begin{itemize}
-\item The ``print\_vk`` function is already provided for you as a simple
-way to summarize your results.
-\item You will need to read the compressed file ``HISTORY.gz``. Python
-has facilities to do this without having to manually uncompress it.
-\item Consider `words' simply the result of splitting the input text into
-a list, using any form of whitespace as a separator. This is obviously
-a very naïve definition of `word', but it shall suffice for the purposes
-of this exercise.
-\item Python strings have a ``.split()`` method that allows for very
-flexible splitting. You can easily get more details on it in IPython:
-\end{itemize}
-\begin{lstlisting}
-In [2]: a = 'somestring'
+   In [72]: a.split()
+   Out[72]: ['some', 'string']
 
-In [3]: a.split?
-Type:           builtin_function_or_method
-Base Class:     <type 'builtin_function_or_method'>
-Namespace:      Interactive
-Docstring:
-    S.split([sep [,maxsplit]]) -> list of strings
+The complete set of methods of Python strings can be viewed by typing ``a.TAB``
 
-    Return a list of the words in the string S, using sep as the
-    delimiter string.  If maxsplit is given, at most maxsplit
-    splits are done. If sep is not specified or is None, any
-    whitespace string is a separator.
-\end{lstlisting}
+.. sourcecode:: ipython
 
-The complete set of methods of Python strings can be viewed by hitting
-the TAB key in IPython after typing ```a.``', and each of them
-can be similarly queried with the ```?``' operator as above.
-For more details on Python strings and their companion sequence types,
-see
-\url{http://docs.python.org/library/stdtypes.html#sequence-types-str-unicode-list-tuple-buffer-xrange}. 
+   In [73]: a.
+   a.__add__           a.__init__       a.__setattr__  a.isdigit    a.rsplit
+   a.__class__         a.__le__         a.__str__      a.islower    a.rstrip
+   a.__contains__      a.__len__        a.capitalize   a.isspace    a.split
+   a.__delattr__       a.__lt__         a.center       a.istitle    a.splitlines
+   a.__doc__           a.__mod__        a.count        a.isupper    a.startswith
+   a.__eq__            a.__mul__        a.decode       a.join       a.strip
+   a.__ge__            a.__ne__         a.encode       a.ljust      a.swapcase
+   a.__getattribute__  a.__new__        a.endswith     a.lower      a.title
+   a.__getitem__       a.__reduce__     a.expandtabs   a.lstrip     a.translate
+   a.__getnewargs__    a.__reduce_ex__  a.find         a.replace    a.upper
+   a.__getslice__      a.__repr__       a.index        a.rfind      a.zfill
+   a.__gt__            a.__rmod__       a.isalnum      a.rindex
+   a.__hash__          a.__rmul__       a.isalpha      a.rjust
+
+
+Each of them can be similarly queried with the ```?``' operator as
+above.  For more details on Python strings and their companion
+sequence types, see `string methods
+<http://docs.python.org/library/stdtypes.html#string-methods>`_
+
+Back to Alice.  We want to read the text in from the zip file, split
+it into words and then count the frequency of each word.  You will
+need to read the compressed file
+:file:`bookdata/alice_in_wonderland.zip` . Python has facilities to do
+this without having to manually uncompress using the `zipfile
+<http://docs.python.org/library/zipfile.html>`_ module.  The zip file
+consists of one or more textfiles, and we can use the module to load
+the zip file, list the files, and then read the text from the one file
+in the zip archive
+
+.. sourcecode:: ipython
+
+   In [101]: import zipfile
+
+   In [102]: zf = zipfile.ZipFile('alice_in_wonderland.zip')
+
+   In [103]: zf.namelist()
+   Out[103]: ['28885.txt']
+
+   In [104]: text = zf.read('28885.txt')
+
+
+Be careful printing text -- it is the entire manuscript so it will
+dump a lot of text to your screen.  We can print the characters from
+2000:2400 using standard python slicing
+
+.. sourcecode:: ipython
+
+   In [106]: print text[2000:2400]
+	  The rags of RIP VAN WINKLE!_
+
+				      _AUSTIN DOBSON._
+
+
+
+	     All in the golden afternoon
+	       Full leisurely we glide;
+	     For both our oars, with little skill,
+	       By little arms are plied,
+	     While little hands make vain pretence
+	       Our wanderings to guide.
+
+	     Ah, cruel Three! In such an hour,
+
+
+We can split the raw text into a list of words using the ``split``
+method as described.  To ignore casing difference, we will convert
+every word to lower case
+
+.. sourcecode:: ipython
+
+   In [107]: words = [word.lower() for word in text.split()]
+
+   In [108]: print len(words)
+   30359
+
+   In [109]: print words[:10]
+   ['project', "gutenberg's", "alice's", 'adventures', 'in', 'wonderland,', 'by', 'lewis', 'carroll', 'this']
+
 
