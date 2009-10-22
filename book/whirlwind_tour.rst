@@ -13,8 +13,8 @@ in scientific computing using just a few core tools: the python
 standard library, numpy, matplotlib, scipy and the ipython shell.
 
 
-Before proceeding, make sure you can fire up ipython in :ref:`pylab_mode` and
-navigate to the :ref:`sample_data`.
+Before proceeding, make sure you can fire up ipython in
+:ref:`ipython_pylab` and navigate to the :ref:`sample_data`.
 
 Loading and plotting some data
 -------------------------------
@@ -113,6 +113,7 @@ column is indexed with ``1`` and the third column is indexed with
 ``2``.
 
 .. sourcecode:: ipython
+
    In [31]: fat = X[:,1]
 
    In [32]: age = X[:,2]
@@ -182,3 +183,5 @@ of some of the lines below tells IPython not to print the output).
    ax.plot(x, y, '-', lw=2, color='red')
 
 
+
+TODO

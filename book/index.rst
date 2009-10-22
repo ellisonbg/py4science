@@ -21,6 +21,7 @@ Contents:
    why_python.rst
    getting_started.rst
    whirlwind_tour.rst
+   numpy_intro.rst
    glossary.rst
 
 Indices and tables
