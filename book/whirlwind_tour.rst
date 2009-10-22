@@ -325,7 +325,7 @@ actually even more flexible than this.  The `dtype
 <http://docs.scipy.org/doc/numpy/reference/generated/numpy.dtype.html>`_,
 which describes the datatype of the record array.  The ``dtype``
 object here maps the names of the fields *date*, *open*, *volume*, etc
-to the types '|O4', '<f8', '<i4' meaning "4 byte python object",
+to the types ``|O4``, ``<f8``, ``<i4`` meaning "4 byte python object",
 "little endian 8 byte float" and "little endian 4 byte integer
 (endianess is the byte ordering used to represent the data and varies
 across different computing architectures).
@@ -357,12 +357,13 @@ the beauties of the named dtypes in record arrays is that you can
 access the named columns of your data.  For example, to work with the
 date column, we can refer to ``r.date`` and even call python
 `datetime.date <http://docs.python.org/library/datetime.html>`_
-methods on the dates stored in the array
+methods on the dates stored in the array.
 
 .. sourcecode:: ipython
 
    In [43]: r.date[:4]
-   Out[43]: array([2006-02-08, 2006-02-09, 2006-02-10, 2006-02-13], dtype=object)
+   Out[43]: array([2006-02-08, 2006-02-09, 2006-02-10, 2006-02-13],
+       dtype=object)
 
    In [44]: date0 = r.date[0]
 
@@ -371,3 +372,95 @@ methods on the dates stored in the array
 
    In [46]: date0.year
    Out[46]: 2006
+
+Wrapping up this section, we can see how an investment in CROX has
+fared over the past few years.
+
+.. sourcecode:: ipython
+
+   In [47]: plot(r.date, r.adj_close)
+   Out[47]: [<matplotlib.lines.Line2D object at 0x8eb398c>]
+
+   In [48]: title('CROX share price - split adjusted')
+   Out[48]: <matplotlib.text.Text object at 0x8dde1ac>
+
+   In [49]: gcf().autofmt_xdate()
+
+   In [50]: draw()
+
+A couple of comments about the last two lines.  Date tick labels can
+be quite long, and can tend to overlap.  The matplotlib ``Figure`` has
+a method `autofmt_xdate
+<http://matplotlib.sourceforge.net/api/figure_api.html#matplotlib.figure.Figure.autofmt_xdate>`_
+to do a few formatting operations that are common on date plots, and
+one of these is to rotate the ticklabels so that they will not
+overlap.  Much, but not all of the matplotlib functionality, which
+resides in an object oriented class library, is accessible in the
+pylab interface via simple function like ``title`` and ``plot``.  To
+get at the rest of the functionality, we need to delve into the
+matplotlib API, and the call ``gcf().autofmt_xdate()`` uses ``gcf`` to
+*get current figure* and then call the figure's ``autofmt_xdate``
+method.  If you are typing along with the example, you may have
+noticed that the figure was not redrawn after the call to
+``autofmt_xdate``: this is a design decision in matplotlib to only
+automatically update the figure when pyplot plotting functions are
+called, and otherwise defer drawing until explcitly asked to in a draw
+commands.  Since ``autofmt_xdate`` is an *API* command, not a *pyplot*
+command, it did not automatically trigger a redraw.
+
+.. plot::
+
+   import matplotlib.pyplot as plt
+   import matplotlib.mlab as mlab
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   r = mlab.csv2rec('bookdata/crox.csv')
+   ax.plot(r.date, r.adj_close)
+   ax.set_title('CROX share price - split adjusted')
+   fig.autofmt_xdate()
+   plt.show()
+
+Numpy arrays are extremely flexible and powerful data structures.  In
+the example below, we tackly the following questions about dollar trading
+volume in CROX -- the total dollars traded is approximately given by
+the product of the volume of shares traded (the *volume* field) times
+the price of the shares, given by the *close*.  We can easily answer
+compute the average daily trading volume, the average over the last
+forty trading days, the largest day ever, the date of the largest day,
+the standard deviation of the trading volume, etc...
+
+
+.. sourcecode:: ipython
+
+   # dv is the dollar volume traded
+   In [62]: dv = r.volume * r.close
+
+   # the average and standard deviation of dv
+   In [63]: dv.mean()
+   Out[63]: 131809256.93676312
+
+   In [64]: dv.std()
+   Out[64]: 222149688.4737061
+
+   # the average in the last 40 trading days
+   In [65]: dv[-40:].mean()
+   Out[65]: 66807846.700000003
+
+   # the biggest date ever
+   In [66]: dv.max()
+   Out[66]: 2887587318.0
+
+   # the index into dv where the largest day occurs
+   In [67]: dv.argmax()
+   Out[67]: 496
+
+   # the date of the largest day
+   In [68]: r.date[496]
+   Out[68]: datetime.date(2007, 11, 1)
+
+
+.. _wordcount_demo:
+
+But it's not just numbers
+---------------------------
+

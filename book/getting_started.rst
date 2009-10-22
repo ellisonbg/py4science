@@ -15,9 +15,13 @@ You can start IPython in pylab mode, which pre-imports all of numpy
 and matplotlib, and tweaks some matplotlib settings so that plotting
 "just works", ie figures pop up when you type "plot" and are updated
 when you type commands.  In windows, IPython has a menu entry in the
-start menu for starting pylab mode, as shown below 
+start menu for starting pylab mode, as shown below
 
-.. image:: _static/ipython_pylab_windows.png
+.. figure:: _static/ipython_pylab_windows.png
+   :width: 4in
+
+   A windows XP screenshot launching IPython in *pylab* mode from the
+   start menu
 
 If you installed python from a package distribution like EPD_ or
 pythonxy_, the menu entry will be different, eg "Enthought ->
@@ -61,7 +65,7 @@ see the matplotlib installation `faq
 Downloading the data
 ---------------------
 
-The data for the examples used in the book is available at bookdata_. 
+The data for the examples used in the book is available at bookdata_.
 Download this zip file and unzip it in a working directory on your
 system.  You can check your self to make sure the download and unzip
 was successful by testing to see if you can load a simple dataset from
