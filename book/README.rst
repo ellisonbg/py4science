@@ -29,4 +29,12 @@ In depth stuff
   structured data and url reverse engineering (yahoo historical
   prices, google insight)
 
-* mapping data: weakter, geofred
+* mapping data: weather, geofred
+
+
+TODO
+====
+
+* Make a :cite:`key1,key2` rest extension to process bibtex.
+
+
