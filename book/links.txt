@@ -1,0 +1,61 @@
+.. This (-*- rst -*-) format file contains commonly used link targets
+   and name substitutions.  It may be included in many files,
+   therefore it should only contain link targets and name
+   substitutions.  Try grepping for "^\.\. _" to find plausible
+   candidates for this list.  
+
+   NOTE: reST targets are
+   __not_case_sensitive__, so only one target definition is needed for
+   nipy, NIPY, Nipy, etc...
+
+   NOTE: Some of these were taken from the nipy links compendium.
+
+
+.. Documentation tools
+.. _graphviz: http://www.graphviz.org
+.. _Sphinx: http://sphinx.pocoo.org
+.. _`Sphinx reST`: http://sphinx.pocoo.org/rest.html
+.. _reST: http://docutils.sourceforge.net/rst.html
+.. _docutils: http://docutils.sourceforge.net
+.. _lyx: http://www.lyx.org
+
+.. Licenses
+.. _GPL: http://www.gnu.org/licenses/gpl.html
+.. _BSD: http://www.opensource.org/licenses/bsd-license.php
+.. _LGPL: http://www.gnu.org/copyleft/lesser.html
+
+.. Other python projects
+.. _numpy: http://numpy.scipy.org
+.. _scipy: http://www.scipy.org
+.. _scipy_conference: http://conference.scipy.org
+.. _ipython: http://ipython.scipy.org
+.. _`ipython manual`: http://ipython.scipy.org/doc/manual/html
+.. _matplotlib: http://matplotlib.sourceforge.net
+.. _pythonxy: http://www.pythonxy.com
+.. _ETS: http://code.enthought.com/projects/tool-suite.php
+.. _EPD: http://www.enthought.com/products/epd.php
+.. _python: http://www.python.org
+.. _mayavi: http://mayavi.sourceforge.net
+.. _sympy: http://code.google.com/p/sympy
+.. _sage: http://sagemath.org
+.. _pydy: http://code.google.com/p/pydy
+
+.. Python imaging projects
+.. _PyMVPA: http://www.pymvpa.org
+.. _BrainVISA: http://brainvisa.info
+.. _anatomist: http://brainvisa.info
+
+.. Not so python imaging projects
+.. _matlab: http://www.mathworks.com
+.. _spm: http://www.fil.ion.ucl.ac.uk/spm
+.. _eeglab: http://sccn.ucsd.edu/eeglab
+.. _AFNI: http://afni.nimh.nih.gov/afni
+.. _FSL: http://www.fmrib.ox.ac.uk/fsl
+.. _FreeSurfer: http://surfer.nmr.mgh.harvard.edu
+.. _voxbo: http://www.voxbo.org
+.. _VTK: http://vtk.org
+
+.. Other organizations
+.. _enthought: http://www.enthought.com
+.. _kitware: http://www.kitware.com
+.. _netlib: http://netlib.org
