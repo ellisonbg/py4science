@@ -24,3 +24,9 @@ In depth stuff
 * software carpentry: version control, unit testing, buildbots, code
   review
 
+
+* web data: scraping (yahoo finances), apis (fred, opendap),
+  structured data and url reverse engineering (yahoo historical
+  prices, google insight)
+
+* mapping data: weakter, geofred

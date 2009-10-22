@@ -1,0 +1,14 @@
+Some handy git commands
+=========================
+
+Commit to the local brach with automatic add using -a::
+
+  git commit -a -m 'test commit of readme to local master'
+
+Pull from the central master::
+
+  git pull origin master
+
+Commit to the master::
+
+   git push origin master

@@ -8,10 +8,20 @@ Welcome to Py4Science's documentation!
 
 Contents:
 
+.. topic:: Links
+   :class: hidden print
+
+   .. target-notes::
+      :class: hidden print
+
+
 .. toctree::
    :maxdepth: 2
 
    why_python.rst
+   getting_started.rst
+   whirlwind_tour.rst
+   glossary.rst
 
 Indices and tables
 ==================
