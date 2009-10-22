@@ -1,10 +1,10 @@
 import re
 
-from docutils.parsers.rst import Directive, directives
-
 # Define LaTeX math node:
 
 if 0:
+    from docutils.parsers.rst import Directive, directives
+
     class citaton_node(nodes.General, nodes.Element):
         pass
 

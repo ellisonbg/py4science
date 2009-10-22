@@ -102,23 +102,18 @@ a few highlights of Python's history, in particular as they are relevant to the
 purpose of our book.  But we encourage our readers to visit the `History of
 Python`_ blog where Guido van Rossum, the creator of Python, presents a
 detailed and fascinating personal account of the language's evolution. 
-personal account
-
 
 .. _history of python: _python_history
 
-Guido van Rossum,   worked at the CWI Dutch mathematics research institute and
-had worked for a few years on a project to develop an educational programming
+Guido van Rossum worked at the CWI Dutch mathematics research institute and had
+worked for a few years on a project to develop an educational programming
 language called ABC.  After that, he joined a group developing a distributed
 operating system called Amoeba, and found himself needing a way to rapidly
 develop utilities for Amoeba that would fit the system's architecture better
 than the Bourne shell and yet would be easier to use than pure C.  While the
 ABC project had not been very successful in the long term, Guido found a lot of
-useful ideas in the language, and decided to design 
-
-
-"bridge the gap between C and the shell"
-
+useful ideas in the language, and decided to design a language that would
+"bridge the gap between C and the shell".
 
 There is a key aspect in which Python differs from the systems we described
 above.  All of them are commercial products whose internal source code is
