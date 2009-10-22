@@ -38,3 +38,23 @@ TODO
 * Make a :cite:`key1,key2` rest extension to process bibtex.
 
 
+
+Conventions
+===============
+
+* When importing modules, use the following syntax:
+
+    import matplotlib.mlab as mlab
+
+  rather than
+
+    from matplotlib import mlab
+
+  The first is unambiguously a module -- the 2nd could be a module,
+  function, or contstant
+
+
+* When referring to a function, class or module, link to the API docs
+  in the first usage, after than use double backticks.
+
+
