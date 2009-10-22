@@ -22,3 +22,10 @@ In depth:
 * software carpentry: version control, unit testing, buildbots, code
   review
 
+
+
+TODO
+====
+
+* Make a :cite:`key1,key2` rest extension to process bibtex.
+
