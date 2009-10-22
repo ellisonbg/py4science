@@ -16,7 +16,7 @@ import sys, os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.append(os.path.abspath('.'))
+sys.path.append(os.path.abspath('sphinxext'))
 
 # -- General configuration -----------------------------------------------------
 
@@ -25,7 +25,10 @@ import sys, os
 extensions = ['sphinx.ext.doctest', 'sphinx.ext.intersphinx', 
               'sphinx.ext.todo',
               #'sphinx.ext.jsmath',
-              'sphinx.ext.ifconfig']
+              'sphinx.ext.ifconfig',
+              'ipython_console_highlighting',
+              'math_dollar',
+              'cite']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

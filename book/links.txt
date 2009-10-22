@@ -25,6 +25,7 @@
 .. _LGPL: http://www.gnu.org/copyleft/lesser.html
 
 .. Other python projects
+.. _python: http://www.python.org
 .. _numpy: http://numpy.scipy.org
 .. _scipy: http://www.scipy.org
 .. _scipy_conference: http://conference.scipy.org
@@ -34,7 +35,6 @@
 .. _pythonxy: http://www.pythonxy.com
 .. _ETS: http://code.enthought.com/projects/tool-suite.php
 .. _EPD: http://www.enthought.com/products/epd.php
-.. _python: http://www.python.org
 .. _mayavi: http://mayavi.sourceforge.net
 .. _sympy: http://code.google.com/p/sympy
 .. _sage: http://sagemath.org
