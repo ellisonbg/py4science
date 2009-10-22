@@ -13,6 +13,8 @@ ALLSPHINXOPTS   = -d _build/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
 .PHONY: help clean html dirhtml pickle json htmlhelp qthelp latex changes linkcheck doctest
 
+default: html
+
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
 	@echo "  html      to make standalone HTML files"
@@ -63,6 +65,9 @@ qthelp:
 	@echo "# qcollectiongenerator _build/qthelp/Py4Science.qhcp"
 	@echo "To view the help file:"
 	@echo "# assistant -collectionFile _build/qthelp/Py4Science.qhc"
+
+pdf: latex
+	cd _build/latex && make all-pdf
 
 latex:
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) _build/latex

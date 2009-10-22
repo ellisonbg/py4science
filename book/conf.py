@@ -49,7 +49,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Py4Science'
-copyright = u'2009, Brian Granger, John Hunter and Fernando Perez.'
+authors = u'Brian Granger, John Hunter and Fernando Pérez.'
+copyright = u'2009, %s' % authors
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -175,7 +176,7 @@ html_static_path = ['_static']
 #html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Py4Sciencedoc'
+htmlhelp_basename = 'py4science'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -189,9 +190,10 @@ htmlhelp_basename = 'Py4Sciencedoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'Py4Science.tex', u'Py4Science Documentation',
-   u'Brian Granger, John Hunter and Fernando Perez.', 'manual'),
-]
+    ('index', 'py4science.tex',
+     u'Scientific Computing in Python',
+     authors, 'manual'),
+    ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
