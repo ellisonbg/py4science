@@ -249,7 +249,8 @@ into your ipython session and name it "url"
 
 .. sourcecode:: ipython
 
-   In [59]: url = 'http://ichart.finance.yahoo.com/table.csv?s=CROX&d=9&e=22&f=2009&g=d&a=1&b=8&c=2006&ignore=.csv'
+   In [59]: url = 'http://ichart.finance.yahoo.com/table.csv?s=CROX\
+      ....: &d=9&e=22&f=2009&g=d&a=1&b=8&c=2006&ignore=.csv'
 
    In [60]: import urllib
 
@@ -293,14 +294,14 @@ type, and then converting it and loading it into a numpy record array.
 
 .. sourcecode:: ipython
 
-In [73]: import matplotlib.mlab as mlab
+   In [73]: import matplotlib.mlab as mlab
 
-In [74]: r = mlab.csv2rec(fname)
+   In [74]: r = mlab.csv2rec(fname)
 
-In [75]: r.dtype
-Out[75]: dtype([('date', '|O4'), ('open', '<f8'), ('high', '<f8'),
-  ('low', '<f8'), ('close', '<f8'), ('volume', '<i4'),
-  ('adj_close', '<f8')])
+   In [75]: r.dtype
+   Out[75]: dtype([('date', '|O4'), ('open', '<f8'), ('high', '<f8'),
+		('low', '<f8'), ('close', '<f8'), ('volume', '<i4'),
+		('adj_close', '<f8')])
 
 
 ``r`` in the example above is a numpy record array, which supports a
@@ -371,6 +372,18 @@ fared over the past few years.
 
    In [96]: draw()
 
+.. plot::
+
+   import matplotlib.pyplot as plt
+   import matplotlib.mlab as mlab
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   r = mlab.csv2rec('bookdata/crox.csv')
+   ax.plot(r.date, r.adj_close)
+   ax.set_title('CROX share price - split adjusted')
+   fig.autofmt_xdate()
+   plt.show()
+
 A couple of comments about the last two lines.  Date tick labels can
 be quite long, and can tend to overlap.  The matplotlib ``Figure`` has
 a method `autofmt_xdate
@@ -391,17 +404,6 @@ called, and otherwise defer drawing until explicitly asked to in a draw
 commands.  Since ``autofmt_xdate`` is an *API* command, not a *pyplot*
 command, it did not automatically trigger a redraw.
 
-.. plot::
-
-   import matplotlib.pyplot as plt
-   import matplotlib.mlab as mlab
-   fig = plt.figure()
-   ax = fig.add_subplot(111)
-   r = mlab.csv2rec('bookdata/crox.csv')
-   ax.plot(r.date, r.adj_close)
-   ax.set_title('CROX share price - split adjusted')
-   fig.autofmt_xdate()
-   plt.show()
 
 Numpy arrays are extremely flexible and powerful data structures.  In
 the example below, we tackle the following questions about dollar trading
@@ -469,11 +471,15 @@ simple one.  Below, count the frequencies of all the words contained
 in a compressed text file of *Alice's Adventures in Wonderland* by
 Lewis Carroll, downloaded from `Project Gutenberg <http://www.gutenberg.org/wiki/Main_Page>`_.
 
+.. figure:: _static/alice_chapter1.jpg
+   :width: 4in
 
-Consider "words" simply the result of splitting the input text into a
-list, using any form of white-space as a separator. This is obviously a
-very naive definition of word, but it shall suffice for the
-purposes of this exercise.  Python strings have a ``.split()``
+   Facimile from `Chapter 1 <http://www.gutenberg.org/files/19002/19002-h/19002-h.htm>`_ of Project Gutenberg Alice in Wonderland
+
+We'll define "words" to simply be the result of splitting the input
+text into a list, using any form of white-space as a separator. This
+is obviously a very naive definition of word, but it will suffice for
+the purposes of this example.  Python strings have a ``split()``
 method that allows for very flexible splitting. You can easily get
 more details on it in IPython:
 
@@ -504,22 +510,22 @@ The complete set of methods of Python strings can be viewed by typing ``a.TAB``
 .. sourcecode:: ipython
 
    In [73]: a.
-   a.__add__           a.__init__       a.__setattr__  a.isdigit    a.rsplit
-   a.__class__         a.__le__         a.__str__      a.islower    a.rstrip
-   a.__contains__      a.__len__        a.capitalize   a.isspace    a.split
-   a.__delattr__       a.__lt__         a.center       a.istitle    a.splitlines
-   a.__doc__           a.__mod__        a.count        a.isupper    a.startswith
-   a.__eq__            a.__mul__        a.decode       a.join       a.strip
-   a.__ge__            a.__ne__         a.encode       a.ljust      a.swapcase
-   a.__getattribute__  a.__new__        a.endswith     a.lower      a.title
-   a.__getitem__       a.__reduce__     a.expandtabs   a.lstrip     a.translate
-   a.__getnewargs__    a.__reduce_ex__  a.find         a.replace    a.upper
-   a.__getslice__      a.__repr__       a.index        a.rfind      a.zfill
-   a.__gt__            a.__rmod__       a.isalnum      a.rindex
-   a.__hash__          a.__rmul__       a.isalpha      a.rjust
+   a.__add__          a.__init__      a.__setattr__ a.isdigit a.rsplit
+   a.__class__        a.__le__        a.__str__     a.islower a.rstrip
+   a.__contains__     a.__len__       a.capitalize  a.isspace a.split
+   a.__delattr__      a.__lt__        a.center      a.istitle a.splitlines
+   a.__doc__          a.__mod__       a.count       a.isupper a.startswith
+   a.__eq__           a.__mul__       a.decode      a.join    a.strip
+   a.__ge__           a.__ne__        a.encode      a.ljust   a.swapcase
+   a.__getattribute__ a.__new__       a.endswith    a.lower   a.title
+   a.__getitem__      a.__reduce__    a.expandtabs  a.lstrip  a.translate
+   a.__getnewargs__   a.__reduce_ex__ a.find        a.replace a.upper
+   a.__getslice__     a.__repr__      a.index       a.rfind   a.zfill
+   a.__gt__           a.__rmod__      a.isalnum     a.rindex
+   a.__hash__         a.__rmul__      a.isalpha     a.rjust
 
 
-Each of them can be similarly queried with the ```?``' operator as
+Each of them can be similarly queried with the ``'?'`` operator as
 above.  For more details on Python strings and their companion
 sequence types, see `string methods
 <http://docs.python.org/library/stdtypes.html#string-methods>`_
@@ -589,27 +595,27 @@ every word to lower case
 Now we have all the pieces in place to implement our work counting
 algorithm.  We use a dictionary ``countd`` (mnemonic "count
 dictionary") which maps words to counts.  The key trick is to use the
-dictionary's ``get`` methods, which will return the dictionary value
-if it exists, otherwise it will return a default value.
+dictionary's ``get`` method, which will return the dictionary value
+if it exists, otherwise it will return the specified default value.
 
 .. sourcecode:: ipython
 
    In [1]: countd = dict()
 
-   In [2]: countd['alice'] = 1
+   In [2]: countd['alice'] = 10
 
    In [3]: countd.get('alice', 0)
-   1
+   10
 
    In [4]: countd.get('wonderland', 0)
    0
 
 
 
-In this example, calling ``countd.get('alice', 0)`` returns ``1``
-because the key ``'alice'`` is in the dictionary with value ``1``. But
+In this example, calling ``countd.get('alice', 0)`` returns ``10``
+because the key ``'alice'`` is in the dictionary with value ``10``. But
 ``countd.get('wonderland', 0)`` returns the default value ``0``
-because the key ``'winderland'`` is not in the dictionary.  This idiom
+because the key ``'wonderland'`` is not in the dictionary.  This idiom
 is useful when doing word counts because when we encounter a word that
 may or may not already be in our ``countd`` dictionary, we can use
 ``get`` to return the count with a default value of ``0``.  For each
@@ -639,14 +645,14 @@ frequently they occur
    In [19]: countd['wonderland']
    5
 
-To finish up this example, we want to print the 10 most common
-occuring words.  The easiest way to do this is create a list of
-(*count*, *word*) tuples, and then sort the list.  So we will create a
-list of 2-tuples.  python will sort this according to the first
-element of the tuple -- the count -- and for identical counts will
-sort by the second element of the tuple -- the word.  The dictionary
-method ``items`` returns a list of (*key*, *value*) pairs, ie (*word*,
-*count*), so we need to reverse this to get (*count*, *word*) pairs
+To finish up this example, we want to print the most common occuring
+words.  The easiest way to do this is create a list of (*count*,
+*word*) tuples, and then sort the list.  So we will create a list of
+2-tuples.  python will sort this according to the first element of the
+tuple -- the *count* -- and for identical counts will sort by the second
+element of the tuple -- the *word*.  The dictionary method ``items``
+returns a list of (*key*, *value*) pairs, ie (*word*, *count*), so we
+need to reverse this to get (*count*, *word*) pairs
 
 .. sourcecode:: ipython
 
@@ -665,8 +671,19 @@ words and their counts
 
    In [115]: counts.sort()
 
-   In [116]: counts[-6:]
+   # the least common words
+   In [116]: counts[:6]
    Out[116]:
+   [(1, '"\'--found'),
+    (1, '"\'_we'),
+    (1, '"\'miss'),
+    (1, '"----'),
+    (1, '"----likely'),
+    (1, '"----or')]
+
+   # the most common words
+   In [117]: counts[-6:]
+   Out[117]:
    [(522, 'she'),
     (619, 'of'),
     (689, 'a'),
@@ -676,8 +693,35 @@ words and their counts
 
 Of course, this is just a toy example, and have not "cleaned" the word
 data by stripping off punctuation, but it does show off some of the
-veratile data structures and standard library functionality that makes
-these tasks easy and elegant in python.  Here is the entirety of the
+versatile data structures and standard library functionality that
+makes these tasks easy and elegant in python.  Let's take the example
+one step further to strip the words of all non-alphabetic characters.
+There are two string methods that help here: ``translate`` and
+``isalpha``.  The ``translate`` method is used to translate certain
+string characters into other characters, but it has an optional second
+argument which is a string of characters you want to delete.  So we
+need to build a string which is all of the characters *except* the
+alphabetic characters.  The ASCII character set are the characters
+represented by the ordinal numbers from 0..255, and the ``isalpha``
+method will return True if the character is a member of the alphabet.
+
+.. sourcecode:: ipython
+
+   In [123]: ascii_chars = [chr(i) for i in range(256)]
+
+   In [124]: nonalpha_chars = [chr(i) for i in range(256)\
+      .....: if not chr(i).isalpha()]
+
+
+From this list of non-alpha characters, we need to create a string of
+the same characters.  To create a string from a list of characters,
+use the ``join`` method::
+
+    nonalpha_str = ''.join(nonalpha_chars)
+
+
+
+Here is the entirety of the
 script without the extra commentary
 
 .. sourcecode:: ipython
@@ -698,3 +742,4 @@ script without the extra commentary
 
   for count, word in counts[-6:]:
       print word, count
+
