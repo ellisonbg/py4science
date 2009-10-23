@@ -58,3 +58,4 @@ Conventions
   in the first usage, after than use double backticks.
 
 
+* Don't use print w/o parens as it is not 3.0 safe

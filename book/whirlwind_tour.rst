@@ -59,18 +59,20 @@ now load this file into ipython using ``np.loadtxt``.
 
 .. sourcecode:: ipython
 
-   In [20]: import numpy as np
+   In [38]: import numpy as np
 
-   In [21]: X = np.loadtxt('bodyfat.dat')
+   In [39]: X = np.loadtxt('bodyfat.dat')
 
-   In [22]: print X
-   [[  1.0708  12.3     23.     ...,  32.      27.4     17.1   ]
-    [  1.0853   6.1     22.     ...,  30.5     28.9     18.2   ]
-    [  1.0414  25.3     22.     ...,  28.8     25.2     16.6   ]
-    ...,
-    [  1.0328  29.3     72.     ...,  31.3     27.2     18.    ]
-    [  1.0399  26.      72.     ...,  30.5     29.4     19.8   ]
-    [  1.0271  31.9     74.     ...,  33.7     30.      20.9   ]]
+   In [40]: X
+   Out[40]:
+   array([[  1.0708,  12.3   ,  23.    , ...,  32.    ,  27.4   ,  17.1   ],
+	  [  1.0853,   6.1   ,  22.    , ...,  30.5   ,  28.9   ,  18.2   ],
+	  [  1.0414,  25.3   ,  22.    , ...,  28.8   ,  25.2   ,  16.6   ],
+	  ...,
+	  [  1.0328,  29.3   ,  72.    , ...,  31.3   ,  27.2   ,  18.    ],
+	  [  1.0399,  26.    ,  72.    , ...,  30.5   ,  29.4   ,  19.8   ],
+	  [  1.0271,  31.9   ,  74.    , ...,  33.7   ,  30.    ,  20.9   ]])
+
 
 Here the ``...`` ellipses were added by numpy in the print out so as to
 not dump too much information to your screen.  The tabular data,
@@ -82,11 +84,11 @@ shape (number of rows by number of columns) and the type of the data.
 
 .. sourcecode:: ipython
 
-   In [25]: print X.shape
-   (252, 15)
+   In [41]: X.shape
+   Out[41]: (252, 15)
 
-   In [26]: print X.dtype
-   float64
+   In [42]: X.dtype
+   Out[42]: dtype('float64')
 
 These attributes will be covered in detail in the upcoming chapter
 :ref:`numpy_intro`.
@@ -119,15 +121,15 @@ column is indexed with ``1`` and the third column is indexed with
 
 .. sourcecode:: ipython
 
-   In [31]: fat = X[:,1]
+   In [46]: fat = X[:,1]
 
-   In [32]: age = X[:,2]
+   In [47]: age = X[:,2]
 
-   In [33]: print fat[:4]
-   [ 12.3   6.1  25.3  10.4]
+   In [48]: fat[:4]
+   Out[48]: array([ 12.3,   6.1,  25.3,  10.4])
 
-   In [34]: print age[:4]
-   [ 23.  22.  22.  26.]
+   In [49]: age[:4]
+   Out[49]: array([ 23.,  22.,  22.,  26.])
 
 numpy supports a wide range of indexing options to slice out columns
 and rows from a larger array -- here we assign the name ``fat`` to the
@@ -247,15 +249,15 @@ into your ipython session and name it "url"
 
 .. sourcecode:: ipython
 
-   In [1]: url = 'http://ichart.finance.yahoo.com/table.csv?s=CROX\
-      ...: &d=9&e=22&f=2009&g=d&a=1&b=8&c=2006&ignore=.csv'
+   In [59]: url = 'http://ichart.finance.yahoo.com/table.csv?s=CROX&d=9&e=22&f=2009&g=d&a=1&b=8&c=2006&ignore=.csv'
 
-   In [2]: import urllib
+   In [60]: import urllib
 
-   In [3]: fname, msg = urllib.urlretrieve(url)
+   In [61]: fname, msg = urllib.urlretrieve(url)
 
-   In [4]: print fname
-   /tmp/tmpbFbxOT.csv
+   In [62]: fname
+   Out[62]: '/tmp/tmpMXW2Gn.csv'
+
 
 By default ``urlretrieve`` will create a temporary file somewhere on
 your system and download the file, so your location and file name will
@@ -263,19 +265,13 @@ be different.  We can inspect it in ipython.
 
 .. sourcecode:: ipython
 
-   In [8]: !more /tmp/tmpbFbxOT.csv
+   In [67]: !more /tmp/tmpMXW2Gn.csv
    Date,Open,High,Low,Close,Volume,Adj Close
+   2009-10-22,7.27,7.89,7.27,7.77,2960100,7.77
    2009-10-21,7.58,7.84,7.25,7.30,2686100,7.30
    2009-10-20,7.91,7.98,7.52,7.63,2256900,7.63
    2009-10-19,7.82,8.00,7.74,7.89,3040800,7.89
    2009-10-16,7.90,7.94,7.60,7.76,2403100,7.76
-   2009-10-15,7.81,8.20,7.77,8.00,5395900,8.00
-   2009-10-14,7.54,7.87,7.32,7.85,5965900,7.85
-   2009-10-13,7.16,7.55,7.04,7.38,3732600,7.38
-   2009-10-12,7.07,7.40,7.05,7.11,3824300,7.11
-   2009-10-09,6.87,7.25,6.83,7.01,4554300,7.01
-   2009-10-08,6.72,7.18,6.66,6.88,4583200,6.88
-
 
 This file has headers (*Date,Open,High,Low,Close,Volume,Adj Close*)
 and heterogeneous types: dates, floating point numbers, and integers.
@@ -297,26 +293,14 @@ type, and then converting it and loading it into a numpy record array.
 
 .. sourcecode:: ipython
 
-   In [12]: import matplotlib.mlab as mlab
+In [73]: import matplotlib.mlab as mlab
 
-   In [13]: r = mlab.csv2rec(fname)
+In [74]: r = mlab.csv2rec(fname)
 
-   In [14]: print r.dtype
-   [('date', '|O4'), ('open', '<f8'), ('high', '<f8'), ('low', '<f8'),
-     ('close', '<f8'), ('volume', '<i4'), ('adj_close', '<f8')]
-
-   In [15]: print mlab.rec2txt(r[:10])
-   date          open    high     low   close    volume   adj_close
-   2009-10-21   7.580   7.840   7.250   7.300   2686100       7.300
-   2009-10-20   7.910   7.980   7.520   7.630   2256900       7.630
-   2009-10-19   7.820   8.000   7.740   7.890   3040800       7.890
-   2009-10-16   7.900   7.940   7.600   7.760   2403100       7.760
-   2009-10-15   7.810   8.200   7.770   8.000   5395900       8.000
-   2009-10-14   7.540   7.870   7.320   7.850   5965900       7.850
-   2009-10-13   7.160   7.550   7.040   7.380   3732600       7.380
-   2009-10-12   7.070   7.400   7.050   7.110   3824300       7.110
-   2009-10-09   6.870   7.250   6.830   7.010   4554300       7.010
-   2009-10-08   6.720   7.180   6.660   6.880   4583200       6.880
+In [75]: r.dtype
+Out[75]: dtype([('date', '|O4'), ('open', '<f8'), ('high', '<f8'),
+  ('low', '<f8'), ('close', '<f8'), ('volume', '<i4'),
+  ('adj_close', '<f8')])
 
 
 ``r`` in the example above is a numpy record array, which supports a
@@ -339,9 +323,9 @@ different field.
 
 .. sourcecode:: ipython
 
-   In [35]: r.sort()
+   In [80]: r.sort()
 
-   In [36]: print mlab.rec2txt(r[:5])
+   In [81]: print(mlab.rec2txt(r[:5]))
    date           open     high      low    close     volume   adj_close
    2006-02-08   30.000   32.500   28.140   28.550   23814000      14.270
    2006-02-09   29.240   29.340   26.120   27.000    4463800      13.500
@@ -361,32 +345,31 @@ methods on the dates stored in the array.
 
 .. sourcecode:: ipython
 
-   In [43]: r.date[:4]
-   Out[43]: array([2006-02-08, 2006-02-09, 2006-02-10, 2006-02-13],
-       dtype=object)
+   In [89]: r.date[:4]
+   Out[89]: array([2006-02-08, 2006-02-09, 2006-02-10, 2006-02-13], dtype=object)
 
-   In [44]: date0 = r.date[0]
+   In [90]: date0 = r.date[0]
 
-   In [45]: date0
-   Out[45]: datetime.date(2006, 2, 8)
+   In [91]: date0
+   Out[91]: datetime.date(2006, 2, 8)
 
-   In [46]: date0.year
-   Out[46]: 2006
+   In [92]: date0.year
+   Out[92]: 2006
 
 Wrapping up this section, we can see how an investment in CROX has
 fared over the past few years.
 
 .. sourcecode:: ipython
 
-   In [47]: plot(r.date, r.adj_close)
-   Out[47]: [<matplotlib.lines.Line2D object at 0x8eb398c>]
+   In [93]: plot(r.date, r.adj_close)
+   Out[93]: [<matplotlib.lines.Line2D object at 0x8eb398c>]
 
-   In [48]: title('CROX share price - split adjusted')
-   Out[48]: <matplotlib.text.Text object at 0x8dde1ac>
+   In [94]: title('CROX share price - split adjusted')
+   Out[94]: <matplotlib.text.Text object at 0x8dde1ac>
 
-   In [49]: gcf().autofmt_xdate()
+   In [95]: gcf().autofmt_xdate()
 
-   In [50]: draw()
+   In [96]: draw()
 
 A couple of comments about the last two lines.  Date tick labels can
 be quite long, and can tend to overlap.  The matplotlib ``Figure`` has
@@ -433,30 +416,30 @@ the standard deviation of the trading volume, etc...
 .. sourcecode:: ipython
 
    # dv is the dollar volume traded
-   In [62]: dv = r.volume * r.close
+   In [101]: dv = r.volume * r.close
 
    # the average and standard deviation of dv
-   In [63]: dv.mean()
-   Out[63]: 131809256.93676312
+   In [102]: dv.mean()
+   Out[102]: 131809256.93676312
 
-   In [64]: dv.std()
-   Out[64]: 222149688.4737061
+   In [103]: dv.std()
+   Out[103]: 222149688.4737061
 
    # the average in the last 40 trading days
-   In [65]: dv[-40:].mean()
-   Out[65]: 66807846.700000003
+   In [104]: dv[-40:].mean()
+   Out[104]: 66807846.700000003
 
    # the biggest date ever
-   In [66]: dv.max()
-   Out[66]: 2887587318.0
+   In [105]: dv.max()
+   Out[105]: 2887587318.0
 
    # the index into dv where the largest day occurs
-   In [67]: dv.argmax()
-   Out[67]: 496
+   In [106]: dv.argmax()
+   Out[106]: 496
 
    # the date of the largest day
-   In [68]: r.date[496]
-   Out[68]: datetime.date(2007, 11, 1)
+   In [107]: r.date[496]
+   Out[107]: datetime.date(2007, 11, 1)
 
 
 .. _wordcount_demo:
@@ -594,7 +577,7 @@ every word to lower case
 
    In [107]: words = [word.lower() for word in text.split()]
 
-   In [108]: print len(words)
+   In [108]: len(words)
    30359
 
    In [109]: print words[:10]
@@ -602,3 +585,116 @@ every word to lower case
      'by', 'lewis', 'carroll', 'this']
 
 
+
+Now we have all the pieces in place to implement our work counting
+algorithm.  We use a dictionary ``countd`` (mnemonic "count
+dictionary") which maps words to counts.  The key trick is to use the
+dictionary's ``get`` methods, which will return the dictionary value
+if it exists, otherwise it will return a default value.
+
+.. sourcecode:: ipython
+
+   In [1]: countd = dict()
+
+   In [2]: countd['alice'] = 1
+
+   In [3]: countd.get('alice', 0)
+   1
+
+   In [4]: countd.get('wonderland', 0)
+   0
+
+
+
+In this example, calling ``countd.get('alice', 0)`` returns ``1``
+because the key ``'alice'`` is in the dictionary with value ``1``. But
+``countd.get('wonderland', 0)`` returns the default value ``0``
+because the key ``'winderland'`` is not in the dictionary.  This idiom
+is useful when doing word counts because when we encounter a word that
+may or may not already be in our ``countd`` dictionary, we can use
+``get`` to return the count with a default value of ``0``.  For each
+word in our word list, we increment the count for the word by ``1``,
+assuming a default starting count for ``0`` if it is the first time we see
+the word and it is not in our ``countd`` dictionary
+
+
+.. sourcecode:: ipython
+
+   In [16]: countd = dict()
+
+   In [17]: for word in words:
+      ....:     countd[word] = countd.get(word, 0) + 1
+      ....:
+      ....:
+
+
+We can now inspect the dictionary for individual words to see how
+frequently they occur
+
+.. sourcecode:: ipython
+
+   In [18]: countd['alice']
+   226
+
+   In [19]: countd['wonderland']
+   5
+
+To finish up this example, we want to print the 10 most common
+occuring words.  The easiest way to do this is create a list of
+(*count*, *word*) tuples, and then sort the list.  So we will create a
+list of 2-tuples.  python will sort this according to the first
+element of the tuple -- the count -- and for identical counts will
+sort by the second element of the tuple -- the word.  The dictionary
+method ``items`` returns a list of (*key*, *value*) pairs, ie (*word*,
+*count*), so we need to reverse this to get (*count*, *word*) pairs
+
+.. sourcecode:: ipython
+
+   In [103]: counts = [(count, word) for word, count in countd.items()]
+
+   In [104]: counts[:3]
+   Out[104]: [(2, '"--and'), (1, 'figure!"'), (6, 'four')]
+
+You will probably see different number/word pairs because dictionaries
+are unordered and the return value from ``items`` is unorded.  We can
+do an in-place sort of the list, and then index into the last elements
+of the sorted list using the negative index to see the most common
+words and their counts
+
+.. sourcecode:: ipython
+
+   In [115]: counts.sort()
+
+   In [116]: counts[-6:]
+   Out[116]:
+   [(522, 'she'),
+    (619, 'of'),
+    (689, 'a'),
+    (803, 'to'),
+    (857, 'and'),
+    (1812, 'the')]
+
+Of course, this is just a toy example, and have not "cleaned" the word
+data by stripping off punctuation, but it does show off some of the
+veratile data structures and standard library functionality that makes
+these tasks easy and elegant in python.  Here is the entirety of the
+script without the extra commentary
+
+.. sourcecode:: ipython
+
+  import zipfile
+  zf = zipfile.ZipFile('alice_in_wonderland.zip')
+  text = zf.read('28885.txt')
+
+  words = [word.lower() for word in text.split()]
+
+  countd = dict()
+
+  for word in words:
+      countd[word] = countd.get(word, 0) + 1
+
+  counts = [(count, word) for word, count in countd.items()]
+  counts.sort()
+
+  for count, word in counts[-6:]:
+      print word, count
