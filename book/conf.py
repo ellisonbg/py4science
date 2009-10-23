@@ -185,7 +185,7 @@ htmlhelp_basename = 'py4science'
 #latex_paper_size = 'letter'
 
 # The font size ('10pt', '11pt' or '12pt').
-#latex_font_size = '10pt'
+latex_font_size = '11pt'
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
@@ -221,3 +221,8 @@ intersphinx_mapping = {'http://docs.python.org/': None}
 # If this is True, todo and todolist produce output, else they produce
 # nothing. The default is False.
 todo_include_todos = True
+
+latex_elements = dict(#docclass = 'article',
+                      #classoptions = ',english,twocolumn',
+                      fontpkg=r'\usepackage{textcomp}',
+                      )

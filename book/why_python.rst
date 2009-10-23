@@ -60,7 +60,7 @@ book, were:
 * High-level syntax to express whole-array operations, so that the sum
   $\mathbf{C}$ of two matrices $\mathbf{A}$ and $\mathbf{B}$ could be written
   simply as $\mathbf{C=A+B}$, for example, instead of a double loop over all
-  the elements $\mathbf{c_{ij} = a_{ij} + b_{ij}}$.
+  the elements $c_{ij} = a_{ij} + b_{ij}$.
 
 * Integrated access to many common algorithms, such as eigenvalue
   decompositions or linear solvers (and today, much more).
