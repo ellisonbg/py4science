@@ -37,6 +37,7 @@ TODO
 
 * Make a :cite:`key1,key2` rest extension to process bibtex.
 
+* add a "to plain python" toggle for ipython src directive
 
 
 Conventions
