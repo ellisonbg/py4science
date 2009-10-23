@@ -88,8 +88,8 @@ symbolic manipulation and exact numerical operations (as opposed to the
 floating-point-oriented nature of Matlab and IDL), but today have also grown to
 offer extensive numerical support.
 
-Python: a high-level, open source language
-==========================================
+Python: a high-level language scientsts can use
+===============================================
 
 This is then the context where we encounter Python: one of scientists used to
 systems that enable a rapid workflow of interactive and exploratory computing,
@@ -99,21 +99,94 @@ features, but it was not developed as a numerical programming language from the
 beginning.  Instead, Python was originally developed as a language to do
 systems programming with a higher-level syntax than C.  We will briefly mention
 a few highlights of Python's history, in particular as they are relevant to the
-purpose of our book.  But we encourage our readers to visit the `History of
-Python`_ blog where Guido van Rossum, the creator of Python, presents a
-detailed and fascinating personal account of the language's evolution. 
+purpose of our book.  But we encourage you to visit the `History of Python`_
+blog where Guido van Rossum, the creator of the language, presents a detailed
+and fascinating personal account of Python's evolution.
 
-.. _history of python: _python_history
+.. _history of python: python_history_
 
 Guido van Rossum worked at the CWI Dutch mathematics research institute and had
 worked for a few years on a project to develop an educational programming
-language called ABC.  After that, he joined a group developing a distributed
-operating system called Amoeba, and found himself needing a way to rapidly
-develop utilities for Amoeba that would fit the system's architecture better
-than the Bourne shell and yet would be easier to use than pure C.  While the
-ABC project had not been very successful in the long term, Guido found a lot of
-useful ideas in the language, and decided to design a language that would
-"bridge the gap between C and the shell".
+language called ABC.  In the late 1980's he joined a group developing a
+distributed operating system called Amoeba, and found himself needing a way to
+rapidly develop utilities for Amoeba that would fit the system's architecture
+better than the Bourne shell and yet would be easier to use than pure C.  While
+the ABC project had not been very successful in finding widespread adoption of
+the language, Guido found a lot of useful ideas in its design, and decided to
+develop a language that would "bridge the gap between C and the shell", taking
+these good features from ABC and trying to address the shortcomings they had
+found in it.  So in a sense, in the end ABC did turn out to be a success, if we
+think of it as a laboratory where the design of Python incubated, allowing
+Guido to start from a set of solid ideas for an easy to understand and use
+language where programmers could be productive quickly, and that would encourage
+the creation of clear and maintainable programs.
+
+The first public release of Python was for version 0.9.0, which was posted to
+the internet newsgroup ``alt.sources`` on February 20, 1991.  After that, the
+internet dynamics of collaboration engaged, and Guido found interest,
+encouragement and eventually contributions coming from many sides, leading to
+what is today a project used worldwide in industry and academia.
+
+It is worth noting that despite the fact that Python was designed as a support
+tool for an operating systems research project, scientific institutions had a
+close relationship with Python since the beginning: it was born at a
+mathematics research center; the first Python workshop was held at the United
+States' National Institute of Standards and Technology (NIST); the subsequent
+development of Python and the initial effort on Jython, the Java port of
+Python, were funded by the US Defense Advanced Research Projects Agency
+(DARPA); the second and third Python workshops took place at the US Geological
+Survey and the next at the Lawrence Livermore National Laboratory.
+
+All of this is an indication that scientists rapidly saw value in Python's
+clarity, though initially most of its use was as a 'computational steering'
+language: basically as an easy to use language to drive the execution of
+traditional high-performance codes written in Fortran, C and C++, preparing
+their inputs and post-processing their outputs for analysis and visualization.
+At the time, Python's facilities to express numerical array operations
+effectively was somewhat limited, and there wasn't really too much support for
+other scientific tools like complex numerical libraries, access to external
+Fortran codes or data visualization.
+
+:fperez:`check this part for accuracy, ask Eric and Travis for a quick review`
+
+In the late 1990's, an MIT graduate student named Jim Hugunin decided that
+Python could actually be useful directly for numerical work, but that for this
+to be really practical it would need support for proper numerical arrays much
+like those in Matlab or IDL.  From this, the ``Numeric`` array library was born
+and was rapidly adopted by scientists, including strong support and development
+contributions from Paul Dubois at Lawrence Livermore National Laboratory.
+Numeric formed the structural backbone of Python as a language for direct
+scientific work for a few years, and around the year 2000 Eric Jones, Travis
+Vaught, Travis Oliphant and Pearu Peterson joined forces and various libraries
+they had independently developed, critically including the ``f2py`` tool that
+made it possible to easily wrap existing Fortran codes.  With ``f2py`` in their
+arsenal, they were able to wrap a number of classic, battle-proven Fortran
+libraries from Netlib_, including the key linear algebra LAPACK_ tools, and
+thus was the Scipy_ project born.  Eric and Travis Vaught founded Enthought
+Inc, a scientific computing and consulting company that provided much of the
+initial support for Scipy, as they successfully combined their commercial
+endeavors with a clear commitment to building the open source foundations of
+Python for scientific work, offering hosting for related projects and making
+all of the Scipy code open source since the beginning.
+
+Initially, Scipy was a collection of packages built on top of Numeric that
+combined numerical libraries with tools for interactive work and data
+visualization, in a similar manner to Matlab.  In late 2001 one of us (F.P.)
+started using Python for his PhD research work, and in the process started
+developing IPython_, an improved interactive environment to facilitate the
+workflows he was used to from IDL and Mathematica under Python.  Eric Jones
+offered to host IPython at the Scipy project site, and IPython began to
+accumulate both interactive and plotting features (by interfacing with the
+venerable Gnuplot program).  In 2002 another one of us (J.D.H) needed to
+improve IPython's plotting support to support Matlab-style syntax, and sent
+to F.P. some contributions on this front, but unfortunately F.P. was at the
+time too busy actually finishing up his PhD to be able to properly handle this,
+and his reply was along the lines of "many thanks, but I can't look at your
+code until I finish writing my dissertation".
+
+
+Open source tools and scientific work
+=====================================
 
 There is a key aspect in which Python differs from the systems we described
 above.  All of them are commercial products whose internal source code is
@@ -225,6 +298,9 @@ and work with it as easily as with a local file::
     for line in urlopen('http://yahoo.com').readlines():
        print line
 
+
+* Quicksort
+       
 Complementing these built-in features, Python is also readily extensible,
 giving it a wealth of libraries for scientific computing that have been in
 development for many years :cite:`Dubois1996b,Dubois1996c`.  ``NumPy`` supports
