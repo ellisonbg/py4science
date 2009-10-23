@@ -1,7 +1,7 @@
 .. _whirlwind_tour:
 
 ==============
-Whirwind tour
+Whirlwind tour
 ==============
 
 There is an enormous breadth and depth of packages supporting
@@ -72,7 +72,7 @@ now load this file into ipython using ``np.loadtxt``.
     [  1.0399  26.      72.     ...,  30.5     29.4     19.8   ]
     [  1.0271  31.9     74.     ...,  33.7     30.      20.9   ]]
 
-Here the ``...`` elipses were added by numpy in the print out so as to
+Here the ``...`` ellipses were added by numpy in the print out so as to
 not dump too much information to your screen.  The tabular data,
 numbers organized into rows and columns, has been put into a two
 dimensional array of numpy floating point numbers.   We can peak into
@@ -222,16 +222,16 @@ an 8byte/64 bit floating point number).  Real word data is much more
 varied than floating point numbers, composed of strings, dates,
 integers, complex numbers, and more, and is scattered across
 filesystems, databases, and the internet.  Python, with its "batteries
-included" philosophy, is fulll equipped to work with that data.
+included" philosophy, is fully equipped to work with that data.
 
 A nice example of the kind of data you see in real-world application
-is daily stock price data, wit it's mix of dates, floating point
+is daily stock price data, with it's mix of dates, floating point
 numbers and integers.  Take a look at the "Yahoo Finance" `historical
 price data <http://finance.yahoo.com/q/hp?s=CROX>`_ for the Crocs
 company (ticker CROX).  At the bottom of this page, there is a
 "Download to Spreadsheet" to download the CSV file to your computer;
 this works fine for one or two stocks, but if you want to analyze
-hunderds, or automate daily analysis, you will need to be able to
+hundreds, or automate daily analysis, you will need to be able to
 fetch this data automatically from your Python program.  Using the
 built-in `urllib <http://docs.python.org/library/urllib.html>`_
 library for working with internet data, it's easy.  The function
@@ -278,16 +278,16 @@ be different.  We can inspect it in ipython.
 
 
 This file has headers (*Date,Open,High,Low,Close,Volume,Adj Close*)
-amd heterogenous types: dates, floating point numbers, and integers.
+and heterogeneous types: dates, floating point numbers, and integers.
 Of course in the file, these are just lines of text, but they are
 naturally represented in a typed language like python with
 ``datetime.date``, ``float`` and ``int``.  The other important
 difference between this file and the ``bodyfat.dat`` file above is the
 use of a comma as the field delimiter.  ``np.loadtxt`` has support for
 converters to covert strings to arbitrary types, and handling
-hetergeneous datatypes, but it can be cumbersome to set up (we will
-comver this in :ref:`numpy_intro`).  For loading CSV files that "just
-works" out fo the box, `matplotlib.mlab
+heterogeneous datatypes, but it can be cumbersome to set up (we will
+cover this in :ref:`numpy_intro`).  For loading CSV files that "just
+works" out of the box, `matplotlib.mlab
 <http://matplotlib.sourceforge.net/api/mlab_api.html>`_ provides
 `csv2rec
 <http://matplotlib.sourceforge.net/api/mlab_api.html#matplotlib.mlab.csv2rec>`_
@@ -404,7 +404,7 @@ method.  If you are typing along with the example, you may have
 noticed that the figure was not redrawn after the call to
 ``autofmt_xdate``: this is a design decision in matplotlib to only
 automatically update the figure when pyplot plotting functions are
-called, and otherwise defer drawing until explcitly asked to in a draw
+called, and otherwise defer drawing until explicitly asked to in a draw
 commands.  Since ``autofmt_xdate`` is an *API* command, not a *pyplot*
 command, it did not automatically trigger a redraw.
 
@@ -421,7 +421,7 @@ command, it did not automatically trigger a redraw.
    plt.show()
 
 Numpy arrays are extremely flexible and powerful data structures.  In
-the example below, we tackly the following questions about dollar trading
+the example below, we tackle the following questions about dollar trading
 volume in CROX -- the total dollars traded is approximately given by
 the product of the volume of shares traded (the *volume* field) times
 the price of the shares, given by the *close*.  We can easily answer
@@ -475,21 +475,21 @@ numbers to illustrate python's power in string processing, utilizing
 one of the essential data structures in python: the dictionary.
 
 A common task in text processing is to produce a count of word frequencies.
-While numpy has a builtin histogram function for doing numerical histograms,
-it won't work out of the box for couting discrete items, since it
+While numpy has a built in histogram function for doing numerical histograms,
+it won't work out of the box for counting discrete items, since it
 is a binning histogram for a range of real values.
 
 But the Python language provides very powerful string manipulation
 capabilities, as well as a very flexible and efficiently implemented
-builtin data type, the *dictionary*, that makes this task a very
+built in data type, the *dictionary*, that makes this task a very
 simple one.  Below, count the frequencies of all the words contained
 in a compressed text file of *Alice's Adventures in Wonderland* by
 Lewis Carroll, downloaded from `Project Gutenberg <http://www.gutenberg.org/wiki/Main_Page>`_.
 
 
 Consider "words" simply the result of splitting the input text into a
-list, using any form of whitespace as a separator. This is obviously a
-very naïve definition of word, but it shall suffice for the
+list, using any form of white-space as a separator. This is obviously a
+very naive definition of word, but it shall suffice for the
 purposes of this exercise.  Python strings have a ``.split()``
 method that allows for very flexible splitting. You can easily get
 more details on it in IPython:
@@ -547,7 +547,7 @@ need to read the compressed file
 :file:`bookdata/alice_in_wonderland.zip` . Python has facilities to do
 this without having to manually uncompress using the `zipfile
 <http://docs.python.org/library/zipfile.html>`_ module.  The zip file
-consists of one or more textfiles, and we can use the module to load
+consists of one or more text files, and we can use the module to load
 the zip file, list the files, and then read the text from the one file
 in the zip archive
 
@@ -598,6 +598,7 @@ every word to lower case
    30359
 
    In [109]: print words[:10]
-   ['project', "gutenberg's", "alice's", 'adventures', 'in', 'wonderland,', 'by', 'lewis', 'carroll', 'this']
+   ['project', "gutenberg's", "alice's", 'adventures', 'in', 'wonderland,',
+     'by', 'lewis', 'carroll', 'this']
 
 

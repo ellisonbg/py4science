@@ -1,6 +1,10 @@
 Some handy git commands
 =========================
 
+Clone the branch::
+
+  git clone git@github.com:ellisonbg/py4science.git 
+
 Commit to the local brach with automatic add using -a::
 
   git commit -a -m 'test commit of readme to local master'
