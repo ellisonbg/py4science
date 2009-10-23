@@ -707,7 +707,6 @@ represented by the ordinal numbers from 0..255
 
    In [123]: ascii_chars = [chr(i) for i in range(256)]
 
-
 The ``isalpha`` method will return True if the character is a member
 of the alphabet, so we want to filter the character list for the
 ``isalpha`` characters, and then convert the *list* of non-alphabetic
@@ -761,3 +760,87 @@ Here is the entirety of the script without the extra commentary
 
    print('Least common:\n%s'%counts[:6])
    print('Most common:\n%s'%counts[-6:])
+
+
+.. _image_processing:
+
+Image processing
+--------------------
+
+The examples so far have been light weight explorations of simple data
+sets using descriptive statistics.  Here we take on a more meaty
+topic: filtering an image to remove noisy artifacts.
+
+.. sourcecode:: ipython
+
+   In [192]: cd bookdata/
+   /home/jdhunter/py4science/book/bookdata
+
+   In [193]: X = imread('moonlanding.png')
+
+   In [194]: X.shape
+   Out[194]: (474, 630)
+
+   In [195]: imshow(X, cmap='gray')
+   Out[195]: <matplotlib.image.AxesImage object at 0x97d1acc>
+
+.. plot::
+
+   import matplotlib.image as mimage
+   import matplotlib.pyplot as plot
+   X = mimage.imread('bookdata/moonlanding.png')
+
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   ax.imshow(X, cmap='gray')
+   plt.show()
+
+
+The image is a grayscale photo of the moon landing.  There is a banded
+pattern of high frequency noise polluting the image.  Our goal is to
+filter out that noise to crispen up the image.
+
+Convolution of an input with with a linear filter in the termporal or spatial
+domain is equivalent to multiplication by the fourier transforms of the input
+and the filter in the spectral domain.  This provides a conceptually simple way
+to think about filtering: transform your signal into the frequency domain,
+dampen the frequencies you are not interested in by multiplying the frequency
+spectrum by the desired weights, and then apply the inverse transform to the
+modified spectrum, back into the original domain.  In the example below, we
+will simply set the weights of the frequencies we are uninterested in (the high
+frequency noise) to zero rather than dampening them with a smoothly varying
+function.  Although this is not usually the best thing to do, since sharp edges
+in one domain usually introduce artifacts in another -- eg high frequency
+*ringing* --  it is easy to do and sometimes provides satisfactory results.
+
+
+In the upper right panel we see the 2D spatial frequency
+spectrum.  The FFT output in ``scipy`` is packed with the lower
+freqeuencies starting in the upper left, and proceeding to higher
+frequencies as one moves to the center of the spectrum (this is the
+most efficient way numerically to fill the output of the FFT
+algorithm).  Because the input signal is real, the output spectrum is
+complex and symmetrical: the transformation values beyond the midpoint
+of the frequency spectrum (the Nyquist frequency) correspond to the
+values for negative frequencies and are simply the mirror image of the
+positive frequencies below the Nyquist (this is true for the 1D, 2D
+and ND FFTs in numpy).
+
+In this example we will compute the 2D spatial frequency spectra of the
+luminance image, zero out the high frequency components, and inverse transform
+back into the spatial domain.  We can plot the input and output images with the
+``pyplot.imshow <>`_ function, but the images must first be scaled to be
+within the 0..1 luminance range.  For best results, it helps to
+*amplify* the image by some scale factor, and then *clip* it to
+set all values greater than one to one.  This serves to enhance contrast among
+the darker elements of the image, so it is not completely dominated by the
+brighter segments
+
+
+Caption: High freqeuency noise filtering of a 2D image in the Fourier
+domain.  The upper panels show the original image (left) and spectral
+power (right) and the lower panels show the same data with the high
+frequency power set to zero.  Although the input and output images are
+grayscale, you can provide colormaps to ``pyplot.imshow`` to plot them
+in psudo-color.
+
