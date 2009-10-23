@@ -702,44 +702,62 @@ string characters into other characters, but it has an optional second
 argument which is a string of characters you want to delete.  So we
 need to build a string which is all of the characters *except* the
 alphabetic characters.  The ASCII character set are the characters
-represented by the ordinal numbers from 0..255, and the ``isalpha``
-method will return True if the character is a member of the alphabet.
-
+represented by the ordinal numbers from 0..255
 .. sourcecode:: ipython
 
    In [123]: ascii_chars = [chr(i) for i in range(256)]
 
-   In [124]: nonalpha_chars = [chr(i) for i in range(256)\
-      .....: if not chr(i).isalpha()]
 
-
-From this list of non-alpha characters, we need to create a string of
-the same characters.  To create a string from a list of characters,
-use the ``join`` method::
-
-    nonalpha_str = ''.join(nonalpha_chars)
-
-
-
-Here is the entirety of the
-script without the extra commentary
+The ``isalpha`` method will return True if the character is a member
+of the alphabet, so we want to filter the character list for the
+``isalpha`` characters, and then convert the *list* of non-alphabetic
+characters to a *string*, since this is what the ``translate`` method
+requires
 
 .. sourcecode:: ipython
 
-  import zipfile
-  zf = zipfile.ZipFile('alice_in_wonderland.zip')
-  text = zf.read('28885.txt')
+  # a list of non-alphabetic ASCII characters
+  In [137]: nonalpha_chars = [chr(i) for i in range(256)\
+     .....: if not chr(i).isalpha()]
 
-  words = [word.lower() for word in text.split()]
+  # convert the list of non-alpha character to a string
+  In [138]: nonalpha_str = ''.join(nonalpha_chars)
 
-  countd = dict()
+  # this function strips all non-alpha chars from a word
+  In [139]: def strip_nonalpha(word):
+     .....:     return word.translate(None, nonalpha_str)
+     .....:
 
-  for word in words:
-      countd[word] = countd.get(word, 0) + 1
+  In [140]: word = "Can't!"
 
-  counts = [(count, word) for word, count in countd.items()]
-  counts.sort()
+  In [141]: strip_nonalpha(word.lower())
+  Out[141]: 'cant'
 
-  for count, word in counts[-6:]:
-      print word, count
+Here is the entirety of the script without the extra commentary
 
+.. sourcecode:: ipython
+
+   import zipfile
+   zf = zipfile.ZipFile('alice_in_wonderland.zip')
+   text = zf.read('28885.txt')
+
+   words = [word.lower() for word in text.split()]
+
+   countd = dict()
+   nonalpha_chars = [chr(i) for i in range(256)
+                     if not chr(i).isalpha()]
+
+   nonalpha_str = ''.join(nonalpha_chars)
+
+   def strip_nonalpha(word):
+       return word.translate(None, nonalpha_str)
+
+   for word in words:
+       word = strip_nonalpha(word)
+       countd[word] = countd.get(word, 0) + 1
+
+   counts = [(count, word) for word, count in countd.items()]
+   counts.sort()
+
+   print('Least common:\n%s'%counts[:6])
+   print('Most common:\n%s'%counts[-6:])
