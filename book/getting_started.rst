@@ -62,7 +62,7 @@ see the matplotlib installation `faq
 
 .. _sample_data:
 
-Downloading the data
+Sample data
 ---------------------
 
 The data for the examples used in the book is available at bookdata_.

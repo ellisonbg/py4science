@@ -134,8 +134,14 @@ column is indexed with ``1`` and the third column is indexed with
 numpy supports a wide range of indexing options to slice out columns
 and rows from a larger array -- here we assign the name ``fat`` to the
 2nd column, ``age`` to the third column, and then print the first four
-elements of each to make sure they look right.  We see the ``fat``
-variable, which is the percentage of body fat, with representative
+elements of each to make sure they look right.  In indexing arrays,
+the syntax is *X[ROWINDEX,COLINDEX]* and the colon in the indexing
+``X[:,1]`` means take all of the rows, a syntax probably familiar to
+matlab users.  So ``X[:,1]`` means *take all the rows and just the 2nd
+column*.
+
+When we inspect the first four elements of the ``fat`` variable with
+``fat[:4]``, which is the percentage of body fat, with representative
 numbers like 12.3 and 6.1, and the ``age`` variable with
 representative numbers like 23 and 22, so this looks like we have
 loaded and extracted the data properly.  We'll make a quick graph,
@@ -220,30 +226,31 @@ living on your computer with no headers, comments or non-numeric data.
 numpy is exceedingly good at handling this data, seamlessly importing
 it into a 2D homogeneous array of floating point numbers (notice the
 dtype "datatype" of ``float64`` in the array ``X`` above, indicating
-an 8byte/64 bit floating point number).  Real word data is much more
+an 8byte/64bit floating point number).  Real word data is much more
 varied than floating point numbers, composed of strings, dates,
 integers, complex numbers, and more, and is scattered across
 filesystems, databases, and the internet.  Python, with its "batteries
 included" philosophy, is fully equipped to work with that data.
 
-A nice example of the kind of data you see in real-world application
-is daily stock price data, with it's mix of dates, floating point
-numbers and integers.  Take a look at the "Yahoo Finance" `historical
-price data <http://finance.yahoo.com/q/hp?s=CROX>`_ for the Crocs
-company (ticker CROX).  At the bottom of this page, there is a
-"Download to Spreadsheet" to download the CSV file to your computer;
-this works fine for one or two stocks, but if you want to analyze
-hundreds, or automate daily analysis, you will need to be able to
+A typical example of the kind of data you see in real-world
+application is daily stock price data, which is a mix of dates,
+floating point numbers and integers.  Take a look at the "Yahoo
+Finance" `historical price data
+<http://finance.yahoo.com/q/hp?s=CROX>`_ for the Crocs company (ticker
+CROX).  At the bottom of this Yahoo page, there is a "Download to
+Spreadsheet" to download the CSV file to your computer; manually
+clicking works fine for one or two stocks, but if you want to analyze
+hundreds, or automate daily analyses, you will need to be able to
 fetch this data automatically from your Python program.  Using the
 built-in `urllib <http://docs.python.org/library/urllib.html>`_
-library for working with internet data, it's easy.  The function
+library for working with internet data, it's easy: the function
 `urllib.urlretrieve
 <http://docs.python.org/library/urllib.html#urllib.urlretrieve>`_ can
 be used to fetch a remote file.
 
 First copy the URL from Yahoo Finance historical prices page by right
 clicking on the "Download to Spreadsheet" link at the bottom of the
-page and choosing "Copy Link Location", and then pasting the URL link
+page and choosing "Copy Link Location", and then paste the URL link
 into your ipython session and name it "url"
 
 
@@ -254,6 +261,8 @@ into your ipython session and name it "url"
 
    In [60]: import urllib
 
+   # fname is the filename of the file downloaded to your system, a
+   # temporary file created by urllib
    In [61]: fname, msg = urllib.urlretrieve(url)
 
    In [62]: fname
@@ -308,19 +317,19 @@ type, and then converting it and loading it into a numpy record array.
 tabular view of data much like a spreadsheet or SQL table, but is
 actually even more flexible than this.  The `dtype
 <http://docs.scipy.org/doc/numpy/reference/generated/numpy.dtype.html>`_,
-which describes the datatype of the record array.  The ``dtype``
-object here maps the names of the fields *date*, *open*, *volume*, etc
-to the types ``|O4``, ``<f8``, ``<i4`` meaning "4 byte python object",
-"little endian 8 byte float" and "little endian 4 byte integer
-(endianess is the byte ordering used to represent the data and varies
-across different computing architectures).
+describes the datatype of the record array, and here associates the
+names of the fields *date*, *open*, *volume*, etc with the types
+``|O4``, ``<f8``, ``<i4`` meaning "4 byte python object", "little
+endian 8 byte float" and "little endian 4 byte integer" (endianess is
+the byte ordering used to represent the data and varies across
+different computing architectures).
 
 In the printed record array above, we see that the values are
-*decreasing* over the rows, and normally we think of this data
-*increasing* in time.  To sort a record array, just call the sort
-method, which will sort over the first column by default (you can
-pass in the *order* keyword argument to ``sort`` to sort over a
-different field.
+*decreasing* over the rows (most recent date is first), and normally
+we think of this data *increasing* in time.  To sort a record array,
+just call the sort method, which will sort over the first column by
+default (you can pass in the *order* keyword argument to ``sort`` to
+sort over a different field).
 
 .. sourcecode:: ipython
 
@@ -337,11 +346,11 @@ different field.
 
 In the body fat example above, we extracted the columns for age and
 fat by using integer column indices into the array.  This works fine,
-but becomes tedious to track for a large number of columns.  One of
-the beauties of the named dtypes in record arrays is that you can
-access the named columns of your data.  For example, to work with the
-date column, we can refer to ``r.date`` and even call python
-`datetime.date <http://docs.python.org/library/datetime.html>`_
+but becomes tedious when trying to keep track of a large number of
+columns.  One of the beauties of the named dtypes in record arrays is
+that you can access the named columns of your data.  For example, to
+work with the date column, we can refer to ``r.date`` and even call
+python `datetime.date <http://docs.python.org/library/datetime.html>`_
 methods on the dates stored in the array.
 
 .. sourcecode:: ipython
@@ -357,8 +366,12 @@ methods on the dates stored in the array.
    In [92]: date0.year
    Out[92]: 2006
 
-Wrapping up this section, we can see how an investment in CROX has
-fared over the past few years.
+With record arrays, the dictionary-like syntax is also supported using
+the column names as string keys, eg we can access the date columen
+with ``r['date']``.
+
+We can see how an investment in CROX has fared over the past few years
+by plotting the price history.
 
 .. sourcecode:: ipython
 
@@ -406,18 +419,19 @@ command, it did not automatically trigger a redraw.
 
 
 Numpy arrays are extremely flexible and powerful data structures.  In
-the example below, we tackle the following questions about dollar trading
-volume in CROX -- the total dollars traded is approximately given by
-the product of the volume of shares traded (the *volume* field) times
-the price of the shares, given by the *close*.  We can easily answer
-compute the average daily trading volume, the average over the last
-forty trading days, the largest day ever, the date of the largest day,
-the standard deviation of the trading volume, etc...
+the example below, we analyze the dollar trading volume in CROX -- the
+*dollar trading volume* is closely approximated by the product of the
+volume of shares traded (the *volume* field) times the price of the
+shares, given by the *close*.  We can easily compute the average daily
+trading volume, the average over the most recent forty trading days, the
+largest day ever, the date of the largest day, the standard deviation
+of the trading volume, etc...
 
 
 .. sourcecode:: ipython
 
-   # dv is the dollar volume traded
+   # dv is the dollar volume traded; it is an *array* of daily dollar
+   # volumes
    In [101]: dv = r.volume * r.close
 
    # the average and standard deviation of dv
@@ -427,11 +441,11 @@ the standard deviation of the trading volume, etc...
    In [103]: dv.std()
    Out[103]: 222149688.4737061
 
-   # the average in the last 40 trading days
+   # the average in the most recent 40 trading days
    In [104]: dv[-40:].mean()
    Out[104]: 66807846.700000003
 
-   # the biggest date ever
+   # the largest trading volume ever
    In [105]: dv.max()
    Out[105]: 2887587318.0
 
@@ -453,11 +467,12 @@ It's not just numerical computing that Python excels at.  While much
 of your time doing scientific computing in Python will be spent in the
 core extension packages that provide fast arrays, statistics and
 visualization, a strong advantage that Python has over many
-alternatives is that Python is a full blow object oriented language
-with rich data structures, built in libraries, and support for
-multiple programming paradigms.  We'll take a break from crunching
-numbers to illustrate python's power in string processing, utilizing
-one of the essential data structures in python: the dictionary.
+alternatives for scientific computing is that Python is a full blown
+object oriented language with rich data structures, built in
+libraries, and support for multiple programming paradigms.  We'll take
+a break from crunching numbers to illustrate python's power in string
+processing, utilizing one of the essential data structures in python:
+the dictionary.
 
 A common task in text processing is to produce a count of word frequencies.
 While numpy has a built in histogram function for doing numerical histograms,
@@ -467,9 +482,10 @@ is a binning histogram for a range of real values.
 But the Python language provides very powerful string manipulation
 capabilities, as well as a very flexible and efficiently implemented
 built in data type, the *dictionary*, that makes this task a very
-simple one.  Below, count the frequencies of all the words contained
-in a compressed text file of *Alice's Adventures in Wonderland* by
-Lewis Carroll, downloaded from `Project Gutenberg <http://www.gutenberg.org/wiki/Main_Page>`_.
+simple one.  The example below counts the frequencies of all the words
+contained in a compressed text file of *Alice's Adventures in
+Wonderland* by Lewis Carroll, downloaded from `Project Gutenberg
+<http://www.gutenberg.org/wiki/Main_Page>`_.
 
 .. figure:: _static/alice_chapter1.jpg
    :width: 4in
@@ -481,7 +497,7 @@ text into a list, using any form of white-space as a separator. This
 is obviously a very naive definition of word, but it will suffice for
 the purposes of this example.  Python strings have a ``split()``
 method that allows for very flexible splitting. You can easily get
-more details on it in IPython:
+more details on it in IPython using the built-in help:
 
 .. sourcecode:: ipython
 
@@ -505,7 +521,8 @@ more details on it in IPython:
    In [72]: a.split()
    Out[72]: ['some', 'string']
 
-The complete set of methods of Python strings can be viewed by typing ``a.TAB``
+The complete set of methods of Python strings can be viewed by typing
+``a.<TAB>``
 
 .. sourcecode:: ipython
 
@@ -533,12 +550,13 @@ sequence types, see `string methods
 Back to Alice.  We want to read the text in from the zip file, split
 it into words and then count the frequency of each word.  You will
 need to read the compressed file
-:file:`bookdata/alice_in_wonderland.zip` . Python has facilities to do
-this without having to manually uncompress using the `zipfile
+:file:`bookdata/alice_in_wonderland.zip` from the
+:ref:`sample_data`. Python has facilities to do this without having to
+manually uncompress using the `zipfile
 <http://docs.python.org/library/zipfile.html>`_ module.  The zip file
-consists of one or more text files, and we can use the module to load
-the zip file, list the files, and then read the text from the one file
-in the zip archive
+consists of one or more files, and we can use the module to load the
+zip file, list the files, and then read the text from the one file in
+the zip archive
 
 .. sourcecode:: ipython
 
@@ -552,7 +570,7 @@ in the zip archive
    In [104]: text = zf.read('28885.txt')
 
 
-Be careful printing text -- it is the entire manuscript so it will
+Be careful printing ``text`` -- it is the entire manuscript so it will
 dump a lot of text to your screen.  We can print the characters from
 2000:2400 using standard python slicing
 
@@ -576,8 +594,8 @@ dump a lot of text to your screen.  We can print the characters from
 
 
 We can split the raw text into a list of words using the ``split``
-method as described.  To ignore casing difference, we will convert
-every word to lower case
+method as described above.  To ignore casing difference, we will
+convert every word to lower case
 
 .. sourcecode:: ipython
 
@@ -694,65 +712,81 @@ words and their counts
 Of course, this is just a toy example, and have not "cleaned" the word
 data by stripping off punctuation, but it does show off some of the
 versatile data structures and standard library functionality that
-makes these tasks easy and elegant in python.  Let's take the example
-one step further to strip the words of all non-alphabetic characters.
-There are two string methods that help here: ``translate`` and
-``isalpha``.  The ``translate`` method is used to translate certain
-string characters into other characters, but it has an optional second
-argument which is a string of characters you want to delete.  So we
-need to build a string which is all of the characters *except* the
-alphabetic characters.  The ASCII character set are the characters
-represented by the ordinal numbers from 0..255
-.. sourcecode:: ipython
+makes these tasks easy and elegant in python.
 
-   In [123]: ascii_chars = [chr(i) for i in range(256)]
-
-The ``isalpha`` method will return True if the character is a member
-of the alphabet, so we want to filter the character list for the
-``isalpha`` characters, and then convert the *list* of non-alphabetic
-characters to a *string*, since this is what the ``translate`` method
-requires
+Let's take the example one step further to strip the words of all
+non-alphabetic characters.  We can use the regular expression ``re``
+module to strip all not word characters.  In regular expression
+syntax, ``'[^a-z]'`` mean *any character except a through z*.  We will
+use the regular expression ``sub`` method to replace the non-word
+characters with the empty string, thus stripping all non-word
+characters from the string
 
 .. sourcecode:: ipython
 
-  # a list of non-alphabetic ASCII characters
-  In [137]: nonalpha_chars = [chr(i) for i in range(256)\
-     .....: if not chr(i).isalpha()]
+   In [32]: import re
 
-  # convert the list of non-alpha character to a string
-  In [138]: nonalpha_str = ''.join(nonalpha_chars)
+   In [33]: rgx = re.compile('[^a-z]')
 
-  # this function strips all non-alpha chars from a word
-  In [139]: def strip_nonalpha(word):
-     .....:     return word.translate(None, nonalpha_str)
-     .....:
+   In [34]: word = "can't123"
 
-  In [140]: word = "Can't!"
+   In [35]: rgx.sub('', word)
+   Out[35]: 'cant'
 
-  In [141]: strip_nonalpha(word.lower())
-  Out[141]: 'cant'
+
+..
+
+  There are two string methods that help
+  here: ``translate`` and ``isalpha``.  The ``translate`` method is used
+  to translate certain string characters into other characters, but it
+  has an optional second argument which is a string of characters you
+  want to delete.  So we need to build a string which is all of the
+  characters *except* the alphabetic characters.  The ASCII character
+  set are the characters represented by the ordinal numbers from 0..255
+  .. sourcecode:: ipython
+
+     In [123]: ascii_chars = [chr(i) for i in range(256)]
+
+  The ``isalpha`` method will return True if the character is a member
+  of the alphabet, so we want to filter the character list for the
+  ``isalpha`` characters, and then convert the *list* of non-alphabetic
+  characters to a *string*, since this is what the ``translate`` method
+  requires
+
+  .. sourcecode:: ipython
+
+    # a list of non-alphabetic ASCII characters
+    In [137]: nonalpha_chars = [chr(i) for i in range(256)\
+       .....: if not chr(i).isalpha()]
+
+    # convert the list of non-alpha character to a string
+    In [138]: nonalpha_str = ''.join(nonalpha_chars)
+
+    # this function strips all non-alpha chars from a word
+    In [139]: def strip_nonalpha(word):
+       .....:     return word.translate(None, nonalpha_str)
+       .....:
+
+    In [140]: word = "Can't!"
+
+    In [141]: strip_nonalpha(word.lower())
+    Out[141]: 'cant'
 
 Here is the entirety of the script without the extra commentary
 
 .. sourcecode:: ipython
 
-   import zipfile
+   import zipfile, re
    zf = zipfile.ZipFile('alice_in_wonderland.zip')
    text = zf.read('28885.txt')
 
    words = [word.lower() for word in text.split()]
 
+   rgx = re.compile('[^a-z]')
    countd = dict()
-   nonalpha_chars = [chr(i) for i in range(256)
-                     if not chr(i).isalpha()]
-
-   nonalpha_str = ''.join(nonalpha_chars)
-
-   def strip_nonalpha(word):
-       return word.translate(None, nonalpha_str)
 
    for word in words:
-       word = strip_nonalpha(word)
+       word = rgx.sub('', word)
        countd[word] = countd.get(word, 0) + 1
 
    counts = [(count, word) for word, count in countd.items()]
@@ -784,6 +818,19 @@ topic: filtering an image to remove noisy artifacts.
    In [195]: imshow(X, cmap='gray')
    Out[195]: <matplotlib.image.AxesImage object at 0x97d1acc>
 
+.. comment:
+
+   In [192]: cd bookdata/
+   /home/jdhunter/py4science/book/bookdata
+
+   In [193]: X = imread('moonlanding.png')
+
+   In [194]: X.shape
+   Out[194]: (474, 630)
+
+   In [195]: imshow(X, cmap='gray')
+   Out[195]: <matplotlib.image.AxesImage object at 0x97d1acc>
+
 .. plot::
 
    import matplotlib.image as mimage
@@ -800,18 +847,50 @@ The image is a grayscale photo of the moon landing.  There is a banded
 pattern of high frequency noise polluting the image.  Our goal is to
 filter out that noise to crispen up the image.
 
-Convolution of an input with with a linear filter in the termporal or spatial
-domain is equivalent to multiplication by the fourier transforms of the input
-and the filter in the spectral domain.  This provides a conceptually simple way
-to think about filtering: transform your signal into the frequency domain,
-dampen the frequencies you are not interested in by multiplying the frequency
-spectrum by the desired weights, and then apply the inverse transform to the
-modified spectrum, back into the original domain.  In the example below, we
-will simply set the weights of the frequencies we are uninterested in (the high
-frequency noise) to zero rather than dampening them with a smoothly varying
-function.  Although this is not usually the best thing to do, since sharp edges
-in one domain usually introduce artifacts in another -- eg high frequency
-*ringing* --  it is easy to do and sometimes provides satisfactory results.
+Convolution of an input with with a linear filter in the termporal or
+spatial domain is equivalent to multiplication by the fourier
+transforms of the input and the filter in the spectral domain.  This
+provides a conceptually simple way to think about filtering: transform
+your signal into the frequency domain via ``np.fft.fft2``, dampen the
+frequencies you are not interested in by multiplying the frequency
+spectrum by the desired weights (zero in the simplest case), and then
+apply the inverse transform ``np.fft.ifft2`` to the modified spectrum
+to create the filtered image in the original domain.
+
+First we need to take the 2D FFT of the image data to extract the
+spatial frequencies.
+
+.. sourcecode:: ipython
+
+   In [197]: F = np.fft.fft2(X)
+
+   # the FFT of of a 2D real array is a 2D complex array of the same
+   # shape as the original data
+   In [198]: F.dtype
+   Out[198]: dtype('complex128')
+
+   In [199]: F.shape
+   Out[199]: (474, 630)
+
+   # to compute spectral power, we need to take the absolute value
+   In [200]: F = abs(F)
+
+   In [201]: F.dtype
+   Out[201]: dtype('float64')
+
+
+
+
+
+
+
+In the example below, we will simply set the weights of the
+frequencies we are uninterested in (the high frequency noise) to zero
+rather than dampening them with a smoothly varying function.  Although
+this is not usually the best thing to do, since sharp edges in one
+domain usually introduce artifacts in another -- eg high frequency
+*ringing* -- it is easy to do and sometimes provides satisfactory
+results.
 
 
 In the upper right panel we see the 2D spatial frequency
