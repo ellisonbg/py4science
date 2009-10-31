@@ -734,7 +734,7 @@ characters from the string
    Out[35]: 'cant'
 
 
-..
+..  # skip this for now, maybe illustrate translate later
 
   There are two string methods that help
   here: ``translate`` and ``isalpha``.  The ``translate`` method is used
@@ -801,7 +801,7 @@ Here is the entirety of the script without the extra commentary
 Image processing
 --------------------
 
-The examples so far have been light weight explorations of simple data
+The examples so far have been lightweight explorations of simple data
 sets using descriptive statistics.  Here we take on a more meaty
 topic: filtering an image to remove noisy artifacts.
 
@@ -849,7 +849,7 @@ filter out that noise to crispen up the image.
 
 Convolution of an input with with a linear filter in the termporal or
 spatial domain is equivalent to multiplication by the fourier
-transforms of the input and the filter in the spectral domain.  This
+transform of the input and the filter in the spectral domain.  This
 provides a conceptually simple way to think about filtering: transform
 your signal into the frequency domain via ``np.fft.fft2``, dampen the
 frequencies you are not interested in by multiplying the frequency
@@ -872,7 +872,7 @@ spatial frequencies.
    In [199]: F.shape
    Out[199]: (474, 630)
 
-   # to compute spectral power, we need to take the absolute value
+   # to estimate spectral power, we need to take the absolute value
    In [200]: F = abs(F)
 
    In [201]: F.dtype
