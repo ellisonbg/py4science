@@ -215,6 +215,95 @@ For higher order polynomial fits like quadratic or cubic, use orders
 the tools in ``scipy.optimize``.
 
 
+Another common need is to plot the best-fit Gaussian density along
+with a histogram of your data.  Let's plot the probability density
+function of the body fat percentage data.  To compute the best-fit
+Gaussian, we just need to estimate the mean and standard deviation
+from the actual data; for other statistical distributions estimating
+the best-fit is trickier and requires the tools in ``scipy.stats``.
+We can see that the data is not really normally distributed, but we'll
+put on our "typical scientist* hat and try to shoe-horn a normal
+distribution onto it anyhow.
+
+.. sourcecode:: ipython
+
+   # the matplotlib hist function will plot the empirical
+   # probability density function when passed normed=True
+   In [382]: hist(fat, 20, normed=True);
+
+   # the mean and standard deviation are used to compute the
+   # analytical best-fit gaussian density
+   In [383]: mu = fat.mean()
+
+   In [384]: sigma = fat.std()
+
+   In [385]: x = linspace(fat.min(), fat.max(), 100)
+
+   # you can use scipy.stats to get the pdf of the normal distribution,
+   # but here we'll just show off numpy's array abilities
+   In [386]: y = 1/(sqrt(2*pi)*sigma)*exp(-0.5 * (1/sigma*(x - mu))**2)
+
+   In [387]: plot(x, y, 'r-', lw=2);
+   In [388]: grid()
+
+   # we can decorate the plot with some text
+   In [389]: xlabel('body fat percent');
+
+   In [390]: ylabel('prob density');
+
+   In [391]: mu
+   Out[391]: 19.150793650793652
+
+   In [392]: sigma
+   Out[392]: 8.3521192637267365
+
+   # matplotlib supports a wide subset of TeX math expressions
+   In [393]: text(1.0, 0.045, r'$\mu=1.05, \sigma=0.019$', fontsize=18);
+
+.. plot::
+
+   import numpy as np
+   import matplotlib.pyplot as plt
+
+   X = np.loadtxt('bookdata/bodyfat.dat')
+   fat = X[:,1]
+
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   ax.hist(fat, 20, normed=True)
+
+   mu = fat.mean()
+   sigma = fat.std()
+   x = np.linspace(fat.min(), fat.max(), 100)
+   y = 1/(np.sqrt(2*np.pi)*sigma)*np.exp(-0.5 * (1/sigma*(x - mu))**2)
+   ax.plot(x, y, 'r-', lw=2)
+   ax.grid(True)
+   ax.set_xlabel('body fat percent')
+   ax.set_ylabel('prob density')
+   ax.text(1.0, 0.045, r'$\mu=1.05, \sigma=0.019$', fontsize=18)
+   plt.show()
+
+In the last ``text`` command, we passed in a TeX expression using the
+standard math syntax with the enclosing dollar signs.  matplotlib
+ships with a TeX math parsing engine which uses the small and elegant
+`pyparsing <http://pyparsing.wikispaces.com/>`_ module to parse a
+large subset of TeX mathematical expressions.  In addition,
+`matplotlib.mathtext
+<http://matplotlib.sourceforge.net/api/mathtext_api.html>`_ implements
+the Knuth layout algorithms, and ships a complete set of math fonts
+including the freetype version of the TeX `computer modern
+<http://en.wikipedia.org/wiki/Computer_Modern>`_ fonts, so matplotlib
+can parse and render mathematical expressions on any computer in which
+it is installed, regardless of whether there is a TeX distribution
+installed, with output supported not only on raster screen displays
+and PNG outputs, but to PS, PDF and SVG outputs as well.  In addition,
+matplotlib can call out to TeX installations if they are available, in
+case you need access to features that may not be implemented in
+matplotlib (for example, equation arrays) or simply want maximum
+layout and font compatibility for figures inserted into your LaTeX
+documents.
+
+
 .. _stock_demo:
 
 Working with richer data and files
@@ -1163,5 +1252,199 @@ API which is more robust for scripts.
        ax.set_yticks([])
 
    plt.show()
+
+
+
+.. _lotka_volterra:
+
+Foxes and Rabbits
+--------------------
+
+We've done a fair amount in the examples thus far: parsed data files,
+fetched data from a web server, done some descriptive statistics and
+regressions, parsed text, and denoised image data using Fourier
+transforms, and we have not yet opened the most powerful toolbox in
+the python scientific computing arsenal: ``scipy``.  Like Matlab
+before it, ``scipy`` at its core is a python wrapper around the
+FORTRAN libraries that are the foundation of modern scientific
+computing: LAPACK for linear algebra, UMFPACK for sparse linear
+systems, ODEPACK for solving ordinary differential equations, ARPACK
+for eigenvalue and eigenvector problems, MINPACK for optimization,
+CDFLIB for statistical distributions and inverses, and much more.  In
+addition to these FORTRAN wrappers, there are many packages in scipy
+written in C and plain-ol-python for solving all kinds of tasks in
+scientific computing, from reading Matlab files, to finding clusers in
+data, to multi-dimensional image processing.
+
+
+For a quick look at what's available in scipy, just import it and type
+``help scipy`` in IPython.
+
+
+.. sourcecode:: ipython
+
+   In [269]: import scipy
+
+   In [270]: help scipy
+
+The top level packages are shown in the table below.
+
+
+================================ ==============================================
+Package                          Functionality
+================================ ==============================================
+``odr``                          Orthogonal Distance Regression
+``cluster``                      Vector Quantization / Kmeans
+``fftpack``                      Discrete Fourier Transform algorithms
+``io``                           Data input and output
+``special``                      Airy Functions
+``lib.blas``                     Wrappers to BLAS library
+``sparse.linalg.eigen``          Sparse Eigenvalue Solvers
+``stats``                        Statistical Functions
+``lib``                          Python wrappers to external libraries
+``lib.lapack``                   Wrappers to LAPACK library
+``maxentropy``                   Routines for fitting maximum entropy models
+``integrate``                    Integration routines
+``ndimage``                      n-dimensional image package
+``linalg``                       Linear algebra routines
+``spatial``                      Spatial data structures and algorithms
+``interpolate``                  Interpolation Tools
+``sparse.linalg``                Sparse Linear Algebra
+``sparse.linalg.dsolve.umfpack`` Interface to the UMFPACK library
+``sparse.linalg.dsolve``         Linear Solvers
+``optimize``                     Optimization Tools
+``sparse.linalg.eigen.arpack``   Eigenvalue solver using iterative methods.
+``signal``                       Signal Processing Tools
+``sparse``                       Sparse Matrices
+================================ ==============================================
+
+
+In this tour, will just scratch the surface and peak under the hood,
+solving one of the classic problems in ordinary differential
+equations: the dynamics of predator-prey interactions given by the
+`Lotka-Volterra <http://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equation>`_ equations.
+
+The Lotka-Volterra equations are a system of two coupled nonlinear
+ordinary differential equations used to describe the interactions
+between species, a predator (the Foxes) and prey (the Rabbits).  They
+were discovered indepdendently by Alfred J Lotka, a US mathematician,
+physical chemist and statistician and author of the first textbook on
+mathematical biology *Elements of Mathematical Biology* in 1924, and
+Vito Volterra, and Italian mathematician physicist.
+
+The equation for the rabbits $R$ is
+
+.. math::
+
+  dR/dt = \alpha R - \beta R F
+
+where $\alpha \geq 0$ and $\beta \geq 0$.  In words: the change in the
+rabbit population over time is proportionate to the rabbit population,
+and inversely proportionate to the product of the rabbit and fox
+populations.  So if rabbits are left alone in the absence of foxes,
+they will do what rabbits do best -- breed like rabbits -- and grow
+unchecked.
+
+The equation for the foxes $F$ is
+
+.. math::
+
+  dF/dt = \gamma R F - \delta F
+
+wwhere $\gamma \geq 0$ and $\delta \geq 0$.  In words: the change in
+the fox population over time is proportionate to the product of
+rabbits and foxes, and inversely proportionate to the fox population.
+In the absence of rabbits, the foxes will have nothing to eat and die
+off.  The equation is non-linear because of the interaction term $RF$.
+
+Let's translate these equations into python.  In the examples above,
+we've been working interactively from the ipython terminal, but we'll
+shift here to working in a script because solving this equation will
+require defining functions and doing work that is a bit more involved
+than what we have been doing.  When working interactively at the
+IPython shell, we are a bit fast and loose with namespaces, but when
+writing scripts, which have a permanence and we'll likely be
+revisiting them at some point in the future when our memory of what we
+intended initially has faded, it is best to be explicit about
+everything.  First we'll define a function ``derivs`` which implements
+the ODE equations for foxes and rabbits above
+
+.. sourcecode:: python
+
+   # the parameters for rabbit and fox growth and interactions
+   alpha, delta = 1, .25
+   beta, gamma = .2, .05
+
+   def derivs(state, t):
+       """
+       Return the derivatives of R and F, stored in the
+       *state* vector::
+
+	  state = [R, F]
+
+       The return data should be [dR, dF] which are the
+       derivatives of R and F at position state and time
+       *t*.
+       """
+       R, F = state
+       dR = alpha*R - beta*R*F
+       dF = gamma*R*F - delta*F
+       return dR, dF
+
+This is a fairly nice example of *python as executable pseudo-code*,
+since the python expressions for ``dR`` and ``dF`` are quite close to
+the math expressions for $dR/dt$ and $dF/dt$.  The function ``derivs``
+has a special syntax which is not necessarily intuitive, but will be
+required for the ODE integration functions in ``scipy.ode``.  In
+particular, the first argument for an N-dimensional ODE is an N-length
+state vector giving the current values of the variables being
+integrated, in our case the populations of the rabbits and foxes, so
+``state = [R, F]``.  The second argument, ``t`` for time, is required
+by the integration interface but is not needed for our example since
+the population dynamics do not explictly depend on time.
+
+
+Let's save this file as  :file:`lotka_volterra.py` and use the IPython
+``run`` command to run it.  We can edit the script, run it, re-edit
+and rerun as needed while we build out the example.
+
+.. sourcecode:: ipython
+
+   In [1]: ls
+   lotka_volterra.py
+
+   In [2]: !head -4 lotka_volterra.py
+   # the parameters for rabbit and fox growth and interactions
+   alpha, delta = 1, .25
+   beta, gamma = .2, .05
+
+
+   In [3]: alpha
+   ---------------------------------------------------------
+   NameError            Traceback (most recent call last)
+
+   py4science/book/examples/<ipython console> in <module>()
+
+   NameError: name 'alpha' is not defined
+
+   In [4]: run lotka_volterra.py
+
+   In [5]: alpha
+   Out[5]: 1
+
+   In [6]: help derivs
+   ------> help(derivs)
+
+
+``head`` on input line ``In [2]`` is a unix command to read the top of
+the file -- if you are on Windows, it may not be available.  We're
+just using it here to take a quick look at the file to make sure it is
+the right one.  On line ``In [3]``, we try and print the value for
+``alpha`` but get an error because it is not defined; this is
+expected, because ``alpha`` is defined in the file
+:file:`lotka_volterra.py` which has not been run yet.  When on input
+line ``In [4]`` we run the file, the contents are executed and the
+variables and functions there are brought into the local namespace,
+where can inspect them, ask for help on the function, etc....
 
 
