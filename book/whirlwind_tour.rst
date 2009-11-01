@@ -137,7 +137,7 @@ and rows from a larger array -- here we assign the name ``fat`` to the
 elements of each to make sure they look right.  In indexing arrays,
 the syntax is *X[ROWINDEX,COLINDEX]* and the colon in the indexing
 ``X[:,1]`` means take all of the rows, a syntax probably familiar to
-matlab users.  So ``X[:,1]`` means *take all the rows and just the 2nd
+Matlab users.  So ``X[:,1]`` means *take all the rows and just the 2nd
 column*.
 
 When we inspect the first four elements of the ``fat`` variable with
@@ -367,7 +367,7 @@ methods on the dates stored in the array.
    Out[92]: 2006
 
 With record arrays, the dictionary-like syntax is also supported using
-the column names as string keys, eg we can access the date columen
+the column names as string keys, eg we can access the date column
 with ``r['date']``.
 
 We can see how an investment in CROX has fared over the past few years
@@ -490,7 +490,7 @@ Wonderland* by Lewis Carroll, downloaded from `Project Gutenberg
 .. figure:: _static/alice_chapter1.jpg
    :width: 4in
 
-   Facimile from `Chapter 1 <http://www.gutenberg.org/files/19002/19002-h/19002-h.htm>`_ of Project Gutenberg Alice in Wonderland
+   Facsimile from `Chapter 1 <http://www.gutenberg.org/files/19002/19002-h/19002-h.htm>`_ of Project Gutenberg Alice in Wonderland
 
 We'll define "words" to simply be the result of splitting the input
 text into a list, using any form of white-space as a separator. This
@@ -663,7 +663,7 @@ frequently they occur
    In [19]: countd['wonderland']
    5
 
-To finish up this example, we want to print the most common occuring
+To finish up this example, we want to print the most common occurring
 words.  The easiest way to do this is create a list of (*count*,
 *word*) tuples, and then sort the list.  So we will create a list of
 2-tuples.  python will sort this according to the first element of the
@@ -680,7 +680,7 @@ need to reverse this to get (*count*, *word*) pairs
    Out[104]: [(2, '"--and'), (1, 'figure!"'), (6, 'four')]
 
 You will probably see different number/word pairs because dictionaries
-are unordered and the return value from ``items`` is unorded.  We can
+are unordered and the return value from ``items`` is unordered.  We can
 do an in-place sort of the list, and then index into the last elements
 of the sorted list using the negative index to see the most common
 words and their counts
@@ -734,7 +734,10 @@ characters from the string
    Out[35]: 'cant'
 
 
-..  # skip this for now, maybe illustrate translate later
+.. comment:
+
+  skip this for now, maybe illustrate translate later but the rgx code
+  is much cleaner and suitable for the whirlwind
 
   There are two string methods that help
   here: ``translate`` and ``isalpha``.  The ``translate`` method is used
@@ -774,7 +777,7 @@ characters from the string
 
 Here is the entirety of the script without the extra commentary
 
-.. sourcecode:: ipython
+.. sourcecode:: python
 
    import zipfile, re
    zf = zipfile.ZipFile('alice_in_wonderland.zip')
@@ -818,23 +821,11 @@ topic: filtering an image to remove noisy artifacts.
    In [195]: imshow(X, cmap='gray')
    Out[195]: <matplotlib.image.AxesImage object at 0x97d1acc>
 
-.. comment:
-
-   In [192]: cd bookdata/
-   /home/jdhunter/py4science/book/bookdata
-
-   In [193]: X = imread('moonlanding.png')
-
-   In [194]: X.shape
-   Out[194]: (474, 630)
-
-   In [195]: imshow(X, cmap='gray')
-   Out[195]: <matplotlib.image.AxesImage object at 0x97d1acc>
 
 .. plot::
 
    import matplotlib.image as mimage
-   import matplotlib.pyplot as plot
+   import matplotlib.pyplot as plt
    X = mimage.imread('bookdata/moonlanding.png')
 
    fig = plt.figure()
@@ -843,21 +834,22 @@ topic: filtering an image to remove noisy artifacts.
    plt.show()
 
 
-The image is a grayscale photo of the moon landing.  There is a banded
-pattern of high frequency noise polluting the image.  Our goal is to
-filter out that noise to crispen up the image.
+The image is a grayscale photo of the moon landing, but there is a
+banded pattern of high frequency noise polluting the image.  Our goal
+is to filter out that noise to crispen up the image.
 
-Convolution of an input with with a linear filter in the termporal or
-spatial domain is equivalent to multiplication by the fourier
-transform of the input and the filter in the spectral domain.  This
-provides a conceptually simple way to think about filtering: transform
-your signal into the frequency domain via ``np.fft.fft2``, dampen the
-frequencies you are not interested in by multiplying the frequency
-spectrum by the desired weights (zero in the simplest case), and then
-apply the inverse transform ``np.fft.ifft2`` to the modified spectrum
-to create the filtered image in the original domain.
+A linear filter implemented via convolution of an input with with a
+response function in the temporal or spatial domain is equivalent to
+multiplication by the Fourier transform of the input and the filter in
+the spectral domain.  This provides a conceptually simple way to think
+about filtering: transform your signal into the frequency domain via
+``np.fft.fft2``, dampen the frequencies you are not interested in by
+multiplying the frequency spectrum by the desired weights (zero in the
+simplest case), and then apply the inverse transform ``np.fft.ifft2``
+to the modified spectrum to create the filtered image in the original
+domain.
 
-First we need to take the 2D FFT of the image data to extract the
+First we need to take the 2D FFT of the image data to compute the
 spatial frequencies.
 
 .. sourcecode:: ipython
@@ -872,54 +864,304 @@ spatial frequencies.
    In [199]: F.shape
    Out[199]: (474, 630)
 
-   # to estimate spectral power, we need to take the absolute value
-   In [200]: F = abs(F)
+   # to estimate spectral power, which is a real quantity, we need to
+   # take the absolute value
+   In [200]: P = abs(F)
 
-   In [201]: F.dtype
+   In [201]: P.dtype
    Out[201]: dtype('float64')
 
+.. comment:
+
+   X = imread('moonlanding.png')
+   imshow(X, cmap='gray')
+   F = np.fft.fft2(X)
+   P = abs(F)
+   imshow(P, cmap=cm.Blues)
+   axis([500, 510, 120, 130])
+   figure()
+   imshow(P, cmap=cm.Blues)
+   clim(0, 300)
+   Fc = F.copy()
+   Fc[50:-50, :] = 0.
+   Fc[:, 50:-50] = 0.
+   figure()
+   imshow(abs(Fc), cmap=cm.Blues)
+   clim(0, 300)
+   figure()
+   Xf = np.fft.ifft2(Fc).real
+   imshow(Xf, cmap=cm.gray)
+
+If you attempt to plot the spectrum using the colormap ``cm.Blues``, you
+will just see a sea of white.
+
+.. sourcecode:: ipython
+
+   In [5]: imshow(P, cmap=cm.Blues)
+   Out[5]: <matplotlib.image.AxesImage object at 0x9af988c>
+
+.. plot::
+   :width: 3in
+
+   import numpy as np
+   import matplotlib.image as mimage
+   import matplotlib.cm as cm
+   import matplotlib.pyplot as plt
+
+   X = mimage.imread('bookdata/moonlanding.png')
+
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   F = np.fft.fft2(X)
+   P = abs(F)
+   ax.imshow(P, cmap=cm.Blues)
+   plt.show()
+
+But if you look very carefully, you will see that there are speckles
+of blue variation; for example, if you zoom into the region between
+500-510 on the x-axis and 120-130 on the y-axis, you will see a little
+blob of blue in the sea of white.
+
+.. sourcecode:: ipython
+
+   In [13]: axis([500, 510, 120, 130])
+   Out[13]: [500, 510, 120, 130]
+
+.. plot::
+   :width: 3in
+
+   import numpy as np
+   import matplotlib.image as mimage
+   import matplotlib.cm as cm
+   import matplotlib.pyplot as plt
+
+   X = mimage.imread('bookdata/moonlanding.png')
+
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   F = np.fft.fft2(X)
+   P = abs(F)
+   ax.imshow(P, cmap=cm.Blues)
+   ax.axis([500, 510, 120, 130])
+   plt.show()
 
 
+Here's what is happening: the spectral power image ``P`` is mainly
+filled with regions of very small spectral power, punctuated by
+regions of large high intensity bursts of noise.  The noisy high
+intensity power is *much larger* than the bulk of the low intensity
+power that is the real data in the image.  The colormapping in
+matplotlib is linear, so it linearly maps the lowest intensity to the
+highest intensity pixels from white to blue when using the
+``cm.Blues`` colormap.  The best solution here is to set the color
+limits to capture the bulk of our data, say 99%, and then the
+colormapping will simply clip the data above this threshold to the max
+value (dark blue).  We can use the `matplotlib.mlab.prctile
+<http://matplotlib.sourceforge.net/api/mlab_api.html#matplotlib.mlab.prctile>`_
+function to find the 95% and 99% intensity values -- compare this to
+the maximum value to see just how extreme the outliers are.
+
+.. sourcecode:: ipython
+
+   In [39]: import matplotlib.mlab as mlab
+
+   In [40]: mlab.prctile(P, (95, 99))
+   Out[40]: array([  121.09301642,   278.55832316])
+
+   In [41]: P.max()
+   Out[41]: 126598.45631306525
 
 
+So the 99% threshold is 278.5.  We'll set the color limits to clip
+above 300, a nice round number that is easier to type, to clip the
+outliers.  First we'll clear the figure and then replot with the
+clipped color limits using the `matplotlib.pyplot.clim
+<http://matplotlib.sourceforge.net/api/pyplot_api.html#matplotlib.pyplot.clim>`_
+function.
+
+.. sourcecode:: ipython
+
+   In [44]: clf()
+
+   In [45]: imshow(P, cmap=cm.Blues)
+   Out[45]: <matplotlib.image.AxesImage object at 0xa33ba0c>
+
+   In [46]: clim(0, 300)
 
 
-In the example below, we will simply set the weights of the
-frequencies we are uninterested in (the high frequency noise) to zero
-rather than dampening them with a smoothly varying function.  Although
-this is not usually the best thing to do, since sharp edges in one
-domain usually introduce artifacts in another -- eg high frequency
-*ringing* -- it is easy to do and sometimes provides satisfactory
-results.
+.. plot::
+   :width: 3in
+
+   import numpy as np
+   import matplotlib.image as mimage
+   import matplotlib.cm as cm
+   import matplotlib.pyplot as plt
+
+   X = mimage.imread('bookdata/moonlanding.png')
+
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   F = np.fft.fft2(X)
+   P = abs(F)
+   im = ax.imshow(P, cmap=cm.Blues)
+   im.set_clim(0, 300)
+   plt.show()
+
+Now we finally have a good picture of the the 2D spatial frequency
+spectrum. The spectrum in ``P`` is packed with the lower frequencies
+starting in the upper left, proceeding to higher frequencies as one
+moves to the center of the spectrum -- this is the most efficient way
+numerically to fill the output of the FFT algorithm.  Because the
+input signal is real, the output spectrum is complex and symmetric:
+the transformation values beyond the midpoint of the frequency
+spectrum (the Nyquist frequency) correspond to the values for negative
+frequencies and are simply the mirror image of the positive
+frequencies below the Nyquist.  This is true for the 1D, 2D and ND
+FFTs in numpy.
+
+So the smooth dark blue blobs in the corners show the low spatial
+frequencies in the actual image that we want to preserve, and the dark
+blue banded bursts of dark blue scattered throughout the middle are
+the high frequency busts of noise we want to filter out.  We will
+simply set the weights of the frequencies we are uninterested in --
+the high frequency noise -- to zero rather than dampening them with a
+smoothly varying function.  Although this is not usually the best
+thing to do, since sharp edges in one domain usually introduce
+artifacts in another -- eg high frequency *ringing* -- it is easy to
+do and sometimes provides satisfactory results.
+
+By visual inspection, we see that the "blobs" in the corner extend
+about 50 pixels in the x and y directions.  We'll set everything in
+the vast middle to zero.  It is important here that you set the zeros
+on the Fourier transform array ``F`` rather than the power spectrum
+array ``P``, because the complex values in the Fourier array have the
+phase information we need to preserve the spatial structure in the
+original image.  We'll make a copy of ``F`` first and store it as
+``Fc``, in case we make a mistake or want to experiment with other
+clipping values.
 
 
-In the upper right panel we see the 2D spatial frequency
-spectrum.  The FFT output in ``scipy`` is packed with the lower
-freqeuencies starting in the upper left, and proceeding to higher
-frequencies as one moves to the center of the spectrum (this is the
-most efficient way numerically to fill the output of the FFT
-algorithm).  Because the input signal is real, the output spectrum is
-complex and symmetrical: the transformation values beyond the midpoint
-of the frequency spectrum (the Nyquist frequency) correspond to the
-values for negative frequencies and are simply the mirror image of the
-positive frequencies below the Nyquist (this is true for the 1D, 2D
-and ND FFTs in numpy).
-
-In this example we will compute the 2D spatial frequency spectra of the
-luminance image, zero out the high frequency components, and inverse transform
-back into the spatial domain.  We can plot the input and output images with the
-``pyplot.imshow <>`_ function, but the images must first be scaled to be
-within the 0..1 luminance range.  For best results, it helps to
-*amplify* the image by some scale factor, and then *clip* it to
-set all values greater than one to one.  This serves to enhance contrast among
-the darker elements of the image, so it is not completely dominated by the
-brighter segments
+.. sourcecode:: ipython
 
 
-Caption: High freqeuency noise filtering of a 2D image in the Fourier
-domain.  The upper panels show the original image (left) and spectral
-power (right) and the lower panels show the same data with the high
-frequency power set to zero.  Although the input and output images are
-grayscale, you can provide colormaps to ``pyplot.imshow`` to plot them
-in psudo-color.
+   In [242]: Fc = F.copy()
+
+   In [243]: Fc[50:-50,:] = 0.
+
+   In [244]: Fc[:,50:-50] = 0.
+
+   In [245]: imshow(abs(Fc), cmap=cm.Blues)
+   Out[245]: <matplotlib.image.AxesImage object at 0xb1091cc>
+
+   In [246]: clim(0, 300)
+
+
+.. plot::
+   :width: 3in
+
+   import numpy as np
+   import matplotlib.image as mimage
+   import matplotlib.cm as cm
+   import matplotlib.pyplot as plt
+
+   X = mimage.imread('bookdata/moonlanding.png')
+
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   F = np.fft.fft2(X)
+   P = abs(F)
+   Fc = F.copy()
+   Fc[50:-50,:] = 0.
+   Fc[:,50:-50] = 0.
+   im = ax.imshow(abs(Fc), cmap=cm.Blues)
+   im.set_clim(0, 300)
+   plt.show()
+
+All that remains is to invert the FFT to bring the filtered spectrum
+back into the spatial domain, and then plot the cleaned up image.  The
+inverse transformed array will be complex, but the non-zero complex
+parts are just noise due to floating point inaccuracy, so we want to
+extract just the real part to recover the filtered image.
+
+.. sourcecode:: ipython
+
+   In [251]: Xf = np.fft.ifft2(Fc).real
+
+   In [252]: imshow(Xf, cmap=cm.gray)
+   Out[252]: <matplotlib.image.AxesImage object at 0xb1b476c>
+
+
+.. plot::
+
+   import numpy as np
+   import matplotlib.image as mimage
+   import matplotlib.cm as cm
+   import matplotlib.pyplot as plt
+
+   X = mimage.imread('bookdata/moonlanding.png')
+
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   F = np.fft.fft2(X)
+   P = abs(F)
+   Fc = F.copy()
+   Fc[50:-50,:] = 0.
+   Fc[:,50:-50] = 0.
+   Xf = np.fft.ifft2(Fc).real
+   im = ax.imshow(Xf, cmap=cm.gray)
+   plt.show()
+
+Below is the complete example, coded as we would using the matplotlib
+API which is more robust for scripts.
+
+.. plot::
+   :include-source:
+
+   import numpy as np
+   import matplotlib.image as mimage
+   import matplotlib.cm as cm
+   import matplotlib.pyplot as plt
+
+   X = mimage.imread('bookdata/moonlanding.png')
+   Nr, Nc = X.shape
+
+   # plot the original image
+   fig = plt.figure()
+   fig.subplots_adjust(hspace=0.1, wspace=0.1)
+   ax1 = fig.add_subplot(221)
+   ax1.set_title('image')
+   ax1.set_ylabel('original')
+   im1 = ax1.imshow(X, cmap=cm.gray)
+
+   # the original spectrum
+   ax2 = fig.add_subplot(222)
+   ax2.set_title('spectrum')
+   F = np.fft.fft2(X)
+   im2 = ax2.imshow(abs(F), cmap=cm.Blues)
+   im2.set_clim(0, 300)
+
+   # set the high frequencies to zero and invert the transformation
+   # to recover the filtered image
+   Fc = F.copy()
+   Fc[50:-50,:] = 0.
+   Fc[:,50:-50] = 0.
+   Xf = np.fft.ifft2(Fc).real
+
+   # plot the filtered image
+   ax3 = fig.add_subplot(223)
+   ax3.set_ylabel('filtered')
+   im3 = ax3.imshow(Xf, cmap=cm.gray)
+
+   # plot the filtered spectrum
+   ax4 = fig.add_subplot(224)
+   im4 = ax4.imshow(abs(Fc), cmap=cm.Blues)
+   im4.set_clim(0, 300)
+
+   # turn off the x and y tick labels
+   for ax in ax1, ax2, ax3, ax4:
+       ax.set_xticks([])
+       ax.set_yticks([])
+
+   plt.show()
+
 
