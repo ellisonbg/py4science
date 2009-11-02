@@ -140,7 +140,7 @@ the syntax is *X[ROWINDEX,COLINDEX]* and the colon in the indexing
 Matlab users.  So ``X[:,1]`` means *take all the rows and just the 2nd
 column*.
 
-When we inspect the first four elements of the ``fat`` variable with
+We inspect the first four elements of the ``fat`` variable with
 ``fat[:4]``, which is the percentage of body fat, with representative
 numbers like 12.3 and 6.1, and the ``age`` variable with
 representative numbers like 23 and 22, so this looks like we have
@@ -197,11 +197,11 @@ of some of the lines below tells IPython not to print the output).
 
 
 
-To compute the regression line above, we used the numpy ``np.polyfit``
-function, which will find the polynomial that is the best fit to your
-data in a least-squared sense.  The argument ``1`` to polyfit
-indicates a linear fit.  The parameters ``pars`` in the example are
-the slope and intercept of the best-fit line
+To compute the regression line, you can use the numpy ``np.polyfit``
+function to find the polynomial that is the best fit to your data in a
+least-squared sense.  The argument ``1`` to polyfit indicates a linear
+fit.  The parameters ``pars`` in the example are the slope and
+intercept of the best-fit line
 
 
 .. sourcecode:: ipython
@@ -222,7 +222,7 @@ Gaussian, we just need to estimate the mean and standard deviation
 from the actual data; for other statistical distributions estimating
 the best-fit is trickier and requires the tools in ``scipy.stats``.
 We can see that the data is not really normally distributed, but we'll
-put on our "typical scientist* hat and try to shoe-horn a normal
+put on our "typical scientist" hat and try to shoe-horn a normal
 distribution onto it anyhow.
 
 .. sourcecode:: ipython
@@ -293,7 +293,7 @@ large subset of TeX mathematical expressions.  In addition,
 the Knuth layout algorithms, and ships a complete set of math fonts
 including the freetype version of the TeX `computer modern
 <http://en.wikipedia.org/wiki/Computer_Modern>`_ fonts, so matplotlib
-can parse and render mathematical expressions on any computer in which
+can parse and render mathematical expressions on any computer on which
 it is installed, regardless of whether there is a TeX distribution
 installed, with output supported not only on raster screen displays
 and PNG outputs, but to PS, PDF and SVG outputs as well.  In addition,
@@ -316,10 +316,10 @@ numpy is exceedingly good at handling this data, seamlessly importing
 it into a 2D homogeneous array of floating point numbers (notice the
 dtype "datatype" of ``float64`` in the array ``X`` above, indicating
 an 8byte/64bit floating point number).  Real word data is much more
-varied than floating point numbers, composed of strings, dates,
-integers, complex numbers, and more, and is scattered across
-filesystems, databases, and the internet.  Python, with its "batteries
-included" philosophy, is fully equipped to work with that data.
+varied, composed of strings, dates, integers, complex numbers, and
+more, and is scattered across filesystems, databases, and the
+internet.  Python, with its "batteries included" philosophy, is fully
+equipped to work with that data.
 
 A typical example of the kind of data you see in real-world
 application is daily stock price data, which is a mix of dates,
@@ -330,12 +330,12 @@ CROX).  At the bottom of this Yahoo page, there is a "Download to
 Spreadsheet" to download the CSV file to your computer; manually
 clicking works fine for one or two stocks, but if you want to analyze
 hundreds, or automate daily analyses, you will need to be able to
-fetch this data automatically from your Python program.  Using the
-built-in `urllib <http://docs.python.org/library/urllib.html>`_
-library for working with internet data, it's easy: the function
-`urllib.urlretrieve
+fetch this data automatically from your Python program.  It's easy
+with the built-in `urllib
+<http://docs.python.org/library/urllib.html>`_ library for working
+with internet data: the function `urllib.urlretrieve
 <http://docs.python.org/library/urllib.html#urllib.urlretrieve>`_ can
-be used to fetch a remote file.
+fetch a remote file.
 
 First copy the URL from Yahoo Finance historical prices page by right
 clicking on the "Download to Spreadsheet" link at the bottom of the
@@ -360,7 +360,7 @@ into your ipython session and name it "url"
 
 By default ``urlretrieve`` will create a temporary file somewhere on
 your system and download the file, so your location and file name will
-be different.  We can inspect it in ipython.
+be different.  We can inspect the file contents in IPython.
 
 .. sourcecode:: ipython
 
@@ -379,7 +379,7 @@ naturally represented in a typed language like python with
 ``datetime.date``, ``float`` and ``int``.  The other important
 difference between this file and the ``bodyfat.dat`` file above is the
 use of a comma as the field delimiter.  ``np.loadtxt`` has support for
-converters to covert strings to arbitrary types, and handling
+converters to covert strings to arbitrary types, and can
 heterogeneous datatypes, but it can be cumbersome to set up (we will
 cover this in :ref:`numpy_intro`).  For loading CSV files that "just
 works" out of the box, `matplotlib.mlab
@@ -552,7 +552,7 @@ of the trading volume, etc...
 Dictionaries for counting words
 -------------------------------
 
-It's not just numerical computing that Python excels at.  While much
+It's not just numerical computing at which Python excels.  While much
 of your time doing scientific computing in Python will be spent in the
 core extension packages that provide fast arrays, statistics and
 visualization, a strong advantage that Python has over many
@@ -560,20 +560,20 @@ alternatives for scientific computing is that Python is a full blown
 object oriented language with rich data structures, built in
 libraries, and support for multiple programming paradigms.  We'll take
 a break from crunching numbers to illustrate python's power in string
-processing, utilizing one of the essential data structures in python:
-the dictionary.
+processing, utilizing one of the essential data structures: the
+dictionary.
 
 A common task in text processing is to produce a count of word frequencies.
 While numpy has a built in histogram function for doing numerical histograms,
 it won't work out of the box for counting discrete items, since it
 is a binning histogram for a range of real values.
 
-But the Python language provides very powerful string manipulation
-capabilities, as well as a very flexible and efficiently implemented
-built in data type, the *dictionary*, that makes this task a very
-simple one.  The example below counts the frequencies of all the words
-contained in a compressed text file of *Alice's Adventures in
-Wonderland* by Lewis Carroll, downloaded from `Project Gutenberg
+But the Python language provides powerful string manipulation
+capabilities, as well as a flexible and efficiently implemented built
+in data type, the *dictionary*, that makes this task a simple one.
+The example below counts the frequencies of all the words contained in
+a compressed text file of *Alice's Adventures in Wonderland* by Lewis
+Carroll, downloaded from `Project Gutenberg
 <http://www.gutenberg.org/wiki/Main_Page>`_.
 
 .. figure:: _static/alice_chapter1.jpg
@@ -631,7 +631,7 @@ The complete set of methods of Python strings can be viewed by typing
    a.__hash__         a.__rmul__      a.isalpha     a.rjust
 
 
-Each of them can be similarly queried with the ``'?'`` operator as
+Each of them can be queried similarly with the ``'?'`` operator as
 above.  For more details on Python strings and their companion
 sequence types, see `string methods
 <http://docs.python.org/library/stdtypes.html#string-methods>`_
@@ -640,12 +640,12 @@ Back to Alice.  We want to read the text in from the zip file, split
 it into words and then count the frequency of each word.  You will
 need to read the compressed file
 :file:`bookdata/alice_in_wonderland.zip` from the
-:ref:`sample_data`. Python has facilities to do this without having to
-manually uncompress using the `zipfile
-<http://docs.python.org/library/zipfile.html>`_ module.  The zip file
-consists of one or more files, and we can use the module to load the
-zip file, list the files, and then read the text from the one file in
-the zip archive
+:ref:`sample_data`. Python has facilities to do this with the `zipfile
+<http://docs.python.org/library/zipfile.html>`_ module, which avoids
+having to first uncompress and unzip the file.  The zip file consists
+of one or more files, and we can use the module to load the zip file,
+list the files, and then read the text from the one file in the zip
+archive
 
 .. sourcecode:: ipython
 
@@ -661,7 +661,7 @@ the zip archive
 
 Be careful printing ``text`` -- it is the entire manuscript so it will
 dump a lot of text to your screen.  We can print the characters from
-2000:2400 using standard python slicing
+2000:2400 using standard slicing
 
 .. sourcecode:: ipython
 
@@ -755,7 +755,7 @@ frequently they occur
 To finish up this example, we want to print the most common occurring
 words.  The easiest way to do this is create a list of (*count*,
 *word*) tuples, and then sort the list.  So we will create a list of
-2-tuples.  python will sort this according to the first element of the
+2-tuples.  Python will sort this according to the first element of the
 tuple -- the *count* -- and for identical counts will sort by the second
 element of the tuple -- the *word*.  The dictionary method ``items``
 returns a list of (*key*, *value*) pairs, ie (*word*, *count*), so we
@@ -798,14 +798,14 @@ words and their counts
     (857, 'and'),
     (1812, 'the')]
 
-Of course, this is just a toy example, and have not "cleaned" the word
-data by stripping off punctuation, but it does show off some of the
-versatile data structures and standard library functionality that
+Of course, this is just a toy example, and we have not cleaned the
+word data by stripping off punctuation, but it does show off some of
+the versatile data structures and standard library functionality that
 makes these tasks easy and elegant in python.
 
 Let's take the example one step further to strip the words of all
 non-alphabetic characters.  We can use the regular expression ``re``
-module to strip all not word characters.  In regular expression
+module to strip all non-word characters.  In regular expression
 syntax, ``'[^a-z]'`` mean *any character except a through z*.  We will
 use the regular expression ``sub`` method to replace the non-word
 characters with the empty string, thus stripping all non-word
@@ -864,7 +864,10 @@ characters from the string
     In [141]: strip_nonalpha(word.lower())
     Out[141]: 'cant'
 
-Here is the entirety of the script without the extra commentary
+Here is the entirety of the script, which reads the zip file,
+lowercases and cleans the words of non-alphabetic chaaracters, counts
+the words, and prints the least and most common ones -- all in 13
+lines of code!
 
 .. sourcecode:: python
 
@@ -1040,12 +1043,14 @@ filled with regions of very small spectral power, punctuated by
 regions of large high intensity bursts of noise.  The noisy high
 intensity power is *much larger* than the bulk of the low intensity
 power that is the real data in the image.  The colormapping in
-matplotlib is linear, so it linearly maps the lowest intensity to the
-highest intensity pixels from white to blue when using the
-``cm.Blues`` colormap.  The best solution here is to set the color
-limits to capture the bulk of our data, say 99%, and then the
-colormapping will simply clip the data above this threshold to the max
-value (dark blue).  We can use the `matplotlib.mlab.prctile
+matplotlib is linear, so it maps the lowest intensity to white and the
+highest intensity to blue linearly when using the ``cm.Blues``
+colormap.  To enhance the contrast in the image, we want to restrict
+the mapping to the region of intensities over which most of our data
+varies.  A simple solution here is to set the color limits to capture
+the bulk of our data, say 99%, and then the colormapping will simply
+clip the data above this threshold to the max value (dark blue).  We
+can use the `matplotlib.mlab.prctile
 <http://matplotlib.sourceforge.net/api/mlab_api.html#matplotlib.mlab.prctile>`_
 function to find the 95% and 99% intensity values -- compare this to
 the maximum value to see just how extreme the outliers are.
@@ -1262,8 +1267,9 @@ Foxes and Rabbits
 
 We've done a fair amount in the examples thus far: parsed data files,
 fetched data from a web server, done some descriptive statistics and
-regressions, parsed text, and denoised image data using Fourier
-transforms, and we have not yet opened the most powerful toolbox in
+regressions, plotted density functions and best-fit normal
+distributions, parsed text, and denoised image data using Fourier
+transforms, and we have yet to open the most powerful toolbox in
 the python scientific computing arsenal: ``scipy``.  Like Matlab
 before it, ``scipy`` at its core is a python wrapper around the
 FORTRAN libraries that are the foundation of modern scientific
@@ -1273,8 +1279,8 @@ for eigenvalue and eigenvector problems, MINPACK for optimization,
 CDFLIB for statistical distributions and inverses, and much more.  In
 addition to these FORTRAN wrappers, there are many packages in scipy
 written in C and plain-ol-python for solving all kinds of tasks in
-scientific computing, from reading Matlab files, to finding clusters in
-data, to multi-dimensional image processing.
+scientific computing, from reading Matlab files, to finding clusters
+in data, to multi-dimensional image processing.
 
 
 For a quick look at what's available in scipy, just import it and type
@@ -1363,11 +1369,11 @@ shift here to working in a script because solving this equation will
 require defining functions and doing work that is a bit more involved
 than what we have been doing.  When working interactively at the
 IPython shell, we are a bit fast and loose with namespaces, but when
-writing scripts, which have a permanence and which we'll likely
-revisit at some point when our memory of our initial intents has
-faded, it is best to be explicit about everything.  First we'll define
-a function ``derivs`` which implements the ODE equations for foxes and
-rabbits above
+writing scripts, which have permanence and which we'll likely revisit
+later when the memory of our initial intents has faded, it is best to
+be explicit about everything.  First we'll define a function
+``derivs`` which implements the ODE equations for foxes and rabbits
+above
 
 .. sourcecode:: python
 
@@ -1383,7 +1389,7 @@ rabbits above
 	  state = [R, F]
 
        The return data should be [dR, dF] which are the
-       derivatives of R and F at position state and time
+       derivatives of R and F at position *state* and time
        *t*.
        """
        R, F = state
@@ -1472,16 +1478,16 @@ docstring.  But we'll be using the simple form, and we've already
 defined the function required in ``derivs`` above, so all that is left
 is to specify the initial condition and the times to be evaluated.
 
-A reasonable first estimate of the times over which to evaluate the
-ODE are to pick a time long compared with the slowest time scale in
-your system and a time step short compared with the fastest time scale
+A reasonable estimate of the times over which to evaluate the
+ODE is to pick a time long compared with the slowest time scale in
+your system and a time-step short compared with the fastest time scale
 in your system.  Since the rate constants $\alpha$, $\beta$, $\gamma$
 and $\delta$ are in units of 1/time, the slowest time scale arises
 from smallest rate constant $\gamma=0.05$ which is 20s, and the
 fastest time scale arises from the largest rate constant $\alpha=1$
-which is 1s.  So we want the time step $dt$ to be small compared to 1s
+which is 1s.  So we want the time-step $dt$ to be small compared to 1s
 and the integration time to be long compared to 20s; we'll choose 100s
-for the integration time and 0.1s for the time step.
+for the integration time and 0.1s for the time-step.
 
 
 .. sourcecode:: python
@@ -1534,7 +1540,7 @@ We can extract the rabbits and foxes columns, and plot both over time
 	  state = [R, F]
 
        The return data should be [dR, dF] which are the derivatives of R
-       and F at position state and time *t*.
+       and F at position *state* and time *t*.
        """
 
        # in the plot directive, these need to be defined local to the
@@ -1573,7 +1579,7 @@ We can extract the rabbits and foxes columns, and plot both over time
    leg.get_frame().set_alpha(0.5)
    plt.show()
 
-In addition to the temporal solution to the ODE, we are often
+In addition to the temporal solution of the ODE, we are often
 interested in doing a phase-plane analysis to find the equilibrium
 points and visualize the flows.  To do a phase plane analysis, we need
 to create a 2D array of all possible rabbit/fox combinations, and then
@@ -1581,7 +1587,7 @@ evaluate the dynamics at each point.  The easiest way to do this is
 create a 1D array of possible rabbit values, a 1D array of possible
 fox values, and then use numpy's `meshgrid
 <http://docs.scipy.org/doc/numpy/reference/generated/numpy.meshgrid.html>`_
-function to create 2D arrays over all possible rabbit/fox
+function to create 2D arrays over the possible rabbit/fox
 combinations.  We use matplotlib's `quiver
 <http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.quiver>`_
 to plot the direction field at the ($R$, $F$) sample points of arrows
@@ -1602,7 +1608,7 @@ pointing in the ($dR$, $dF$) direction.
   fig = plt.figure()
   ax = fig.add_subplot(111)
   # the quiver function will show the direction fields
-  #dR, dF at each point R, F
+  #dR, dF at each point in R, F
   ax.quiver(R, F, dR, dF)
 
   ax.set_xlabel('rabbits')
@@ -1629,7 +1635,7 @@ pointing in the ($dR$, $dF$) direction.
 	  state = [R, F]
 
        The return data should be [dR, dF] which are the derivatives of R
-       and F at position state and time *t*.
+       and F at position *state* and time *t*.
        """
        alpha, delta = 1, .25
        beta, gamma = .2, .05
@@ -1725,7 +1731,7 @@ finely than in the direction field above.
 	  state = [R, F]
 
        The return data should be [dR, dF] which are the derivatives of R
-       and F at position state and time *t*.
+       and F at position *state* and time *t*.
        """
        alpha, delta = 1, .25
        beta, gamma = .2, .05
