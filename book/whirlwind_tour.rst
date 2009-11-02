@@ -232,7 +232,7 @@ distribution onto it anyhow.
    In [382]: hist(fat, 20, normed=True);
 
    # the mean and standard deviation are used to compute the
-   # analytical best-fit gaussian density
+   # analytical best-fit Gaussian density
    In [383]: mu = fat.mean()
 
    In [384]: sigma = fat.std()
@@ -1273,7 +1273,7 @@ for eigenvalue and eigenvector problems, MINPACK for optimization,
 CDFLIB for statistical distributions and inverses, and much more.  In
 addition to these FORTRAN wrappers, there are many packages in scipy
 written in C and plain-ol-python for solving all kinds of tasks in
-scientific computing, from reading Matlab files, to finding clusers in
+scientific computing, from reading Matlab files, to finding clusters in
 data, to multi-dimensional image processing.
 
 
@@ -1327,7 +1327,7 @@ equations: the dynamics of predator-prey interactions given by the
 The Lotka-Volterra equations are a system of two coupled nonlinear
 ordinary differential equations used to describe the interactions
 between species, a predator (the Foxes) and prey (the Rabbits).  They
-were discovered indepdendently by Alfred J Lotka, a US mathematician,
+were discovered independently by Alfred J Lotka, a US mathematician,
 physical chemist and statistician and author of the first textbook on
 mathematical biology *Elements of Mathematical Biology* in 1924, and
 Vito Volterra, and Italian mathematician physicist.
@@ -1351,7 +1351,7 @@ The equation for the foxes $F$ is
 
   dF/dt = \gamma R F - \delta F
 
-wwhere $\gamma \geq 0$ and $\delta \geq 0$.  In words: the change in
+where $\gamma \geq 0$ and $\delta \geq 0$.  In words: the change in
 the fox population over time is proportionate to the product of
 rabbits and foxes, and inversely proportionate to the fox population.
 In the absence of rabbits, the foxes will have nothing to eat and die
@@ -1363,11 +1363,11 @@ shift here to working in a script because solving this equation will
 require defining functions and doing work that is a bit more involved
 than what we have been doing.  When working interactively at the
 IPython shell, we are a bit fast and loose with namespaces, but when
-writing scripts, which have a permanence and we'll likely be
-revisiting them at some point in the future when our memory of what we
-intended initially has faded, it is best to be explicit about
-everything.  First we'll define a function ``derivs`` which implements
-the ODE equations for foxes and rabbits above
+writing scripts, which have a permanence and which we'll likely
+revisit at some point when our memory of our initial intents has
+faded, it is best to be explicit about everything.  First we'll define
+a function ``derivs`` which implements the ODE equations for foxes and
+rabbits above
 
 .. sourcecode:: python
 
@@ -1395,18 +1395,18 @@ This is a fairly nice example of *python as executable pseudo-code*,
 since the python expressions for ``dR`` and ``dF`` are quite close to
 the math expressions for $dR/dt$ and $dF/dt$.  The function ``derivs``
 has a special syntax which is not necessarily intuitive, but will be
-required for the ODE integration functions in ``scipy.ode``.  In
+required for the ODE integration functions in ``scipy.integrate``.  In
 particular, the first argument for an N-dimensional ODE is an N-length
 state vector giving the current values of the variables being
 integrated, in our case the populations of the rabbits and foxes, so
 ``state = [R, F]``.  The second argument, ``t`` for time, is required
 by the integration interface but is not needed for our example since
-the population dynamics do not explictly depend on time.
+the population dynamics do not explicitly depend on time.
 
 
 Let's save this file as  :file:`lotka_volterra.py` and use the IPython
 ``run`` command to run it.  We can edit the script, run it, re-edit
-and rerun as needed while we build out the example.
+and re-run as needed while we build out the example.
 
 .. sourcecode:: ipython
 
@@ -1447,4 +1447,349 @@ line ``In [4]`` we run the file, the contents are executed and the
 variables and functions there are brought into the local namespace,
 where can inspect them, ask for help on the function, etc....
 
+The first thing we want to do is numerically integrate the equations
+using ``scipy.integrate.odeint``, which solves a system of ordinary
+differential equations using LSODA from the FORTRAN library ODEPACK.
+The function takes at a minimum three arguments
 
+``func``
+  A callable(y, t0, ...): computes the derivative of state vector y at
+  time t0.
+
+``y0``
+  a length N initial condition array, where N is the number of
+  dimensions of the system
+
+``t``
+  A sequence of time points for which to solve for y.  The initial
+  value point should be the first element of this sequence.
+
+In addition, you can pass in extra arguments to specify the gradient
+(Jacobian) of the function, which improves performance and accuracy,
+as well extra arguments specifying how much information to return, how
+much to print out while running, and more which is covered in the
+docstring.  But we'll be using the simple form, and we've already
+defined the function required in ``derivs`` above, so all that is left
+is to specify the initial condition and the times to be evaluated.
+
+A reasonable first estimate of the times over which to evaluate the
+ODE are to pick a time long compared with the slowest time scale in
+your system and a time step short compared with the fastest time scale
+in your system.  Since the rate constants $\alpha$, $\beta$, $\gamma$
+and $\delta$ are in units of 1/time, the slowest time scale arises
+from smallest rate constant $\gamma=0.05$ which is 20s, and the
+fastest time scale arises from the largest rate constant $\alpha=1$
+which is 1s.  So we want the time step $dt$ to be small compared to 1s
+and the integration time to be long compared to 20s; we'll choose 100s
+for the integration time and 0.1s for the time step.
+
+
+.. sourcecode:: python
+
+   import numpy as np
+   import scipy.integrate as integrate
+
+   # the initial population of rabbits and foxes
+   R0 = 20
+   F0 = 10
+
+   # create a time array from 0..100 sampled at 0.1 second steps
+   dt = 0.1
+   t = np.arange(0.0, 100, dt)
+
+   # the initial [rabbits, foxes] state vector
+   y0 = [R0, F0]
+
+   # y is a len(t)x2 2D array of rabbit and fox populations
+   # over time
+   y = integrate.odeint(derivs, y0, t)
+
+
+We can extract the rabbits and foxes columns, and plot both over time
+
+.. sourcecode:: python
+
+   rabbits = y[:,0]
+   foxes = y[:,1]
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   ax.plot(t, rabbits, label='rabbits')
+   ax.plot(t, foxes, label='foxes')
+
+   leg = ax.legend(loc='upper left', fancybox=True, shadow=True)
+   leg.get_frame().set_alpha(0.5)
+   plt.show()
+
+.. plot::
+
+   import numpy as np
+   import scipy.integrate as integrate
+   import matplotlib.pyplot as plt
+
+
+   def derivs(state, t):
+       """
+       Return the derivatives of R and F, stored in the *state* vector::
+
+	  state = [R, F]
+
+       The return data should be [dR, dF] which are the derivatives of R
+       and F at position state and time *t*.
+       """
+
+       # in the plot directive, these need to be defined local to the
+       # function
+       alpha, delta = 1, .25
+       beta, gamma = .2, .05
+
+       R, F = state
+       dR = alpha*R - beta*R*F
+       dF = gamma*R*F - delta*F
+       return dR, dF
+
+   # the initial population of rabbits and foxes
+   R0 = 20
+   F0 = 10
+
+   # create a time array from 0..100 sampled at 0.1 second steps
+   dt = 0.1
+   t = np.arange(0.0, 100, dt)
+
+   # the initial [rabbits, foxes] state vector
+   y0 = [R0, F0]
+
+   # y is a len(t)x2 2D array of rabbit and fox populations
+   # over time
+   y = integrate.odeint(derivs, y0, t)
+
+   rabbits = y[:,0]
+   foxes = y[:,1]
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   ax.plot(t, rabbits, label='rabbits')
+   ax.plot(t, foxes, label='foxes')
+
+   leg = ax.legend(loc='upper left', fancybox=True, shadow=True)
+   leg.get_frame().set_alpha(0.5)
+   plt.show()
+
+In addition to the temporal solution to the ODE, we are often
+interested in doing a phase-plane analysis to find the equilibrium
+points and visualize the flows.  To do a phase plane analysis, we need
+to create a 2D array of all possible rabbit/fox combinations, and then
+evaluate the dynamics at each point.  The easiest way to do this is
+create a 1D array of possible rabbit values, a 1D array of possible
+fox values, and then use numpy's `meshgrid
+<http://docs.scipy.org/doc/numpy/reference/generated/numpy.meshgrid.html>`_
+function to create 2D arrays over all possible rabbit/fox
+combinations.  We use matplotlib's `quiver
+<http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.quiver>`_
+to plot the direction field at the ($R$, $F$) sample points of arrows
+pointing in the ($dR$, $dF$) direction.
+
+
+.. sourcecode:: python
+
+  # R, F, dR and dF are 2D arrays giving the state and \
+  # direction for each rabbit, fox combination
+  rmax = 1.1 * rabbits.max()
+  fmax = 1.1 * foxes.max()
+  R, F = np.meshgrid(np.arange(-1, rmax),
+		     np.arange(-1, fmax))
+  dR = alpha*R - beta*R*F
+  dF = gamma*R*F - delta*F
+
+  fig = plt.figure()
+  ax = fig.add_subplot(111)
+  # the quiver function will show the direction fields
+  #dR, dF at each point R, F
+  ax.quiver(R, F, dR, dF)
+
+  ax.set_xlabel('rabbits')
+  ax.set_ylabel('foxes')
+
+  # also plot the single solution from odeint on the
+  # phase-plane
+  ax.plot(rabbits, foxes, color='black')
+
+.. plot::
+
+   import numpy as np
+   import scipy.integrate as integrate
+   import matplotlib.pyplot as plt
+
+   # the parameters for rabbit and fox growth and interactions
+   alpha, delta = 1, .25
+   beta, gamma = .2, .05
+
+   def derivs(state, t):
+       """
+       Return the derivatives of R and F, stored in the *state* vector::
+
+	  state = [R, F]
+
+       The return data should be [dR, dF] which are the derivatives of R
+       and F at position state and time *t*.
+       """
+       alpha, delta = 1, .25
+       beta, gamma = .2, .05
+       R, F = state
+       dR = alpha*R - beta*R*F
+       dF = gamma*R*F - delta*F
+       return dR, dF
+
+   # the initial population of rabbits and foxes
+   R0 = 20
+   F0 = 10
+
+   # create a time array from 0..100 sampled at 0.1 second steps
+   dt = 0.1
+   t = np.arange(0.0, 100, dt)
+
+   # the initial [rabbits, foxes] state vector
+   y0 = [R0, F0]
+
+   # y is a len(t)x2 2D array of rabbit and fox populations
+   # over time
+   y = integrate.odeint(derivs, y0, t)
+
+   rabbits = y[:,0]
+   foxes = y[:,1]
+
+   # R, F, dR and dF are 2D arrays giving the state and \
+   # direction for each rabbit, fox combination
+   rmax = 1.1 * rabbits.max()
+   fmax = 1.1 * foxes.max()
+   R, F = np.meshgrid(np.arange(-1, rmax),
+		      np.arange(-1, fmax))
+   dR = alpha*R - beta*R*F
+   dF = gamma*R*F - delta*F
+
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   # the quiver function will show the direction fields
+   #dR, dF at each point R, F
+   ax.quiver(R, F, dR, dF)
+
+   ax.set_xlabel('rabbits')
+   ax.set_ylabel('foxes')
+   ax.plot(rabbits, foxes, color='black')
+
+   plt.show()
+
+
+Finally, it is useful to study the equilibrium points of the system,
+when the rabbit and fox populations are in a steady state.  The
+equilibrium in rabbits occurs when $dR/dt=0$ and in foxes when
+$dF/dt=0$.  The curves where the derivatives equal zero are called the
+*null-clines* of the system, and can be found using matplotlib's
+`contour
+<http://matplotlib.sourceforge.net/api/axes_api.html#matplotlib.axes.Axes.contour>`_
+which is used to find level sets over 2D data.  In particular, we'll
+want to find the zero contours of $dR/dt$ and $dF/dt$ (these curves
+can also be found by simple algebra in this case).  To accurately find
+the null-clines, we'll want to sample the $R$, $F$ state space more
+finely than in the direction field above.
+
+.. sourcecode:: ipython
+
+   # resample R, F,dF and dR at a higher frequency
+   # for smooth null-clines
+   R, F = np.meshgrid(np.arange(-1, rmax, 0.1),
+		      np.arange(-1, fmax, 0.1))
+   dR = alpha*R - beta*R*F
+   dF = gamma*R*F - delta*F
+
+   # use matplotlib's contour function to find the level curves where
+   # dR/dt=0 and dF/dt=0 (the null-clines)
+   ax.contour(R, F, dR, levels=[0], linewidths=3, colors='blue')
+   ax.contour(R, F, dF, levels=[0], linewidths=3, colors='green')
+
+   ax.set_title('trajectory, direction field and null clines')
+
+
+.. plot::
+
+   import numpy as np
+   import scipy.integrate as integrate
+   import matplotlib.pyplot as plt
+
+   # the parameters for rabbit and fox growth and interactions
+   alpha, delta = 1, .25
+   beta, gamma = .2, .05
+
+   def derivs(state, t):
+       """
+       Return the derivatives of R and F, stored in the *state* vector::
+
+	  state = [R, F]
+
+       The return data should be [dR, dF] which are the derivatives of R
+       and F at position state and time *t*.
+       """
+       alpha, delta = 1, .25
+       beta, gamma = .2, .05
+
+       R, F = state
+       dR = alpha*R - beta*R*F
+       dF = gamma*R*F - delta*F
+       return dR, dF
+
+   # the initial population of rabbits and foxes
+   R0 = 20
+   F0 = 10
+
+   # create a time array from 0..100 sampled at 0.1 second steps
+   dt = 0.1
+   t = np.arange(0.0, 100, dt)
+
+   # the initial [rabbits, foxes] state vector
+   y0 = [R0, F0]
+
+   # y is a len(t)x2 2D array of rabbit and fox populations
+   # over time
+   y = integrate.odeint(derivs, y0, t)
+
+   rabbits = y[:,0]
+   foxes = y[:,1]
+
+   # R, F, dR and dF are 2D arrays giving the state and \
+   # direction for each rabbit, fox combination
+   rmax = 1.1 * rabbits.max()
+   fmax = 1.1 * foxes.max()
+   R, F = np.meshgrid(np.arange(-1, rmax),
+		      np.arange(-1, fmax))
+   dR = alpha*R - beta*R*F
+   dF = gamma*R*F - delta*F
+
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   # the quiver function will show the direction fields
+   #dR, dF at each point R, F
+   ax.quiver(R, F, dR, dF)
+
+   ax.set_xlabel('rabbits')
+   ax.set_ylabel('foxes')
+   ax.plot(rabbits, foxes, color='black')
+
+
+   # resample R, F,dF and dR at a higher frequency
+   # for smooth null-clines
+   R, F = np.meshgrid(np.arange(-1, rmax, 0.1),
+		      np.arange(-1, fmax, 0.1))
+   dR = alpha*R - beta*R*F
+   dF = gamma*R*F - delta*F
+
+   # use matplotlib's contour function to find the level curves where
+   # dR/dt=0 and dF/dt=0 (the null-clines)
+   ax.contour(R, F, dR, levels=[0], linewidths=3, colors='blue')
+   ax.contour(R, F, dF, levels=[0], linewidths=3, colors='green')
+
+   ax.set_title('trajectory, direction field and null clines')
+
+   plt.show()
+
+By visual inspection, we see four equilibria where the null-clines
+intersect: (0,0), (0,5), (5,0) and (5,5).  You should be able to
+easily verify these by solving for R and F where $dR/dt=0$ and
+$dF/dt=0$,
