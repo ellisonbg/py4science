@@ -865,7 +865,7 @@ characters from the string
     Out[141]: 'cant'
 
 Here is the entirety of the script, which reads the zip file,
-lowercases and cleans the words of non-alphabetic chaaracters, counts
+lowercases and cleans the words of non-alphabetic characters, counts
 the words, and prints the least and most common ones -- all in 13
 lines of code!
 
