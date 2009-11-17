@@ -13,8 +13,8 @@ in scientific computing using just a few core tools: the python
 standard library, numpy, matplotlib, scipy and the ipython shell.
 
 
-Before proceeding, make sure you can fire up ipython in
-:ref:`ipython_pylab` and navigate to the :ref:`sample_data`.
+Before proceeding, make sure you can fire up ipython in pylab mode
+(:ref:`matplotlib_getting_started`) and navigate to the :ref:`sample_data`.
 
 
 .. _loadtxt_demo:
