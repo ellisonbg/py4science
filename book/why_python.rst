@@ -174,15 +174,29 @@ combined numerical libraries with tools for interactive work and data
 visualization, in a similar manner to Matlab.  In late 2001 one of us (F.P.)
 started using Python for his PhD research work, and in the process started
 developing IPython_, an improved interactive environment to facilitate the
-workflows he was used to from IDL and Mathematica under Python.  Eric Jones
-offered to host IPython at the Scipy project site, and IPython began to
-accumulate both interactive and plotting features (by interfacing with the
-venerable Gnuplot program).  In 2002 another one of us (J.D.H) needed to
-improve IPython's plotting support to support Matlab-style syntax, and sent
-to F.P. some contributions on this front, but unfortunately F.P. was at the
-time too busy actually finishing up his PhD to be able to properly handle this,
-and his reply was along the lines of "many thanks, but I can't look at your
-code until I finish writing my dissertation".
+workflows he was used to from IDL and Mathematica under Python.  IPython began
+as the union of three codebases: some tools developed by F.P., by Janko Hauser
+from the University of Kiel's Marine Research Institute and by Nathan Grey from
+Caltech's Computer Science department.  Once IPython started to gain some users
+and grow as a project, Eric Jones offered to host it at the Scipy project site,
+and it began to accumulate both interactive and plotting features (by
+interfacing with the venerable Gnuplot program).  In 2002 another one of us
+(J.D.H) needed to improve IPython's plotting support to support Matlab-style
+syntax, and sent to F.P. some contributions on this front, but unfortunately
+F.P. was at the time too busy actually finishing up his PhD to be able to
+properly handle this, and his reply was along the lines of "many thanks, but I
+can't look at your code until I finish writing my dissertation".  This prompted
+the birth of matplotlib_, initially a 2-d plotting library based on the GD
+graphics library that has grown to be the most widely used Python plotting
+library, and which we will discuss in detail throughout this book.
+
+For a few years these tools were being used by a relatively small community,
+gathered around the mailing lists for scipy, ipython and matplotlib, and with
+Numeric as the foundation for numerical arrays.  There were some important
+issues however with the Numeric codebase: it had a complex C core that had
+accreted many obscure details over the years, was difficult to maintain and
+enhance, and it became clear that in order to move forward a serious amount of
+new development would be necessary.  A team 
 
 
 Open source tools and scientific work
