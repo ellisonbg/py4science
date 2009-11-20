@@ -164,6 +164,7 @@ class EmbeddedSphinxShell:
         stdout = sys.stdout
         sys.stdout = self.cout
         self.IP.push(line)
+        #self.IP.runlines(line)
         sys.stdout = stdout
 
 
@@ -230,25 +231,28 @@ class EmbeddedSphinxShell:
 
 
                 # TODO: can we get "rest" from ipython
-                is_semicolon = False
-                for i, line in enumerate(input_lines):
-                    if line.endswith(';'):
-                        is_semicolon = True
+                #self.process_input('\n'.join(input_lines))
 
-                    if i==0:
-                        # process the first input line
-                        if is_verbatim:
-                            self.process_input('')
+                if 1:
+                    is_semicolon = False
+                    for i, line in enumerate(input_lines):
+                        if line.endswith(';'):
+                            is_semicolon = True
+
+                        if i==0:
+                            # process the first input line
+                            if is_verbatim:
+                                self.process_input('')
+                            else:
+                                # only submit the line in non-verbatim mode
+                                self.process_input(line)
+                            formatted_line = '%s %s'%(input_prompt, line)
                         else:
-                            # only submit the line in non-verbatim mode
-                            self.process_input(line)
-                        formatted_line = '%s %s'%(input_prompt, line)
-                    else:
-                        # process a continuation line
-                        if not is_verbatim:
-                            self.process_input(line)
+                            # process a continuation line
+                            if not is_verbatim:
+                                self.process_input(line)
 
-                        formatted_line = '%s %s'%(continuation, line)
+                            formatted_line = '%s %s'%(continuation, line)
 
 
                     if not is_suppress:

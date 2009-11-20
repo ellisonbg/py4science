@@ -1,5 +1,13 @@
 .. _getting_started:
 
+.. ipython::
+   :suppress:
+
+   # set up pylab for ipython mode
+   from pylab import *
+   ion()
+
+
 ================
 Getting started
 ================
@@ -494,7 +502,26 @@ see the matplotlib installation `faq
     x = np.random.randn(10000)
     plt.hist( x, 100)
 
+We'll walk through a simple matplotlib example which also exercises
+some numpy: loading a black and white image and doing some
+pseudo-color mapping using a photo taken by Michael Sarahan's and used
+in his matplotlib `image tutorial
+<http://matplotlib.sourceforge.net/users/image_tutorial.html>`_. 
 
+First we navigate to the :ref:`sample_data` directory and load and
+plot the "stinkbug" image
+
+
+.. ipython::
+
+   In [2]: cd bookdata/
+   /home/jdhunter/py4science/book/bookdata
+
+   In [3]: im = imread('stinkbug.png')
+
+   @savefig stinkbug.png
+   In [4]: imshow(im)
+   Out[4]: <matplotlib.image.AxesImage object at 0x39ea850>
 
 .. _sample_data:
 
