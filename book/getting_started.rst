@@ -53,7 +53,11 @@ major platforms, we won't cover this here, since one size does not fit
 all.  There are good turn-key solutions like EPD and Python(x,y) for
 getting everything in an easy installer, so we'll assume you have
 either installed everything from one of these packages or have
-installed the components yourself.
+installed the components yourself.  Note that while Python(x,y) is
+completely free for academic and commerical use, EPS is free only for
+academic use and others can either try the Demo version or pay a
+licensing fee -- the academic download is avalable at `EPD academic
+<http://www.enthought.com/products/edudownload.php>`_
 
 .. _python_getting_started:
 
