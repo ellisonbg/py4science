@@ -73,7 +73,7 @@ server in Matlab, you probably wouldn't want to.  In contrast, the
 tools that people often prefer to "roll their own" web application
 server, plotting library or machine learning toolkit rather than use
 someone elses.  This is a bit tongue in cheek: over time communities
-do coalece around successful packages, but in early stages there is
+do coalesce around successful packages, but in early stages there is
 often too much choice rather than too little simply because Python
 developers enjoy writing Python code, since it is so expressive and
 powerful.
@@ -121,7 +121,7 @@ interpreter::
    enhanced IPython interpreter
 
 
-Now that we've tested the interactive interpeter, next we want to
+Now that we've tested the interactive interpreter, next we want to
 write a simple python script and make sure we can run it in python.
 For this you will need a code editor.  Many hardcore programmers use
 the plain text editors emacs or vi, and there are endless debates and
@@ -155,7 +155,7 @@ characters in "Hello World".
         print(ord(char))
 
 and we can execute this file from the terminal (in windows you can get
-access to a primitize terminal by running ``cmd.exe``)::
+access to a primitive terminal by running ``cmd.exe``)::
 
   > python my_hello.py
   72
@@ -180,8 +180,8 @@ IPython
 The interactive interpreter is one of the core strengths of python.
 Unlike compiled languages like C, FORTRAN and C++ which typically lead
 to a work-flow where you write code, compile it, run it, find
-problems, go back and insert diagnositic ouput, and repeat *ad
-nauseum*, with an interactive interpeter you can explore code and data
+problems, go back and insert diagnostic output, and repeat *ad
+nauseum*, with an interactive interpreter you can explore code and data
 as you develop it.  The Python interpreter is great for this, but is
 not a full featured command shell that you expect if you are used to
 modern terminal environments like the bash shell which include the
@@ -194,7 +194,7 @@ all the desirable features just mentioned and more.
 
 For many people who do scientific computing in Python as part of their
 research or employment, an open IPython shell is as much a feature of
-their everyday, allday work environment as firefox, a terminal shell
+their everyday, all day work environment as firefox, a terminal shell
 and their favorite editor.  For the rest of this book, we'll spend
 *most* of our time in an IPython shell.  We can launch it just like we
 launched the plain vanilla Python interpreter above, but this time
@@ -291,10 +291,10 @@ differences can be a 100-fold or more performance improvement, which
 is why dynamic interpreted languages like Python and Matlab rely so
 heavily on array based computations.
 
-We will be utilizing the import abbreviation for ``np`` throughout the
-book.  You can check which version of numpy you are running, and where
-it is installed, by inspecting the ``__version__`` and ``__file__``
-attributes.
+In code, we will be utilizing the import abbreviation ``np`` for
+``numpy`` throughout the book.  You can check which version of numpy
+you are running, and where it is installed, by inspecting the
+``__version__`` and ``__file__`` attributes.
 
 .. ipython::
 
@@ -347,7 +347,7 @@ names.
 
 But no matter how you are configured, those are a lot of symbols --
 the basic numpy array is feature rich and powerful.  Below are a
-sampling with intuituve names -- try ``help`` on any method to see
+sampling with intuitive names -- try ``help`` on any method to see
 more information, for example in ipython you can type ``help x.clip``.
 
 
@@ -365,14 +365,15 @@ more information, for example in ipython you can type ``help x.clip``.
    In [9]: x.clip(0, 2.5)
    Out[9]: array([ 0. ,  1. ,  2. ,  2.5,  2.5])
 
-   In [10]:
+
 
 
 The TAB completion listing on ``x`` above shows the *array
-attributes*, the functions and attributes attached to the numpy array
-object itself.  In addition, there are many more methods that are part
-of the numpy namespace that operate on numpy arrays but are not part
-of the array object.  These include functions like ``sin`` and ``exp``
+attributes*: the functions and attributes attached to the numpy array
+object itself.  In addition, there are many more functions that are
+part of the numpy namespace that operate on numpy arrays but are not
+part of the array object.  These include functions like ``sin`` and
+``exp``
 
 .. ipython::
 
@@ -405,14 +406,42 @@ with our tour of MINS.
 Matplotlib
 -----------
 
+Matplotlib is a package for making scientific graphs and data
+visualizations.  Although it has limited support for basic 3D graphs
+like surfaces and meshes, its core focus is on making publication
+quality 2D graphics.  Data visualization is a rich area, and there
+many different things people want to do when generating graphics.
+Perhaps the most common is exploratory analysis where you want to
+load, process, and plot data interactively at the command line prompt,
+and matplotlib supports this in conjunction with IPython in the
+*pylab* mode, which provides a Matlab-like environment for easily
+creating and manipulating plots with a procedural interface that is
+easy for scientists with little programming expertise to master.
+Moving past the quick-and-easy exploratory phase, experienced
+programmers in labs often want to build interfaces where scientists
+can interact with their data, selecting and annotating regions of
+interest, monitoring incoming data in quasi real time, navigating
+through deep and nested data sets, and matplotlib supports this
+through a FigureCanvas object that is embeddable in all the common
+user interface toolkits available in Python.  Yet another common need
+is a headless server generating static hardcopy for review later or to
+be served up dynamically in a web application server, which matplotlib
+supports through a full object oriented API that gives the server
+complete control over the graphics creation and rendering process.
 
+Because these different modes of working require matplotlib to be
+configured, imported and used in different ways, newcomers are
+sometimes unsure what is *right* way to use matplotlib, and the answer
+is that the right way depends on what you are trying to do: the most
+natural way to work interactively and make quick and easy plots is
+through pylab, and the right to serve data through a web application
+server is to use the matplotlib API directly with no help from pylab.
+As we tackle different kinds of examples in this book, we'll
+illustrate these various idioms with commentary without bogging down.
+Borrowing a phrase from Larry Wall and Perl, matplotlib tries to "make
+easy things easy and hard things possible".  So let's start with the
+easy things, and fire up IPython in pylab mode and make a plot.
 
-
-
-.. _ipython_pylab:
-
-IPython in pylab mode
-----------------------
 
 You can start IPython in pylab mode, which pre-imports all of numpy
 and matplotlib, and tweaks some matplotlib settings so that plotting
@@ -451,7 +480,7 @@ From a terminal window in linux or OS X, you can simply type::
 If you see the following graph pop up, everything is working (if not
 see the matplotlib installation `faq
 <http://matplotlib.sourceforge.net/faq/installing_faq.html>`_ and
-:ref:`how_to_get_help`.
+:ref:`how_to_get_help`).
 
 
 .. plot::
