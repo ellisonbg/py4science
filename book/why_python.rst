@@ -312,8 +312,9 @@ and work with it as easily as with a local file::
     for line in urlopen('http://yahoo.com').readlines():
        print line
 
+.. todo::
 
-* Quicksort
+   Don't forget Quicksort
        
 Complementing these built-in features, Python is also readily extensible,
 giving it a wealth of libraries for scientific computing that have been in

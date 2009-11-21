@@ -22,6 +22,8 @@ Contents:
    getting_started.rst
    whirlwind_tour.rst
    numpy_intro.rst
+   exercises_intro.rst
+   roadshow.rst
    glossary.rst
 
 Indices and tables
