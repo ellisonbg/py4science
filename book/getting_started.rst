@@ -63,9 +63,10 @@ all.  There are good turn-key solutions like EPD and Python(x,y) for
 getting everything in an easy installer, so we'll assume you have
 either installed everything from one of these packages or have
 installed the components yourself.  Note that while Python(x,y) is
-completely free for academic and commerical use, EPS is free only for
-academic use and others can either try the Demo version or pay a
-licensing fee -- the academic download is avalable at `EPD academic
+completely free for academic and commerical use, EPD is free only for
+academic use and others can either try the demo version or pay a
+licensing fee with various levels of support -- the academic download
+is avalable at `EPD academic
 <http://www.enthought.com/products/edudownload.php>`_
 
 .. _python_getting_started:
@@ -102,8 +103,8 @@ on where you got your Python distribution from; Python(x,y) has a
 launcher dialog from which you can choose from and launch different
 interactive consoles and editors.  In the example below, the command
 with the single prompt ``> python`` is executed in the the linux
-terminal and starts the python interpreter, which uses the a prompt
-```>>>``` for python commands passed to the interactive Python
+terminal and starts the python interpreter, which uses the triple
+prompt ```>>>``` for python commands passed to the interactive Python
 interpreter::
 
   > python
@@ -498,6 +499,7 @@ see the matplotlib installation `faq
 
 .. plot::
    :width: 4in
+
    import matplotlib.pyplot as plt
    import numpy as np
    x = np.random.randn(10000)
@@ -505,12 +507,13 @@ see the matplotlib installation `faq
 
 We'll walk through a simple matplotlib example which also exercises
 some numpy: loading a black and white image and doing some
-pseudo-color mapping using a photo taken by Michael Sarahan's and used
+pseudo-color mapping using a photo taken by Michael Sarahan and used
 in his matplotlib `image tutorial
-<http://matplotlib.sourceforge.net/users/image_tutorial.html>`_. 
+<http://matplotlib.sourceforge.net/users/image_tutorial.html>`_.
 
 First we navigate to the :ref:`sample_data` directory and load and
-plot the "stinkbug" image
+plot the "stinkbug" image with pyplot's `imshow
+<http://matplotlib.sourceforge.net/api/pyplot_api.html#matplotlib.pyplot.imshow>`_
 
 
 .. ipython::
@@ -527,8 +530,9 @@ plot the "stinkbug" image
 The image data in ``im`` is an RGB array, which is three 2D images of
 the red, green, and blue planes.  The true data is gray-scale, as we
 see in the image above, so all three channels are identical, as we can
-see by using the numpy ``all`` method, which returns true if every
-element in the array is true
+see by using the numpy `all
+<http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.all.html>`_
+method, which returns true if every element in the array is true.
 
 .. ipython::
 
@@ -539,7 +543,7 @@ element in the array is true
 
    In [7]: green = im[:,:,1]
 
-   In [8]: blue = im[:,:,1]
+   In [8]: blue = im[:,:,2]
 
    In [9]: (red==green).all()
    Out[9]: True
@@ -566,28 +570,17 @@ this is luminosity data, we can do pseudo-color mapping.
    @savefig stinkbug_spectral.png width=4in
    In [16]: spectral()
 
-Here the function ``spectral`` acti.jet`` vates the spectral colormap,
-which sets the current colormap to ``cm.spectral`` where ``cm`` is the
-matplotlib colormap module.  There are over 100 colormaps, which you
-can explore via tab completion in IPython.  Two popular colormaps are
-``cm.hot`` for *Heated ObjecT* scale, and ``cm.jet`` which was
-invented by NASA's Jet Propulsion Laboratory.
+Here the function `spectral
+<http://matplotlib.sourceforge.net/api/pyplot_api.html#matplotlib.pyplot.spectral>`_
+activates the spectral colormap, which sets the current colormap to
+``cm.spectral`` where ``cm`` is the matplotlib colormap module
+`matplotlib.cm <http://matplotlib.sourceforge.net/api/cm_api.html>`_.
+There are over 100 colormaps, which you can explore via tab completion
+in IPython.  Two popular colormaps are ``cm.hot`` for *Heated ObjecT*
+scale, and ``cm.jet`` which was invented by NASA's Jet Propulsion
+Laboratory.
 
 
-Here are the ones starting with "s"
-
-.. ipython::
-
-   In [21]: import matplotlib.cm as cm
-
-   @verbatim
-   In [22]: cm.s<TAB>
-   cm.spectral    cm.spring      cm.summer      
-   cm.spectral_r  cm.spring_r    cm.summer_r    
-
-You can also pass a colormap into ``imshow`` using the **cmap**
-keyword argument, as in ``imshow(lum, cmap=cm.hot)``.  first, and pass
-a 1D array to the histogram function.
 
 
 A common need in analyzing luminosity images is to enhance the
@@ -595,7 +588,8 @@ contrast by limiting the scale of the colormapping to a tighter range
 than the full 0..1 scale of the pixel intensities.  To accomplish
 this, we can plot a histogram of the pixel intensities, and *clip* the
 color limits to a range that encompasses the bulk of the data.  We
-need to *flatten* the data
+need to *flatten* the data using the `flatten <http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.flatten.html>`_ method which takes an
+N dimensional array and flattens it into a 1D array.
 
 .. ipython::
 
@@ -618,6 +612,48 @@ update clip the color limits to this range to enhance the contrast
    @savefig stinkbug_contrast.png width=5in
    In [46]: clim(0.3, 0.7)
 
+
+As in the example above, you can also pass a colormap into ``imshow``
+using the *cmap* keyword argument, as in ``imshow(lum,
+cmap=cm.hot)``.  first, and pass a 1D array to the histogram function.
+
+Here are the ones starting with "s"
+
+.. ipython::
+
+   In [21]: import matplotlib.cm as cm
+
+   @verbatim
+   In [22]: cm.s<TAB>
+   cm.spectral    cm.spring      cm.summer      
+   cm.spectral_r  cm.spring_r    cm.summer_r    
+
+All of the colormaps have a *reversed* counterpart named with the
+postfix "_r" (eg ``summer`` and ``summer_r``) which inverts the
+normal color order of the map from luminosity to color.  For, example,
+``cm.gray`` maps 0.0 to black and 1.0 to white, and ``cm.gray_r`` maps
+0.0 to white and 1.0 to black.
+
+.. ipython::
+
+   In [62]: plt.close('all')
+
+   In [63]: X = np.arange(96).reshape(12,8)
+
+   # one row, two columns, first (left) axes
+   In [64]: subplot(121)
+   Out[64]: <matplotlib.axes.AxesSubplot object at 0x5dbe6d0>
+
+   In [65]: imshow(X, origin='lower', cmap=cm.gray)
+   Out[65]: <matplotlib.image.AxesImage object at 0x5de6450>
+
+   # one row, two columns, second (right) axes
+   In [66]: subplot(122)
+   Out[66]: <matplotlib.axes.AxesSubplot object at 0x5ded110>
+
+   @savefig cmap_reversed.png width=5in
+   In [67]: imshow(X, origin='lower', cmap=cm.gray_r)
+   Out[67]: <matplotlib.image.AxesImage object at 0x610f090>
 
 .. scipy_getting_started:
 
@@ -664,6 +700,18 @@ Package                          Functionality
 ``signal``                       Signal Processing Tools
 ``sparse``                       Sparse Matrices
 ================================ ==============================================
+
+
+To get additional information about a subpackage, you first need to
+import it, and then ask for help on the package.
+
+
+.. ipython::
+   :verbatim:
+
+   In [48]: import scipy.optimize
+
+   In [49]: help scipy.optimize
 
 
 
