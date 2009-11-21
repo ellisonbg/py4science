@@ -493,15 +493,15 @@ From a terminal window in linux or OS X, you can simply type::
 If you see the following graph pop up, everything is working (if not
 see the matplotlib installation `faq
 <http://matplotlib.sourceforge.net/faq/installing_faq.html>`_ and
-:ref:`how_to_get_help`).::
+:ref:`how_to_get_help`).
 
 
-  .. plot::
-
-      import matplotlib.pyplot as plt
-      import numpy as np
-      x = np.random.randn(10000)
-      plt.hist( x, 100)
+.. plot::
+   :width: 4in
+   import matplotlib.pyplot as plt
+   import numpy as np
+   x = np.random.randn(10000)
+   plt.hist( x, 100)
 
 We'll walk through a simple matplotlib example which also exercises
 some numpy: loading a black and white image and doing some
@@ -550,7 +550,122 @@ element in the array is true
 
 so we can take any one of these channels to be the "luminosity"
 channel ``lum``, or more generally we can take the average of red,
-green and blue to get the lumonsity channel
+green and blue to get the lumonsity channel by taking the average of
+the red, green and blue channels.  We can do this in numpy by
+computing the mean over the last axis, which is ``axis=2``.  Since
+this is luminosity data, we can do pseudo-color mapping.  
+
+.. ipython::
+
+   # lum for "luminosity"
+   In [14]: lum = im.mean(axis=2)
+
+   In [15]: imshow(lum)
+   Out[15]: <matplotlib.image.AxesImage object at 0x2ade550>
+
+   @savefig stinkbug_spectral.png width=4in
+   In [16]: spectral()
+
+Here the function ``spectral`` acti.jet`` vates the spectral colormap,
+which sets the current colormap to ``cm.spectral`` where ``cm`` is the
+matplotlib colormap module.  There are over 100 colormaps, which you
+can explore via tab completion in IPython.  Two popular colormaps are
+``cm.hot`` for *Heated ObjecT* scale, and ``cm.jet`` which was
+invented by NASA's Jet Propulsion Laboratory.
+
+
+Here are the ones starting with "s"
+
+.. ipython::
+
+   In [21]: import matplotlib.cm as cm
+
+   @verbatim
+   In [22]: cm.s<TAB>
+   cm.spectral    cm.spring      cm.summer      
+   cm.spectral_r  cm.spring_r    cm.summer_r    
+
+You can also pass a colormap into ``imshow`` using the **cmap**
+keyword argument, as in ``imshow(lum, cmap=cm.hot)``.  first, and pass
+a 1D array to the histogram function.
+
+
+A common need in analyzing luminosity images is to enhance the
+contrast by limiting the scale of the colormapping to a tighter range
+than the full 0..1 scale of the pixel intensities.  To accomplish
+this, we can plot a histogram of the pixel intensities, and *clip* the
+color limits to a range that encompasses the bulk of the data.  We
+need to *flatten* the data
+
+.. ipython::
+
+   In [30]: plt.close('all')
+   
+   @savefig stinkbug_hist.png width=4in
+   In [31]: hist(lum.flatten(), 100, range=(0,1));
+
+
+We see that the bulk of the data lies between 0.3 and 0.7, so we can
+update clip the color limits to this range to enhance the contrast
+
+.. ipython::
+
+   In [38]: plt.close('all')
+
+   In [39]: imshow(lum, cmap=cm.spectral)
+   Out[39]: <matplotlib.image.AxesImage object at 0x4acca10>
+   
+   @savefig stinkbug_contrast.png width=5in
+   In [46]: clim(0.3, 0.7)
+
+
+.. scipy_getting_started:
+
+Scipy
+-----
+
+For a quick look at what's available in scipy, just import it and type
+``help scipy`` in IPython.
+
+
+.. sourcecode:: ipython
+
+   In [269]: import scipy
+
+   In [270]: help scipy
+
+The top level packages are shown in the table below.
+
+
+================================ ==============================================
+Package                          Functionality
+================================ ==============================================
+``odr``                          Orthogonal Distance Regression
+``cluster``                      Vector Quantization / Kmeans
+``fftpack``                      Discrete Fourier Transform algorithms
+``io``                           Data input and output
+``special``                      Airy Functions
+``lib.blas``                     Wrappers to BLAS library
+``sparse.linalg.eigen``          Sparse Eigenvalue Solvers
+``stats``                        Statistical Functions
+``lib``                          Python wrappers to external libraries
+``lib.lapack``                   Wrappers to LAPACK library
+``maxentropy``                   Routines for fitting maximum entropy models
+``integrate``                    Integration routines
+``ndimage``                      n-dimensional image package
+``linalg``                       Linear algebra routines
+``spatial``                      Spatial data structures and algorithms
+``interpolate``                  Interpolation Tools
+``sparse.linalg``                Sparse Linear Algebra
+``sparse.linalg.dsolve.umfpack`` Interface to the UMFPACK library
+``sparse.linalg.dsolve``         Linear Solvers
+``optimize``                     Optimization Tools
+``sparse.linalg.eigen.arpack``   Eigenvalue solver using iterative methods.
+``signal``                       Signal Processing Tools
+``sparse``                       Sparse Matrices
+================================ ==============================================
+
+
 
 .. _sample_data:
 
