@@ -1,13 +1,5 @@
 .. _getting_started:
 
-.. ipython::
-   :suppress:
-
-   # set up pylab for ipython mode
-   from pylab import *
-   ion()
-
-
 ================
 Getting started
 ================
@@ -37,6 +29,15 @@ better understanding of how the core pieces fit together, we will look
 at the core pieces that make up any good environment for scientific
 computing, and the Python packages filling these niches that have been
 forged by community development and use.
+
+.. ipython::
+   :suppress:
+   
+   # set up ipython for plotting in pylab
+   In [4]: from pylab import *
+
+   In [5]: ion()
+
 
 .. _mins:
 
@@ -492,15 +493,15 @@ From a terminal window in linux or OS X, you can simply type::
 If you see the following graph pop up, everything is working (if not
 see the matplotlib installation `faq
 <http://matplotlib.sourceforge.net/faq/installing_faq.html>`_ and
-:ref:`how_to_get_help`).
+:ref:`how_to_get_help`).::
 
 
-.. plot::
+  .. plot::
 
-    import matplotlib.pyplot as plt
-    import numpy as np
-    x = np.random.randn(10000)
-    plt.hist( x, 100)
+      import matplotlib.pyplot as plt
+      import numpy as np
+      x = np.random.randn(10000)
+      plt.hist( x, 100)
 
 We'll walk through a simple matplotlib example which also exercises
 some numpy: loading a black and white image and doing some
