@@ -38,7 +38,7 @@ forged by community development and use.
 
    In [5]: ion()
 
-
+   In [6]: bookmark ipy_start
 .. _mins:
 
 MINS
@@ -520,9 +520,37 @@ plot the "stinkbug" image
 
    In [3]: im = imread('stinkbug.png')
 
-   @savefig stinkbug.png
+   @savefig mystinkbug.png width=4in
    In [4]: imshow(im)
    Out[4]: <matplotlib.image.AxesImage object at 0x39ea850>
+
+The image data in ``im`` is an RGB array, which is three 2D images of
+the red, green, and blue planes.  The true data is gray-scale, as we
+see in the image above, so all three channels are identical, as we can
+see by using the numpy ``all`` method, which returns true if every
+element in the array is true
+
+.. ipython::
+
+   In [5]: im.shape
+   Out[5]: (375, 500, 3)
+
+   In [6]: red = im[:,:,0]
+
+   In [7]: green = im[:,:,1]
+
+   In [8]: blue = im[:,:,1]
+
+   In [9]: (red==green).all()
+   Out[9]: True
+
+   In [10]: (red==blue).all()
+   Out[10]: True
+
+
+so we can take any one of these channels to be the "luminosity"
+channel ``lum``, or more generally we can take the average of red,
+green and blue to get the lumonsity channel
 
 .. _sample_data:
 
@@ -589,6 +617,12 @@ Suggestions for further reading
 TODO
 
 
-
+.. ipython::
+   :suppress:
+   
+   # return to home
+   In [4]: cd -b ipy_start
+   
+   In [5]: plt.close('all')
 
 .. include:: links.txt

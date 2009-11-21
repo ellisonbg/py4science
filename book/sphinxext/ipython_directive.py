@@ -158,6 +158,12 @@ class EmbeddedSphinxShell:
         # pyplot as plt so we can make a call to the plt.gcf().savefig
         self._pyplot_imported = False
 
+        # we need bookmark the current dir first so we can save
+        # relative to it
+        self.process_input('bookmark ipy_basedir')
+        self.cout.seek(0)
+        self.cout.truncate(0)
+
     def process_input(self, line):
         'process the input, capturing stdout'
         #print "input='%s'"%self.input
@@ -297,7 +303,10 @@ class EmbeddedSphinxShell:
             self.insure_pyplot()
             command = 'plt.gcf().savefig("%s")'%image_file
             #print 'SAVEFIG', command
+            self.process_input('bookmark ipy_thisdir')
+            self.process_input('cd -b ipy_basedir')
             self.process_input(command)
+            self.process_input('cd -b ipy_thisdir')
             self.cout.seek(0)
             self.cout.truncate(0)
 
@@ -379,9 +388,18 @@ Out[9]: '/home/jdhunter/py4science/book'
 
 In [10]: cd bookdata/
 /home/jdhunter/py4science/book/bookdata
-        
-        """,
 
+In [2]: from pylab import *
+
+In [2]: ion()
+
+In [3]: im = imread('stinkbug.png')
+
+@savefig mystinkbug.png width=4in
+In [4]: imshow(im)
+Out[4]: <matplotlib.image.AxesImage object at 0x39ea850>
+        
+""",
         r"""
 
 In [1]: x = 'hello world'
@@ -492,6 +510,8 @@ In [153]: grid(True)
 
         """,
     ]
+
+        
 
     ipython_directive.DEBUG = True
     #options = dict(suppress=True)
