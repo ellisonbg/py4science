@@ -137,7 +137,7 @@ class EmbeddedSphinxShell:
 
         IPython.Shell.Term.cout = self.cout
         IPython.Shell.Term.cerr = self.cout
-        argv = []
+        argv = ['-autocall', '0']
         self.user_ns = {}
         self.user_glocal_ns = {}
 
@@ -163,7 +163,9 @@ class EmbeddedSphinxShell:
         #print "input='%s'"%self.input
         stdout = sys.stdout
         sys.stdout = self.cout
-        self.IP.push(line)
+        #self.IP.resetbuffer()
+        self.IP.push(self.IP.prefilter(line, 0))
+        #self.IP.runlines(line)
         sys.stdout = stdout
 
 
@@ -230,6 +232,9 @@ class EmbeddedSphinxShell:
 
 
                 # TODO: can we get "rest" from ipython
+                #self.process_input('\n'.join(input_lines))
+
+
                 is_semicolon = False
                 for i, line in enumerate(input_lines):
                     if line.endswith(';'):
@@ -366,7 +371,17 @@ def setup(app):
 
 
 def test():
+
     examples = [
+        r"""
+In [9]: pwd
+Out[9]: '/home/jdhunter/py4science/book'
+
+In [10]: cd bookdata/
+/home/jdhunter/py4science/book/bookdata
+        
+        """,
+
         r"""
 
 In [1]: x = 'hello world'
