@@ -86,6 +86,6 @@ line1, line2 = ax.plot(x1, y1, 'go', x2, y2, 'ro', markersize=2)
 ax.set_title(name)
 
 
-fig.savefig('glass_dots1.png', dpi=100)
-fig.savefig('glass_dots1.eps', dpi=100)
+#fig.savefig('glass_dots1.png', dpi=100)
+#fig.savefig('glass_dots1.eps', dpi=100)
 plt.show()

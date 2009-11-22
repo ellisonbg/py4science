@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 
-if 0:
+if 1:
     r = mlab.csv2rec('csco.csv')
 
 v = r.volume
@@ -31,9 +31,6 @@ for month in range(1,13):
 means = np.array(means)/1e6
 sigmas = np.array(sigmas)/1e6
 nsamples = np.array(nsamples)
-
-
-raise SystemExit()
 
 
 

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 
-if 0:
+if 1:
     r = mlab.csv2rec('csco.csv')
 
 v = r.volume
@@ -31,8 +31,6 @@ means = volumes/nsamples
 sigmas = np.sqrt(volumes2/nsamples - means**2)
 means_err = sigmas/np.sqrt(nsamples-1)
 
-
-raise SystemExit()
 
 
 # display results
