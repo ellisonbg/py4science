@@ -865,7 +865,7 @@ characters from the string
     Out[141]: 'cant'
 
 Here is the entirety of the script, which reads the zip file,
-lowercases and cleans the words of non-alphabetic chaaracters, counts
+lowercases and cleans the words of non-alphabetic characters, counts
 the words, and prints the least and most common ones -- all in 13
 lines of code!
 
@@ -1282,47 +1282,6 @@ written in C and plain-ol-python for solving all kinds of tasks in
 scientific computing, from reading Matlab files, to finding clusters
 in data, to multi-dimensional image processing.
 
-
-For a quick look at what's available in scipy, just import it and type
-``help scipy`` in IPython.
-
-
-.. sourcecode:: ipython
-
-   In [269]: import scipy
-
-   In [270]: help scipy
-
-The top level packages are shown in the table below.
-
-
-================================ ==============================================
-Package                          Functionality
-================================ ==============================================
-``odr``                          Orthogonal Distance Regression
-``cluster``                      Vector Quantization / Kmeans
-``fftpack``                      Discrete Fourier Transform algorithms
-``io``                           Data input and output
-``special``                      Airy Functions
-``lib.blas``                     Wrappers to BLAS library
-``sparse.linalg.eigen``          Sparse Eigenvalue Solvers
-``stats``                        Statistical Functions
-``lib``                          Python wrappers to external libraries
-``lib.lapack``                   Wrappers to LAPACK library
-``maxentropy``                   Routines for fitting maximum entropy models
-``integrate``                    Integration routines
-``ndimage``                      n-dimensional image package
-``linalg``                       Linear algebra routines
-``spatial``                      Spatial data structures and algorithms
-``interpolate``                  Interpolation Tools
-``sparse.linalg``                Sparse Linear Algebra
-``sparse.linalg.dsolve.umfpack`` Interface to the UMFPACK library
-``sparse.linalg.dsolve``         Linear Solvers
-``optimize``                     Optimization Tools
-``sparse.linalg.eigen.arpack``   Eigenvalue solver using iterative methods.
-``signal``                       Signal Processing Tools
-``sparse``                       Sparse Matrices
-================================ ==============================================
 
 
 In this tour, will just scratch the surface and peak under the hood,

@@ -30,6 +30,15 @@ at the core pieces that make up any good environment for scientific
 computing, and the Python packages filling these niches that have been
 forged by community development and use.
 
+.. ipython::
+   :suppress:
+
+   # set up ipython for plotting in pylab
+   In [4]: from pylab import *
+
+   In [5]: ion()
+
+   In [6]: bookmark ipy_start
 .. _mins:
 
 MINS
@@ -53,7 +62,12 @@ major platforms, we won't cover this here, since one size does not fit
 all.  There are good turn-key solutions like EPD and Python(x,y) for
 getting everything in an easy installer, so we'll assume you have
 either installed everything from one of these packages or have
-installed the components yourself.
+installed the components yourself.  Note that while Python(x,y) is
+completely free for academic and commerical use, EPD is free only for
+academic use and others can either try the demo version or pay a
+licensing fee with various levels of support -- the academic download
+is avalable at `EPD academic
+<http://www.enthought.com/products/edudownload.php>`_
 
 .. _python_getting_started:
 
@@ -73,7 +87,7 @@ server in Matlab, you probably wouldn't want to.  In contrast, the
 tools that people often prefer to "roll their own" web application
 server, plotting library or machine learning toolkit rather than use
 someone elses.  This is a bit tongue in cheek: over time communities
-do coalece around successful packages, but in early stages there is
+do coalesce around successful packages, but in early stages there is
 often too much choice rather than too little simply because Python
 developers enjoy writing Python code, since it is so expressive and
 powerful.
@@ -89,8 +103,8 @@ on where you got your Python distribution from; Python(x,y) has a
 launcher dialog from which you can choose from and launch different
 interactive consoles and editors.  In the example below, the command
 with the single prompt ``> python`` is executed in the the linux
-terminal and starts the python interpreter, which uses the a prompt
-```>>>``` for python commands passed to the interactive Python
+terminal and starts the python interpreter, which uses the triple
+prompt ```>>>``` for python commands passed to the interactive Python
 interpreter::
 
   > python
@@ -121,7 +135,7 @@ interpreter::
    enhanced IPython interpreter
 
 
-Now that we've tested the interactive interpeter, next we want to
+Now that we've tested the interactive interpreter, next we want to
 write a simple python script and make sure we can run it in python.
 For this you will need a code editor.  Many hardcore programmers use
 the plain text editors emacs or vi, and there are endless debates and
@@ -155,7 +169,7 @@ characters in "Hello World".
         print(ord(char))
 
 and we can execute this file from the terminal (in windows you can get
-access to a primitize terminal by running ``cmd.exe``)::
+access to a primitive terminal by running ``cmd.exe``)::
 
   > python my_hello.py
   72
@@ -180,8 +194,8 @@ IPython
 The interactive interpreter is one of the core strengths of python.
 Unlike compiled languages like C, FORTRAN and C++ which typically lead
 to a work-flow where you write code, compile it, run it, find
-problems, go back and insert diagnositic ouput, and repeat *ad
-nauseum*, with an interactive interpeter you can explore code and data
+problems, go back and insert diagnostic output, and repeat *ad
+nauseum*, with an interactive interpreter you can explore code and data
 as you develop it.  The Python interpreter is great for this, but is
 not a full featured command shell that you expect if you are used to
 modern terminal environments like the bash shell which include the
@@ -194,7 +208,7 @@ all the desirable features just mentioned and more.
 
 For many people who do scientific computing in Python as part of their
 research or employment, an open IPython shell is as much a feature of
-their everyday, allday work environment as firefox, a terminal shell
+their everyday, all day work environment as firefox, a terminal shell
 and their favorite editor.  For the rest of this book, we'll spend
 *most* of our time in an IPython shell.  We can launch it just like we
 launched the plain vanilla Python interpreter above, but this time
@@ -347,7 +361,7 @@ names.
 
 But no matter how you are configured, those are a lot of symbols --
 the basic numpy array is feature rich and powerful.  Below are a
-sampling with intuituve names -- try ``help`` on any method to see
+sampling with intuitive names -- try ``help`` on any method to see
 more information, for example in ipython you can type ``help x.clip``.
 
 
@@ -413,7 +427,7 @@ quality 2D graphics.  Data visualization is a rich area, and there
 many different things people want to do when generating graphics.
 Perhaps the most common is exploratory analysis where you want to
 load, process, and plot data interactively at the command line prompt,
-and matplot lib supports this in conjunction with IPython in the
+and matplotlib supports this in conjunction with IPython in the
 *pylab* mode, which provides a Matlab-like environment for easily
 creating and manipulating plots with a procedural interface that is
 easy for scientists with little programming expertise to master.
@@ -484,11 +498,220 @@ see the matplotlib installation `faq
 
 
 .. plot::
+   :width: 4in
 
-    import matplotlib.pyplot as plt
-    import numpy as np
-    x = np.random.randn(10000)
-    plt.hist( x, 100)
+   import matplotlib.pyplot as plt
+   import numpy as np
+   x = np.random.randn(10000)
+   plt.hist( x, 100)
+
+We'll walk through a simple matplotlib example which also exercises
+some numpy: loading a black and white image and doing some
+pseudo-color mapping using a photo taken by Michael Sarahan and used
+in his matplotlib `image tutorial
+<http://matplotlib.sourceforge.net/users/image_tutorial.html>`_.
+
+First we navigate to the :ref:`sample_data` directory and load and
+plot the "stinkbug" image with pyplot's `imshow
+<http://matplotlib.sourceforge.net/api/pyplot_api.html#matplotlib.pyplot.imshow>`_
+
+
+.. ipython::
+
+   In [2]: cd bookdata/
+   /home/jdhunter/py4science/book/bookdata
+
+   In [3]: im = imread('stinkbug.png')
+
+   @savefig mystinkbug.png width=4in
+   In [4]: imshow(im)
+   Out[4]: <matplotlib.image.AxesImage object at 0x39ea850>
+
+The image data in ``im`` is an RGB array, which is three 2D images of
+the red, green, and blue planes.  The true data is gray-scale, as we
+see in the image above, so all three channels are identical, as we can
+see by using the numpy `all
+<http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.all.html>`_
+method, which returns true if every element in the array is true.
+
+.. ipython::
+
+   In [5]: im.shape
+   Out[5]: (375, 500, 3)
+
+   In [6]: red = im[:,:,0]
+
+   In [7]: green = im[:,:,1]
+
+   In [8]: blue = im[:,:,2]
+
+   In [9]: (red==green).all()
+   Out[9]: True
+
+   In [10]: (red==blue).all()
+   Out[10]: True
+
+
+so we can take any one of these channels to be the "luminosity"
+channel ``lum``, or more generally we can take the average of red,
+green and blue to get the lumonsity channel by taking the average of
+the red, green and blue channels.  We can do this in numpy by
+computing the mean over the last axis, which is ``axis=2``.  Since
+this is luminosity data, we can do pseudo-color mapping.
+
+.. ipython::
+
+   # lum for "luminosity"
+   In [14]: lum = im.mean(axis=2)
+
+   In [15]: imshow(lum)
+   Out[15]: <matplotlib.image.AxesImage object at 0x2ade550>
+
+   @savefig stinkbug_spectral.png width=4in
+   In [16]: spectral()
+
+Here the function `spectral
+<http://matplotlib.sourceforge.net/api/pyplot_api.html#matplotlib.pyplot.spectral>`_
+activates the spectral colormap, which sets the current colormap to
+``cm.spectral`` where ``cm`` is the matplotlib colormap module
+`matplotlib.cm <http://matplotlib.sourceforge.net/api/cm_api.html>`_.
+There are over 100 colormaps, which you can explore via tab completion
+in IPython.  Two popular colormaps are ``cm.hot`` for *Heated ObjecT*
+scale, and ``cm.jet`` which was invented by NASA's Jet Propulsion
+Laboratory.
+
+
+
+
+A common need in analyzing luminosity images is to enhance the
+contrast by limiting the scale of the colormapping to a tighter range
+than the full 0..1 scale of the pixel intensities.  To accomplish
+this, we can plot a histogram of the pixel intensities, and *clip* the
+color limits to a range that encompasses the bulk of the data.  We
+need to *flatten* the data using the `flatten <http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.flatten.html>`_ method which takes an
+N dimensional array and flattens it into a 1D array.
+
+.. ipython::
+
+   In [30]: plt.close('all')
+
+   @savefig stinkbug_hist.png width=4in
+   In [31]: hist(lum.flatten(), 100, range=(0,1));
+
+
+We see that the bulk of the data lies between 0.3 and 0.7, so we can
+update clip the color limits to this range to enhance the contrast
+
+.. ipython::
+
+   In [38]: plt.close('all')
+
+   In [39]: imshow(lum, cmap=cm.spectral)
+   Out[39]: <matplotlib.image.AxesImage object at 0x4acca10>
+
+   @savefig stinkbug_contrast.png width=5in
+   In [46]: clim(0.3, 0.7)
+
+
+As in the example above, you can also pass a colormap into ``imshow``
+using the *cmap* keyword argument, as in ``imshow(lum,
+cmap=cm.hot)``.  first, and pass a 1D array to the histogram function.
+
+Here are the ones starting with "s"
+
+.. ipython::
+
+   In [21]: import matplotlib.cm as cm
+
+   @verbatim
+   In [22]: cm.s<TAB>
+   cm.spectral    cm.spring      cm.summer
+   cm.spectral_r  cm.spring_r    cm.summer_r
+
+All of the colormaps have a *reversed* counterpart named with the
+postfix "_r" (eg ``summer`` and ``summer_r``) which inverts the
+normal color order of the map from luminosity to color.  For, example,
+``cm.gray`` maps 0.0 to black and 1.0 to white, and ``cm.gray_r`` maps
+0.0 to white and 1.0 to black.
+
+.. ipython::
+
+   In [62]: plt.close('all')
+
+   In [63]: X = np.arange(96).reshape(12,8)
+
+   # one row, two columns, first (left) axes
+   In [64]: subplot(121)
+   Out[64]: <matplotlib.axes.AxesSubplot object at 0x5dbe6d0>
+
+   In [65]: imshow(X, origin='lower', cmap=cm.gray)
+   Out[65]: <matplotlib.image.AxesImage object at 0x5de6450>
+
+   # one row, two columns, second (right) axes
+   In [66]: subplot(122)
+   Out[66]: <matplotlib.axes.AxesSubplot object at 0x5ded110>
+
+   @savefig cmap_reversed.png width=5in
+   In [67]: imshow(X, origin='lower', cmap=cm.gray_r)
+   Out[67]: <matplotlib.image.AxesImage object at 0x610f090>
+
+.. scipy_getting_started:
+
+Scipy
+-----
+
+For a quick look at what's available in scipy, just import it and type
+``help scipy`` in IPython.
+
+
+.. sourcecode:: ipython
+
+   In [269]: import scipy
+
+   In [270]: help scipy
+
+The top level packages are shown in the table below.
+
+
+================================ ==============================================
+Package                          Functionality
+================================ ==============================================
+``odr``                          Orthogonal Distance Regression
+``cluster``                      Vector Quantization / Kmeans
+``fftpack``                      Discrete Fourier Transform algorithms
+``io``                           Data input and output
+``special``                      Airy Functions
+``lib.blas``                     Wrappers to BLAS library
+``sparse.linalg.eigen``          Sparse Eigenvalue Solvers
+``stats``                        Statistical Functions
+``lib``                          Python wrappers to external libraries
+``lib.lapack``                   Wrappers to LAPACK library
+``maxentropy``                   Routines for fitting maximum entropy models
+``integrate``                    Integration routines
+``ndimage``                      n-dimensional image package
+``linalg``                       Linear algebra routines
+``spatial``                      Spatial data structures and algorithms
+``interpolate``                  Interpolation Tools
+``sparse.linalg``                Sparse Linear Algebra
+``sparse.linalg.dsolve.umfpack`` Interface to the UMFPACK library
+``sparse.linalg.dsolve``         Linear Solvers
+``optimize``                     Optimization Tools
+``sparse.linalg.eigen.arpack``   Eigenvalue solver using iterative methods.
+``signal``                       Signal Processing Tools
+``sparse``                       Sparse Matrices
+================================ ==============================================
+
+
+To get additional information about a subpackage, you first need to
+import it, and then ask for help on the package.
+
+
+.. ipython::
+   :verbatim:
+
+   In [48]: import scipy.optimize
+
+   In [49]: help scipy.optimize
 
 
 
@@ -557,6 +780,12 @@ Suggestions for further reading
 TODO
 
 
+.. ipython::
+   :suppress:
 
+   # return to home
+   In [4]: cd -b ipy_start
+
+   In [5]: plt.close('all')
 
 .. include:: links.txt
