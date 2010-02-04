@@ -68,6 +68,7 @@ Day 1
     without them.
 
   * Debugging your programs 1:
+  
     * What is a traceback? How do you read it? Typo, indentation errors,
       NameErrors.
     * %xmode verbose
@@ -75,26 +76,14 @@ Day 1
 
 
 * FP Introduction to NumPy arrays.
-  * Creating arrays: array(), ones, zeros, random, *_like(), loadtxt
+
+  * Creating arrays: array(), ones, zeros, random, ?_like(), loadtxt
   * dtype, shape: 1d, 2d.
   * Basic operations: arithmetic and slicing.
   * attributes, tab complete on them.
   * mean, std, axis= operations
   * Saving and reloading arrays on disk.
 
-  * sine wave
-  * exponential
-  * add noise to it
-  * random matrix (uniform, normal). Show histograms.
-  * row, column operations
-  * reshape an array 1, 2, 3d
-  * flat views
-  
-* JDH ODEs: the Lotka-Volterra system.
-
-
-Day 2
------
 
 * JDH Working with data
   * Reading files.
@@ -105,10 +94,49 @@ Day 2
   * Record arrays. Stock demo.
   * Exercise: compute monthly trading volume average.
   
+* FP FFT image denoising.
+
+
+Day 2
+-----
+
+* FP: 
+  * monthly averages with arrays of zeros, single-pass implementation.
+  * numpy load/save - random numbers compare to txt
+
+  * dicts - ? Words?
+  * functions - args, keywords, docstrings
+
+* JDH: random walkers
+
+* FP: Glass dots
+
+Topics not covered
+------------------
+
 * FP  Statistics:
   - review basic descriptive statistics
-  - stats distributions of neuron spiking
-
-* JDH FFT denoising.
+  - stats distributions of neuron spiking/radioactive decay
 
 * FP Logistic map, fancier
+
+* JDH ODEs: the Lotka-Volterra system.
+
+
+Notes
+-----
+
+- To stop scripts mid-way:
+  raise SystemExit(0)  # also see %run -e
+
+- %logstart
+
+- Missed on intro
+
+  * sine wave
+  * exponential
+  * add noise to it
+  * random matrix (uniform, normal). Show histograms.
+  * row, column operations
+  * reshape an array 1, 2, 3d
+  * flat views
