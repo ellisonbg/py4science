@@ -23,6 +23,8 @@ Contents:
    whirlwind_tour.rst
    numpy_intro.rst
    exercises_intro.rst
+   fft_imdenoise
+   statistics
    roadshow.rst
    glossary.rst
 
