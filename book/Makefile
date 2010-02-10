@@ -11,7 +11,8 @@ PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
 ALLSPHINXOPTS   = -d _build/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
-.PHONY: help clean html dirhtml pickle json htmlhelp qthelp latex changes linkcheck doctest
+.PHONY: help clean cleantex html dirhtml pickle json htmlhelp qthelp latex \
+        changes linkcheck doctest
 
 default: html
 
@@ -30,6 +31,9 @@ help:
 
 clean:
 	-rm -rf _build/*
+
+cleantex:
+	-rm -rf _build/latex/*
 
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) _build/html
@@ -68,6 +72,9 @@ qthelp:
 
 pdf: latex
 	cd _build/latex && make all-pdf
+	-mkdir -p dist
+	-rm -f dist/*.pdf
+	-cd _build/latex && ln course.pdf py4science.pdf mscomp*pdf ../../dist
 
 latex:
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) _build/latex

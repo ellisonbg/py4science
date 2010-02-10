@@ -22,19 +22,29 @@ sys.path.append(os.path.abspath('sphinxext'))
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.doctest', 'sphinx.ext.intersphinx',
+extensions = ['sphinx.ext.doctest',
+              'sphinx.ext.autodoc',
+              'sphinx.ext.intersphinx',
               'sphinx.ext.todo',
               #'sphinx.ext.jsmath',
+              'sphinx.ext.pngmath',
               'sphinx.ext.ifconfig',
+              
               'ipython_console_highlighting',
               'math_dollar',
               'cite',
               # mpl extensions
-              'matplotlib.sphinxext.mathmpl',
+              #'matplotlib.sphinxext.mathmpl',
               'matplotlib.sphinxext.only_directives',
               'matplotlib.sphinxext.plot_directive',
               'ipython_directive',
+              'numpydoc',  # to preprocess docstrings
               ]
+
+# Turn plot errors into full build stops
+import warnings
+from matplotlib.sphinxext import plot_directive
+warnings.simplefilter('error', plot_directive.PlotWarning)
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -43,7 +53,7 @@ templates_path = ['_templates']
 source_suffix = '.rst'
 
 # The encoding of source files.
-#source_encoding = 'utf-8'
+source_encoding = 'utf-8'
 
 # The master toctree document.
 master_doc = 'index'
@@ -77,7 +87,7 @@ release = '0.1'
 
 # List of directories, relative to source directory, that shouldn't be searched
 # for source files.
-exclude_trees = ['_build']
+exclude_trees = ['_build', 'build']
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None
@@ -133,7 +143,7 @@ html_theme = 'default'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ['_static', 'fig']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -179,7 +189,6 @@ html_static_path = ['_static']
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'py4science'
 
-
 # -- Options for LaTeX output --------------------------------------------------
 
 # The paper size ('letter' or 'a4').
@@ -190,11 +199,24 @@ latex_font_size = '11pt'
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
-latex_documents = [
-    ('index', 'py4science.tex',
-     u'Scientific Computing in Python',
-     authors, 'manual'),
-    ]
+book = ('index', 'py4science.tex',
+        u'Scientific Computing in Python',
+        authors, 'manual')
+
+course_outline = ('course', 'course.tex', u'Course outline', authors, 'howto')
+
+problem_sets = range(1,4)
+problems = [  ('problems/index_problem_set_%s' % i,
+               'mscomp_problems_%s.tex' % i,
+               u'Problem set \#%s' % i,
+               authors, 'howto') for i in problem_sets ]
+
+# All
+latex_documents = [book, course_outline] + problems
+# To just build a few
+latex_documents = problems[2:3]
+latex_documents = problems[0:1]
+latex_documents = problems
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
@@ -205,7 +227,9 @@ latex_documents = [
 #latex_use_parts = False
 
 # Additional stuff for the LaTeX preamble.
-#latex_preamble = ''
+latex_preamble = """
+\pagestyle{plain}
+"""
 
 # Documents to append as an appendix to all manuals.
 #latex_appendices = []
@@ -227,3 +251,8 @@ latex_elements = dict(#docclass = 'article',
                       #classoptions = ',english,twocolumn',
                       fontpkg=r'\usepackage{textcomp}',
                       )
+
+
+# The setting for student or instructor display. Uncomment the relevant line:
+tags.add('instructor')
+#tags.add('student')

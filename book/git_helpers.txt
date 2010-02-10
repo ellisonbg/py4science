@@ -19,3 +19,48 @@ Commit to the master::
 
 
 testing123
+
+
+
+Aquí van algunos links sobre Git y contol de versiones que les pueden
+ser útiles.  Hay más de lo necesario, pero son tutoriales en distintos
+estilos, así que lean uno o dos cuyo tono y nivel les resulte útil:
+
+- El tutorial básico escrito por los propios autores de git:
+http://kernel.org/pub/software/scm/git-core/docs/gittutorial.html
+
+- Uno para quienes están acostumbrados a SVN:
+http://git-scm.org/course/svn.html
+
+- Esto no es un tutorial de uso, sino más bien una explicación del
+modelo abstracto de git.  Para mí, fué el documento más útil y claro
+de todo lo que he encontrado:
+http://www.eecs.harvard.edu/~cduan/technical/git/
+
+- Una introducción con un buen video explicativo:
+http://learn.github.com/p/intro.html
+
+- Otra excelente introducción con muy buenos diagramas visuales:
+http://www.ralfebert.de/blog/tools/visual_git_tutorial_1/
+
+- Una guía orientada para  Windows: http://nathanj.github.com/gitguide/tour.html
+
+- Uno corto pero útil en dos partes:
+http://smalltalk.gnu.org/blog/bonzinip/using-git-without-feeling-stupid-part-1
+http://smalltalk.gnu.org/blog/bonzinip/using-git-without-feeling-stupid-part-2
+
+- Uno más detallado:
+http://www-cs-students.stanford.edu/~blynn/gitmagic/index.html
+
+- Un par de libros enteros sobre el tema, ambos disponibles online gratis:
+http://book.git-scm.com/
+http://progit.org/book/
+
+- Un par de hojas de referencia que puede imprimir o tener en pantalla:
+http://zrusin.blogspot.com/2007/09/git-cheat-sheet.html
+http://jan-krueger.net/development/git-cheat-sheet-extended-edition
+
+- Una muy buena utilidad para ver un log 'gráfico' en la misma terminal:
+http://www.ralfebert.de/blog/tools/git_log_helper/
+
+- http://www.gitready.com/

@@ -18,16 +18,17 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   why_python.rst
-   getting_started.rst
-   whirlwind_tour.rst
-   numpy_intro.rst
-   exercises_intro.rst
+   why_python
+   getting_started
+   whirlwind_tour
+   numpy_intro
+   exercises_intro
    fft_imdenoise
    statistics
-   roadshow.rst
-   glossary.rst
+   roadshow
+   glossary
 
+   
 Indices and tables
 ==================
 
