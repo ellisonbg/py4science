@@ -214,9 +214,7 @@ problems = [  ('problems/index_problem_set_%s' % i,
 # All
 latex_documents = [book, course_outline] + problems
 # To just build a few
-latex_documents = problems[2:3]
-latex_documents = problems[0:1]
-latex_documents = problems
+#latex_documents = problems[2:3]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
