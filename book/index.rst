@@ -23,7 +23,6 @@ Contents:
    whirlwind_tour
    numpy_intro
    exercises_intro
-   fft_imdenoise
    statistics
    roadshow
    glossary

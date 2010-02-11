@@ -44,9 +44,11 @@ Week 2
    http://matplotlib.sourceforge.net/users/image_tutorial.html
    
    Homework: Bessel functions. Polynomial roots?  Log plots, scatter
-   plots. Bessel functions, scipy.  Link to stinkbug tut.
+   plots. Bessel functions, scipy.  
 
-5. More matplotlib intro.  Pylab vs axis creation, some examples.  set*
+5. Discuss hw (bessel). Give link to stinkbug tut online.
+
+   More matplotlib intro.  Pylab vs axis creation, some examples.  set*
    methods. matplotlib.image
 
    A little on testing and docstrings.  Doctests.

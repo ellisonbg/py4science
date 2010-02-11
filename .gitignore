@@ -2,3 +2,7 @@ _build
 build
 bookdata/build
 book/dist/
+book/tmp/
+book/_static/stinkbug_*.png
+book/_static/mystinkbug*
+book/_static/cmap_reversed.png
