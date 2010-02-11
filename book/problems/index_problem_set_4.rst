@@ -5,5 +5,5 @@
 .. toctree::
    :maxdepth: 2
 
-   fft_imdenoise
+   moon_denoise
    

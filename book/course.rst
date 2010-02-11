@@ -43,21 +43,21 @@ Week 2
    Matplotlib intro with stinkbug tutorial:
    http://matplotlib.sourceforge.net/users/image_tutorial.html
    
-   Homework: Bessel functions. Polynomial roots?  Log plots, scatter
-   plots. Bessel functions, scipy.  
+   Homework: Bessel functions.  Log plots, scatter plots.
 
 5. Discuss hw (bessel). Give link to stinkbug tut online.
 
    More matplotlib intro.  Pylab vs axis creation, some examples.  set*
-   methods. matplotlib.image
+   methods.
 
-   A little on testing and docstrings.  Doctests.
-   
    Homework: FFT image denoising. 
 
 6. Enthought Webinar: numpy and statistics.  Descriptive stats materials.
 
-   Homework: 
+   A little on testing and docstrings.  Doctests. Interactive debugging with
+   %debug, and %run -d.
+  
+   Homework: Descriptive statistics,  Polynomial roots?
 
    
 Week 3
