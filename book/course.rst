@@ -53,9 +53,6 @@ Week 2
    Homework: FFT image denoising. 
 
 6. Enthought Webinar: numpy and statistics.  Descriptive stats materials.
-
-   A little on testing and docstrings.  Doctests. Interactive debugging with
-   %debug, and %run -d.
   
    Homework: Descriptive statistics,  Polynomial roots?
 
@@ -63,13 +60,21 @@ Week 2
 Week 3
 ======
 
-7. I/O: text & binary. Record arrays. Web data, urrlib, financial data.
+7. Sympy.
 
-   Homework: 
+   I/O: text & binary. Record arrays. Web data, urrlib, financial data.
 
+   Running scripts with errors, interactive debugging.
+
+   A little on testing and docstrings.  Doctests. Interactive debugging with
+   %debug, and %run -d.
+
+   Homework: symbolic polynomials, validation. Newton root finding.
+
+   
 8. Exceptions, classes and OO programming.
 
-   Homework: eigenfaces
+   Homework: eigenfaces, data problem.
 
 9. Presented by Manuel Paez (I'm gone)
 
@@ -85,7 +90,7 @@ Week 4
 
     Homework:
     
-12. Demos: Sage, sympy, mayavi.  Wrapup.
+12. Demos: Sage, mayavi.  Wrapup.
 
 
 Extras

@@ -56,21 +56,28 @@ spatial domain.  You can plot the input and output images with
 image in the Figure's upper right panel.  This is due to the fact that the
 power spectrum has a small number of pixels with extremely high amplitude,
 which completely swamp the contrast (you can verify this by playing with a
-histogram of the data).
+histogram of the data).  You will thus need to clip the limits of the color
+range to a small range of values where most of the power actually lives (say
+95%).
+
 
 Hints
 -----
 
-The upper right panel is thus obtained after finding the range of values that
-contain 95% of the power.  For this, the :func:`mlab.prctile` function will be
-useful.
+* The upper right panel is obtained after finding the range of values that
+  contain 95% of the power.  For this, the :func:`mlab.prctile` function will
+  be useful.
 
+* The :mod:`numpy.fft` module contains the necessary FFT routines for this
+  exercise.
 
+* In Python, a complex number ``z`` has ``z.real`` and ``z.imag`` attributes
+  for its real and imaginary parts.  
 
 
 .. only:: instructor
 
    Solution
-   --------
+   ~~~~~~~~
 
    .. literalinclude:: examples/moon_denoise.py
