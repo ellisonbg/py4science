@@ -159,19 +159,26 @@ def spoly2npoly1d(poly):
 def sym_rpoly(na=None, nb=None, nk=None, nterms=None):
     """Compute the R polynomial as defined above.
 
-    The construction is done symbolically but the coefficients are evaluated
-    numerically from the arrays supplied, unless there are no arrays given.  In
-    this case, nterms *must* be given, and a symbolic answer is returned.
+    Internally the construction of R is done symbolically. If the numerical
+    variables (na, nb, nk) were supplied, these values are substituted at the
+    end and a sympy.Poly object with numerical coefficients is returned.  If
+    (na, nb, nk) are not given, then nterms *must* be given, and a symbolic
+    answer is returned.
 
     Parameters
     ----------
-    na : ndarray
+    na : ndarray, optional
+      Numerical array of 'a' coefficients.
 
-    nb : ndarray
+    nb : ndarray, optional
+      Numerical array of 'b' coefficients.
 
-    k : float
+    k : float, optional
+      Numerical value of k.
 
-    nterms : number of terms, optional.
+    nterms : int, optional.
+      Number of terms. This is only used if na, nb and nk are *not* given, in
+      which case a symbolic answer is returned with nterms total.
 
     Returns
     -------
@@ -180,8 +187,12 @@ def sym_rpoly(na=None, nb=None, nk=None, nterms=None):
 
     Examples
     --------
+    With only nterms, a symbolic polynomial is returned:
     >>> sym_rpoly(nterms=1)
     Poly(x**2 - k*x - b_0*k/a_0, x)
+
+    But if numerical values are supplied, the output polynomial has numerical
+    values:
     >>> sym_rpoly([2], [5], 3)
     Poly(x**2 - 3*x - 15/2, x)
     >>> sym_rpoly([1, 2], [4, 6], 1)
@@ -326,7 +337,7 @@ def num_rpoly2(a, b, k):
 
 
 def test_compare_with_sympy():
-    """Use the symbolic solution as a reference for the numpy ones."
+    """Use the symbolic solution as a reference for the numpy ones."""
     import numpy.testing as npt
     
     a = np.array([3.4, 4.5, 3.2])
@@ -358,8 +369,8 @@ if __name__ == '__main__':
     Rs = sym_rpoly(a, b, k)
     Rns = spoly2npoly1d(Rs)
 
-    print('R(x) = \n', Rn)
-    print('R(x) = \n', Rs)
+    print('Numpy, R(x) =', Rn, sep='\n')
+    print('Sympy, R(x) =', Rs, sep='\n')
     roots = Rn.roots
     roots.sort()
     print()

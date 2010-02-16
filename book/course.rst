@@ -60,23 +60,41 @@ Week 2
 Week 3
 ======
 
-7. Sympy.
+7. Poly homework quick review. Poly1d objects, binops with scalars.
 
-   I/O: text & binary. Record arrays. Web data, urrlib, financial data.
+   Sympy.  Introduction, together, apart, fraction, simplify, expand.
 
-   Running scripts with errors, interactive debugging.
+   - Show tutorial, gotchas page.
+   - Symbol(), symbols, var.
+   - Eq().
+   - Discuss symarray(). Process.-+
+   
 
    A little on testing and docstrings.  Doctests. Interactive debugging with
-   %debug, and %run -d.
+   %debug, and %run -d script.py.
+
+   Fix script, %run -t.
+
 
    Homework: symbolic polynomials, validation. Newton root finding.
 
    
-8. Exceptions, classes and OO programming.
+8. I/O: text & binary.
 
-   Homework: eigenfaces, data problem.
+   np.loadtxt, np.load,
+   np.savetxt, np.save, np.savez
 
-9. Presented by Manuel Paez (I'm gone)
+   Simple record arrays.
+
+   Discuss tdd.py   
+
+   Record arrays
+   
+   Exceptions, classes and OO programming.
+
+   Homework: data problem.
+
+9. Presented by Jorge and Diego (I'm gone)
 
 
 Week 4
