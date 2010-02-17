@@ -205,7 +205,7 @@ book = ('index', 'py4science.tex',
 
 course_outline = ('course', 'course.tex', u'Course outline', authors, 'howto')
 
-problem_sets = range(1,6)
+problem_sets = range(1,7)
 problems = [  ('problems/index_problem_set_%s' % i,
                'mscomp_problems_%s.tex' % i,
                u'Problem set \#%s' % i,
@@ -213,8 +213,9 @@ problems = [  ('problems/index_problem_set_%s' % i,
 
 # All
 latex_documents = [book, course_outline] + problems
-# To just build a few
-latex_documents = problems[4:5]
+# To just build a few, select here.  Keep in mind the files are named counting
+# from 1...
+latex_documents = problems[5:6]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
@@ -252,5 +253,5 @@ latex_elements = dict(#docclass = 'article',
 
 
 # The setting for student or instructor display. Uncomment the relevant line:
-#tags.add('instructor')
-tags.add('student')
+tags.add('instructor')
+#tags.add('student')
