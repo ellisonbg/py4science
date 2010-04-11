@@ -39,6 +39,7 @@ forged by community development and use.
    In [5]: ion()
 
    In [6]: bookmark ipy_start
+
 .. _mins:
 
 MINS
@@ -63,16 +64,17 @@ all.  There are good turn-key solutions like EPD and Python(x,y) for
 getting everything in an easy installer, so we'll assume you have
 either installed everything from one of these packages or have
 installed the components yourself.  Note that while Python(x,y) is
-completely free for academic and commerical use, EPD is free only for
+completely free for academic and commercial use, EPD is free only for
 academic use and others can either try the demo version or pay a
 licensing fee with various levels of support -- the academic download
-is avalable at `EPD academic
+is available at `EPD academic
 <http://www.enthought.com/products/edudownload.php>`_
+
 
 .. _python_getting_started:
 
 The Python Language
--------------------
+===================
 
 As we discussed at some length in :ref:`why_python`, the major reasons
 to use Python for scientific computing are: the language itself, the
@@ -146,7 +148,7 @@ these editors will pay off in spades, but does entail a significant
 "up-front" cost.  There are a variety of choices for those who prefer
 a graphical user interface environment for their editor, with the
 traditional "File/Edit" menus for loading and saving files with a
-mouse and doing search-and-replace operations.  A good choice is `Idle <http://docs.python.org/library/idle.html>`,
+mouse and doing search-and-replace operations.  A good choice is `Idle <http://docs.python.org/library/idle.html>`_,
 a tkinter based editor which comes with the standard Python distribution.
 Another good choice is the `SciTE
 <http://www.scintilla.org/SciTE.html>`_ editor which ships with
@@ -214,7 +216,7 @@ introduce below, this won't be necessary.
 .. _ipython_getting_started:
 
 IPython
---------
+========
 
 The interactive interpreter is one of the core strengths of python.
 Unlike compiled languages like C, FORTRAN and C++ which typically lead
@@ -279,10 +281,332 @@ section below.  For now we want to complete our tour of the basic MINS
 components to make sure everything is installed and working properly.
 
 
+
+.. _python_mini_tutorial:
+
+A Python Mini-Tutorial
+======================
+
+Python is a full-featured language which supports many programming
+idioms, including proceedural, functional, and object oriented
+concepts.  It comes with a rich `standard library
+<http://docs.python.org/library/>`_ consisting of *hundreds* of modules
+in the standard installation.  There are many excellent tutorials
+including the offical `Python Tutorial
+<http://docs.python.org/tutorial/index.html>`_ and free books online
+suvh as `Dive Into Python <http://diveintopython.org/>`_ and other
+excellent print books such as `The Python Essential Reference
+<http://www.amazon.com/Python-Essential-Reference-David-Beazley/dp/0672329786/ref=sr_1_1?ie=UTF8&s=books&qid=1271019394&sr=8-1>`_
+and the `Python Cookbook <http://oreilly.com/catalog/9780596001674>`_.
+
+
+Many scientists and engineers want to solve a specific problem, eg, to
+make a certain kind of graph, to numerically integrate an equation, or
+to fit some data to a parametric model, and don't have the time or
+interest to read several books or tutorials to get what they want.
+This guide is for them: a short overview of the language to help them
+get to what they want as quickly as possible.  We get to advanced
+material pretty quickly in this book, so it may be tough sledding if
+you are a python newbie.  Take in what you can, you can always come
+back to absorb more detail later, and digest these excellent tutorials
+and books referenced above as you have time.  Since we cannot begin to
+do justice to the breadth and depth of materail these resources cover,
+we won't try.  Rather, we will provide just the bare minimum for the
+reader who wants to get started right away using python for scientific
+computing.  We assume you have some experience with another
+programming language or two, and are comfortable with the concepts of
+variable types, for loops, function calls, and compilers.  We'll
+introduce you how to map these concepts into python.
+
+
+Python is a dynamically typed, object oriented, interpreted language.
+Interpreted means that your program interacts with the Python
+interpreter, similar to Matlab, Perl, Tcl and Java, and unlike
+FORTRAN, C, or C++ which are compiled.  If you've been following
+along, you know how to start the Python interpreter and the IPython
+interpreter.  You don't need IPython to learn Python itself, but since
+this is the environment we'll be using throughout the book, and since
+it is so helpful for inspecting and getting help on objects in python,
+we'll be using IPython in this mini-python tutorial.
+
+
+Python as a calculator
+----------------------
+
+You can use Python as a powerful calculator.
+
+.. ipython::
+
+   In [5]: 2+2
+   Out[5]: 4
+
+   In [6]: 123 * 234
+   Out[6]: 28782
+
+   In [7]: 2**100
+   Out[7]: 1267650600228229401496703205376L
+
+The basic mathematical functions like sqrt, exp, and sin, as well as
+numerical constants like $e$ and $\pi$ are provided by the standard
+library module `math <http://docs.python.org/library/math.html>`_
+which must be explicitly imported.
+
+.. ipython::
+
+   In [234]: import math
+
+   In [235]: math.sin(2*math.pi)
+   Out[235]: -2.4492127076447545e-16
+
+Notice that the result, while close to zero, is not exactly zero due
+to the floating point limitations in the representation of $\pi$ and
+the implementation of ``sin``.
+
+Although the floating point representation is limited to the size of a
+C-double, Python does support arbitrarily large integers in its long
+type (unlike a C long which are at least 4 bytes but have a finite
+size).  So you can compute arbitrarily large integer arithmetic
+expressions, limited only by your computer's memory and processor.
+
+There are two common confusions in Python involving floating point
+numbers.  The first potential gotcha to be aware of for those with
+limited experience in Python or C.  In Python 2.X, the ratio of two
+integers is always an integer, truncated to the nearest integer.  So
+1/2 returns 0, not the expected 0.5.  If you want floating point
+division, make sure either the numerator or denominator or both is a
+floating point number.
+
+.. ipython::
+
+   @verbatim
+   In [239]: 1/2
+   Out[239]: 0
+
+   In [240]: 1.0/2.0
+   Out[240]: 0.5
+
+This wart, or feature depending on your worldview, was removed in
+Python 3.0, which introduced a new operator ``//`` for those who want
+to get an integer back, and returns a floating point number when using
+the ``/`` division operator.
+
+The other floating point surprise for new users is the representation
+of numbers like 1/10 or 2/3, which reflect the limited accuracy of
+floating point representations.
+
+.. ipython::
+
+   In [242]: 0.1
+   Out[242]: 0.10000000000000001
+
+   In [243]: 2/3.
+   Out[243]: 0.66666666666666663
+
+
+
+Python is dynamically typed
+-----------------------------
+
+In the example above we computed $2^100$
+
+.. ipython::
+
+   In [7]: 2**100
+   Out[7]: 1267650600228229401496703205376L
+
+
+The "L" at the end of the last example is interesting.  It means that
+the result of $2^100$ in Python is a long integer, unlike the plain
+integers 2 and 100.  Python is dynamically typed, and there are
+several built-in numerical types such as integer, float and long to
+represent numerical data.  Let's explore this for the numbers in the
+example above using Python's built-in "type" function, which takes a
+Python object as input and returns the type of the object.
+
+.. ipython::
+
+   In [8]: type(2)
+   Out[8]: <type 'int'>
+
+   In [9]: type(2**100)
+   Out[9]: <type 'long'>
+
+Unlike C or C++, in which we declare a variable like ``int x`` and x
+will now and forever more be an integer, in Python the variables are
+names which point to objects, and a name can be reassigned to a
+different object of a different type.  Let's see this in action where
+we assign the name ``x`` to the largest integer available on my 32-bit
+system, and then add 1 to it.  This will overflow the maximum integer
+into a long.  On a 32-bit system, the largest signed integer is
+$2^31-1$, which can be found in the standard library module ``sys`` as
+``sys.maxint``.  To import a Python module, either from the standard
+library or 3rd part code, you simply ``import`` it.
+
+.. ipython::
+
+  In [221]: import sys
+
+  # the largest integer on a 32 bit system 2^31-1
+  @verbatim
+  In [222]: sys.maxint
+  Out[222]: 2147483647
+
+  In [223]: x = sys.maxint
+
+  # x is an int
+  @verbatim
+  In [224]: type(x)
+  Out[224]: <type 'int'>
+
+  @verbatim
+  In [225]: x
+  Out[225]: 2147483647
+
+  # if we add 1, we overflow from int -> long
+  In [226]: x = x+1
+
+  # x is now a long
+  @verbatim
+  In [227]: type(x)
+  Out[227]: <type 'long'>
+
+  @verbatim
+  In [228]: x
+  Out[228]: 2147483648L
+
+Likewise, we could simply assign the name ``x`` to a non-numeric type
+such as a sring.
+
+.. ipython::
+
+   In [230]: x = 'this is a string'
+
+   In [231]: x
+   Out[231]: 'this is a string'
+
+
+The basic types
+-----------------
+
+So far we've seen a few basic types in action: int, long and string.
+One of the strengths of Python is the power of its basic data
+structures for storing collections of data.  The built-in language has
+``tuple``, ``list`` and ``dict``, and the standard library has many
+more, such as binary trees and several queue structures among others.
+Let's explore the basic types.
+
+The two primary sequence containers are tuples and lists.  For the
+newcomer, it is often confusing why there are two -- we'll get into
+that in a minute.  First, let's look at how they are constructed and
+what their differences are.  The ``tuple`` is an immutable sequence,
+which means once it has been created it cannot be changed.  It is
+created using either the ``tuple`` constructor or the parentheses syntax.
+
+.. ipython::
+
+   In [254]: x = (2,3,5,8,13)
+
+   In [255]: type(x)
+   Out[255]: <type 'tuple'>
+
+   In [256]: x[0]
+   Out[256]: 2
+
+   @verbatim
+   In [257]: x[0] = 12
+   ---------------------------------------------------------------------------
+
+   TypeError: 'tuple' object does not support item assignment
+
+
+The last error is because we tried to write to the tuple, which is
+immutable.
+
+The ``list``, however, is much like the tuple except that it is
+mutable (changeable): we can grow the list, shrink it, delete items
+from it, or change an element of the list.  A list is constructed
+using the ``list`` constructor or square brackets.  You can add any
+type of data you want to a list or tuple; the most common case is to
+add data of the same type, eg all strings or all numbers, but this is
+not required.  In the example below, we add some non-numeric data to
+our list.
+
+.. ipython::
+
+   In [258]: x = [2, 3, 5, 8, 13]
+
+   In [259]: type(x)
+   Out[259]: <type 'list'>
+
+   # a list, unlike a tuple, supports assignment
+   In [260]: x[0] = 12
+
+   In [261]: x
+   Out[261]: [12, 3, 5, 8, 13]
+
+   # and we can mix arbitrary data types in the list
+   In [262]: x.append('this is not a pipe')
+
+   In [263]: x
+   Out[263]: [12, 3, 5, 8, 13, 'this is not a pipe']
+
+   # we can also delete elements; the 0 index is the first element,
+   # and the 1 index is the second element since Python indexing
+   # starts at 0, so here we are removing the element 3
+   In [264]: del x[1]
+
+   In [265]: x
+   Out[265]: [12, 5, 8, 13, 'this is not a pipe']
+
+Python also supports fancy slice indexing, which is very useful and
+powerful with numpy arrays which have the same syntax.  Since we cover
+it below, we'll leave the detailed explanation for later
+(:ref:`numpy_indexing_slicing`, and only demonstrate it in the example
+below in which we slice out every 2nd element.
+
+.. ipython::
+
+   In [266]: x[::2]
+   Out[266]: [12, 8, 'this is not a pipe']
+
+The dictionary is the associative array data structure in Python, and
+is one of the most useful and powerful types in the language.  Many of
+the internals of the language are implemented in dictionaries,
+guaranteing that the ``dict`` is as efficient and robust as can be.
+The dictionary maps keys to values: they ke can be any mutable data
+type and the value can be any python object.
+
+if, for and while
+--------------------------------
+
+TODO
+
+list and generator comprehensions
+----------------------------------
+TODO
+
+Exceptions
+------------
+
+TODO
+
+Functions and classes
+----------------------
+
+TODO
+
+Modules and packages
+---------------------
+
+TODO
+
+
+
+
 .. _numpy_getting_started:
 
 Numpy
--------
+======
 
 Numpy is the core extension library on which almost all other
 libraries for scientific computing in python are built.  It provides
@@ -305,8 +629,8 @@ compute $2 i^2$ for the first 5 integers, we could write a for-loop
 but this can be quite slow for a large number of integers because
 python is a dynamic interpreted language.  For each integer in the
 loop, python has to look up i, determine its type and value, look up
-the multiplication and exponention operators ``*`` and ``**`` to see
-how to handldle them for integers and so on.  And it doesn't learn: it
+the multiplication and exponentiation operators ``*`` and ``**`` to see
+how to handle them for integers and so on.  And it doesn't learn: it
 does each of these operations on every pass through the loop.  This
 can be extremely slow.  In numpy we simply do
 
@@ -324,7 +648,7 @@ Not only is this syntactically convenient -- we can get the same
 result with less typing and less code -- it has much better
 performance in an interpreted language like Python because most of the
 work happens in C.  Python only has to do look up the variable name
-"x" and multiplication and exponention operators one time to see how
+"x" and multiplication and exponentiation operators one time to see how
 to use them with numpy arrays, unlike in the Python case where it had
 to do the look up in each iteration of the loop.  For loops with a
 large number of iterations, the differences can be a 100-fold or more
@@ -348,7 +672,7 @@ and ``__file__`` attributes.
 
 
 Creating numpy arrays
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 The basic data structure numpy provides is an N-dimensional array of
 homogeneous elements, the ``ndarray``.  The simplest ndarray is one
@@ -376,7 +700,7 @@ You may be surprised that both ``mylist`` and ``myarray`` do not
 include the end point number 5; this is a feature of python in which
 ranges start at the beginning number and go up to, but do not include
 the terminal number.  Unlike the python list in ``mylist``, the numpy
-array ``myarray`` is build for efficieny in storage and performance,
+array ``myarray`` is build for efficiency in storage and performance,
 and is represented internally as a C data buffer of integers.  There
 are several crucial methods to inspect the size and type of numpy
 arrays, including ``shape``, ``size``, and ``dtype``, which show the
@@ -445,7 +769,7 @@ two dimension array from lists of python integers
 	  [12, 13, 14, 15]])
 
    # the shape is a length 2 tuple showing that the array is 2 rows
-   # and 4 columnes
+   # and 4 columns
    In [93]: X.shape
    Out[93]: (2, 4)
 
@@ -518,8 +842,10 @@ them from files using the functions ``np.loadtxt``, ``np.load`` and
 ``np.fromfile``.  We will be encountering these in many examples below
 as we explore numpy in more depth.
 
+.. _numpy_indexing_slicing:
+
 numpy indexing and slicing
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 You can *view* individual elements of the array using the integer
 index starting at 0 and ending at the length of the array minus one.
@@ -542,7 +868,7 @@ index starting at 0 and ending at the length of the array minus one.
 
 
 You can index into the end of the array using negative
-numbers -- -1 is the last elememt of the array, -2 is the second to
+numbers -- -1 is the last element of the array, -2 is the second to
 last, etc...
 
 .. ipython::
@@ -554,7 +880,7 @@ last, etc...
    Out[182]: 15
 
 
-Similarly, you can *assign* to elemtns of the array with the same syntax.
+Similarly, you can *assign* to elements of the array with the same syntax.
 
 .. ipython::
 
@@ -601,9 +927,9 @@ entire first row and X[-1] is the entire last row
    Out[192]: array([12, 13, 14, 15])
 
 When you assign to a slice like the those in the rows above, numpy
-will try and mathc the shapes of the left hand side and right hand
+will try and match the shapes of the left hand side and right hand
 sides using broadcasting.  If the two sides have identical shapes, the
-assigment is straigntforward element-wise assigment.  If the right
+assignment is straightforward element-wise assignment.  If the right
 hand side has fewer elements than the left hand side, the element will
 be repeated to fill up the slice on the left hand side.
 
@@ -687,7 +1013,7 @@ illustrating the defaults.
 	  17, 18, 19])
 
 
-Now that we've indroduced indexing and slicing, we can combine the
+Now that we've introduced indexing and slicing, we can combine the
 two.  For example, in a two dimensional array, the first axis might be
 indexed with a single integer index, and the second axis with a slice
 index.
@@ -703,7 +1029,7 @@ index.
 
 
 Working with numpy arrays
-~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
 In addition to providing the basic array data structure, numpy
 provides a set of core mathematical functions *ufuncs* on this data,
@@ -806,7 +1132,7 @@ with our tour of MINS.
 .. matplotlib_getting_started:
 
 Matplotlib
------------
+================
 
 Matplotlib is a package for making scientific graphs and data
 visualizations.  Although it has limited support for basic 3D graphs
@@ -942,7 +1268,7 @@ method, which returns true if every element in the array is true.
 
 so we can take any one of these channels to be the "luminosity"
 channel ``lum``, or more generally we can take the average of red,
-green and blue to get the lumonsity channel by taking the average of
+green and blue to get the luminosity channel by taking the average of
 the red, green and blue channels.  We can do this in numpy by
 computing the mean over the last axis, which is ``axis=2``.  Since
 this is luminosity data, we can do pseudo-color mapping.
@@ -1046,7 +1372,7 @@ normal color order of the map from luminosity to color.  For, example,
 .. scipy_getting_started:
 
 Scipy
------
+=======
 
 For a quick look at what's available in scipy, just import it and type
 ``help scipy`` in IPython.
@@ -1137,12 +1463,6 @@ ipython.
 
 
 
-.. _python_mini_tutorial:
-
-A Python Mini-Tutorial
-======================
-
-TODO
 
 
 .. _basic_workflow:

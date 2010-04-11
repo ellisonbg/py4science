@@ -29,7 +29,7 @@ extensions = ['sphinx.ext.doctest',
               #'sphinx.ext.jsmath',
               'sphinx.ext.pngmath',
               'sphinx.ext.ifconfig',
-              
+
               'ipython_console_highlighting',
               'math_dollar',
               'cite',
@@ -214,7 +214,7 @@ problems = [  ('problems/index_problem_set_%s' % i,
 # All
 latex_documents = [book, course_outline] + problems
 # To just build a few
-latex_documents = problems[4:5]
+#latex_documents = problems[4:5]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
