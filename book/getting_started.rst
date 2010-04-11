@@ -13,7 +13,7 @@ shell, a code editor and debugger, a graphics library, integrated
 documentation and numerical algorithms built-in.  By contrast, Python
 is a programming language which has some of these things built-in, but
 it is not designed to be an environment for scientific computing.  It
-can be, and is, the basis if a top-notch scientific computing
+can be, and is, the basis of a top-notch scientific computing
 environment, but these pieces have to be assembled.  Many newcomers to
 Python feel overwhelmed by the multitude of choices.
 
@@ -146,8 +146,10 @@ these editors will pay off in spades, but does entail a significant
 "up-front" cost.  There are a variety of choices for those who prefer
 a graphical user interface environment for their editor, with the
 traditional "File/Edit" menus for loading and saving files with a
-mouse and doing search-and-replace operations.  A good choice is the
-`SciTE <http://www.scintilla.org/SciTE.html>`_ editor which ships with
+mouse and doing search-and-replace operations.  A good choice is `Idle <http://docs.python.org/library/idle.html>`,
+a tkinter based editor which comes with the standard Python distribution.
+Another good choice is the `SciTE
+<http://www.scintilla.org/SciTE.html>`_ editor which ships with
 Python(x,y) and EPD, runs across major platforms, and supports python
 and most every other programming languages.  Essential things to look
 for in an editor are: syntax highlighting, syntax aware automatic
@@ -164,9 +166,9 @@ characters in "Hello World".
 
 .. sourcecode:: python
 
-    s = 'Hello World'
-    for char in s:
-        print(ord(char))
+    mystring = 'Hello World'
+    for c in mystring:
+        print(ord(c))
 
 and we can execute this file from the terminal (in windows you can get
 access to a primitive terminal by running ``cmd.exe``)::
@@ -186,6 +188,29 @@ access to a primitive terminal by running ``cmd.exe``)::
 
 
 
+In Windows you can execute a python file which ends in the suffix
+".py" by double clicking on it.  When you double click on it, you
+will see a command terminal window pop up, whatever output your
+program generates will scroll by, and the window will immediately
+disappear as soon as your program finished.  For most programs, this
+will happen in the blink of an eye, and you won't be able to see
+what output your program generated.  You can prevent your program
+from exiting by causing the execution to block waiting for input
+from the user by making a call to ``raw_input``.  Eg, for the test
+program above, we could write::
+
+  mystring = 'Hello World'
+  for c in mystring:
+      print(ord(c))
+
+
+  raw_input("press any key to exit")
+
+If you are running your program from the command like or a Python
+editor like Idle, or better yet from the IPython shell which we
+introduce below, this won't be necessary.
+
+
 .. _ipython_getting_started:
 
 IPython
@@ -202,19 +227,19 @@ modern terminal environments like the bash shell which include the
 ability to navigate the file systems, set bookmarks on favorite
 locations, use aliases for often typed commands, and use command
 completion, history and other nice readline features.  The "I" in
-IPython stands for *Interactive* and it is a python shell on steroids,
+IPython stands for *Interactive* and it is a Python shell on steroids,
 integrating all the features from the standard python interpreter with
 all the desirable features just mentioned and more.
 
 For many people who do scientific computing in Python as part of their
 research or employment, an open IPython shell is as much a feature of
-their everyday, all day work environment as firefox, a terminal shell
-and their favorite editor.  For the rest of this book, we'll spend
-*most* of our time in an IPython shell.  We can launch it just like we
-launched the plain vanilla Python interpreter above, but this time
-we'll prefix our command with an "i", and instead of seeing the
-familiar triple quoted prompt ``>>>`` from the Python interpreter, we
-see Mathematica-style numbered input and output prompts.  In the
+their everyday, all day work environment as a firefox web browser, a
+terminal shell and their favorite editor.  For the rest of this book,
+we'll spend *most* of our time in an IPython shell.  We can launch it
+just like we launched the plain vanilla Python interpreter above, but
+this time we'll prefix our command with an "i", and instead of seeing
+the familiar triple quoted prompt ``>>>`` from the Python interpreter,
+we see Mathematica-style numbered input and output prompts.  In the
 example below, we seamlessly blend python commands like ``2**100``
 with basic file system navigation and manipulation commands like
 ``cd``, ``mkdir`` and ``!more`` ::
@@ -263,52 +288,55 @@ Numpy is the core extension library on which almost all other
 libraries for scientific computing in python are built.  It provides
 an N-dimensional array implemented in C which provides extremely fast
 operations on large blocks of data.  For example, in plain python to
-compute the square root of the first 5 integers, we could write a
-for-loop and use ``math.sqrt``
+compute $2 i^2$ for the first 5 integers, we could write a for-loop
 
 .. ipython::
 
-   In [11]: import math
-
-   In [12]: for i in range(5):
-      ....:     print math.sqrt(i)
-      ....:
-      ....:
-   0.0
-   1.0
-   1.41421356237
-   1.73205080757
-   2.0
+   In [130]: for i in range(5):
+      .....:     print i, 2*i**2
+      .....:
+      .....:
+   0 0
+   1 2
+   2 8
+   3 18
+   4 32
 
 but this can be quite slow for a large number of integers because
 python is a dynamic interpreted language.  For each integer in the
 loop, python has to look up i, determine its type and value, look up
-the symbol ``math`` and figure out what the ``.`` operator does, and
-then look up the name ``sqrt`` and see if implements the function call
-operator ``()`` and so on.  And it doesn't learn: it does each of
-these operations on every pass through the loop.  This can be
-extremely slow.  In numpy we simply do
+the multiplication and exponention operators ``*`` and ``**`` to see
+how to handldle them for integers and so on.  And it doesn't learn: it
+does each of these operations on every pass through the loop.  This
+can be extremely slow.  In numpy we simply do
 
 .. ipython::
 
-   In [13]: import numpy as np
 
-   In [14]: np.sqrt(np.arange(5))
-   Out[14]: array([ 0.        ,  1.        ,  1.41421356,
-                    1.73205081,  2.        ])
+   In [139]: import numpy as np
 
-and everything happens in C -- we have to do each lookup only one
-time, for example the lookup to figure out what ``np.sqrt`` is --
-whereas in python we had to lookup ``math.sqrt`` for each element in
-the range.  For loops with a large number of iterations, the
-differences can be a 100-fold or more performance improvement, which
-is why dynamic interpreted languages like Python and Matlab rely so
-heavily on array based computations.
+   In [140]: x = np.arange(5)
 
-In code, we will be utilizing the import abbreviation ``np`` for
-``numpy`` throughout the book.  You can check which version of numpy
-you are running, and where it is installed, by inspecting the
-``__version__`` and ``__file__`` attributes.
+   In [141]: 2*x**2
+   Out[141]: array([ 0,  2,  8, 18, 32])
+
+Not only is this syntactically convenient -- we can get the same
+result with less typing and less code -- it has much better
+performance in an interpreted language like Python because most of the
+work happens in C.  Python only has to do look up the variable name
+"x" and multiplication and exponention operators one time to see how
+to use them with numpy arrays, unlike in the Python case where it had
+to do the look up in each iteration of the loop.  For loops with a
+large number of iterations, the differences can be a 100-fold or more
+performance improvement, which is why dynamic interpreted languages
+like Python and Matlab rely so heavily on array based computations.
+This is sometimes confusing for people coming from languages which do
+not encourage or support array based element-wise operations.
+
+In this book, as above, we will be utilizing the import abbreviation
+``np`` for ``numpy``.  You can check which version of numpy you are
+running, and where it is installed, by inspecting the ``__version__``
+and ``__file__`` attributes.
 
 .. ipython::
 
@@ -318,6 +346,364 @@ you are running, and where it is installed, by inspecting the
    In [19]: np.__version__
    Out[19]: '1.4.0.dev7577'
 
+
+Creating numpy arrays
+~~~~~~~~~~~~~~~~~~~~~
+
+The basic data structure numpy provides is an N-dimensional array of
+homogeneous elements, the ``ndarray``.  The simplest ndarray is one
+dimension, for example the numbers from 0..5 we used in the example
+above which we created with ``np.arange(5)`` -- this is the numpy
+version of the built-in python function ``range`` which creates a
+*list* of the integers from 0 to 5.
+
+.. ipython::
+
+
+   # a python list
+   In [52]: mylist = range(5)
+
+   In [53]: mylist
+   Out[53]: [0, 1, 2, 3, 4]
+
+   # a numpy array
+   In [54]: myarray = np.arange(5)
+
+   In [55]: myarray
+   Out[55]: array([0, 1, 2, 3, 4])
+
+You may be surprised that both ``mylist`` and ``myarray`` do not
+include the end point number 5; this is a feature of python in which
+ranges start at the beginning number and go up to, but do not include
+the terminal number.  Unlike the python list in ``mylist``, the numpy
+array ``myarray`` is build for efficieny in storage and performance,
+and is represented internally as a C data buffer of integers.  There
+are several crucial methods to inspect the size and type of numpy
+arrays, including ``shape``, ``size``, and ``dtype``, which show the
+dimensional shape of the array, the total number of elements in the
+array, and the datatype of the array (eg integer or float).
+
+.. ipython::
+
+   # the shape here is a length 1 python tuple reflecting the fact
+   # that myarray is is a 1 dimensional array.  The first (and only)
+   # dimension has 5 elements in it
+   In [56]: myarray.shape
+   Out[56]: (5,)
+
+   In [57]: myarray.size
+   Out[57]: 5
+
+   # the dtype, or "data type" here is 'int32' for a 32 bit integer.
+   # If you are working on a 64 bit architecture, you will see 'int64'
+   @verbatim
+   In [58]: myarray.dtype
+   Out[58]: dtype('int32')
+
+
+There are lots of ways of creating numpy arrays.  ``np.arange``
+created 5 python integers from 0 to 5; it inspected the argument ``5``
+and inferred that we wanted to create an integer array.  If instead we
+wanted to create an array of floating point numbers, we could give the
+argument ``5.0`` or explicitly pass in ``dtype=float`` to the
+constructor.
+
+.. ipython::
+
+   # note the "." at the end of the numbers, indicating floating point
+   # numbers
+   In [76]: farray = np.arange(5.)
+
+   In [77]: farray
+   Out[77]: array([ 0.,  1.,  2.,  3.,  4.])
+
+   # unlike integers, where the default size of 32bit or 64bit is
+   # platform dependent, the default floating point size is 64bit (8
+   # bytes).
+   In [78]: farray.dtype
+   Out[78]: dtype('float64')
+
+   In [79]: farray = np.arange(5, dtype=float)
+
+   In [80]: farray
+   Out[80]: array([ 0.,  1.,  2.,  3.,  4.])
+
+   In [81]: farray.dtype
+   Out[81]: dtype('float64')
+
+There are several other useful functions for creating numpy arrays.
+``np.array`` creates an array from existing data.  Below we create a
+two dimension array from lists of python integers
+
+.. ipython::
+
+   In [91]: X = np.array([[4,5,6,7], [12,13,14,15]])
+
+   In [92]: X
+   Out[92]:
+   array([[ 4,  5,  6,  7],
+	  [12, 13, 14, 15]])
+
+   # the shape is a length 2 tuple showing that the array is 2 rows
+   # and 4 columnes
+   In [93]: X.shape
+   Out[93]: (2, 4)
+
+   # the size is the total number of elements in the array
+   In [94]: X.size
+   Out[94]: 8
+
+   In [95]: X.dtype
+   Out[95]: dtype('int32')
+
+
+Another set of handy functions for creating arrays are ``zeros`` and
+``ones``, create an array filled with either zeros or ones.  In the
+example below, we create a 3x3x4 array of zeros and then assign the
+first element the value 12
+
+.. ipython::
+
+   In [108]: Z = zeros((3,3,4))
+
+   In [109]: Z.shape
+   Out[109]: (3, 3, 4)
+
+   In [110]: Z[0,0,0] = 12
+
+   In [111]: Z
+   Out[111]:
+   array([[[ 12.,   0.,   0.,   0.],
+	   [  0.,   0.,   0.,   0.],
+	   [  0.,   0.,   0.,   0.]],
+
+	  [[  0.,   0.,   0.,   0.],
+	   [  0.,   0.,   0.,   0.],
+	   [  0.,   0.,   0.,   0.]],
+
+	  [[  0.,   0.,   0.,   0.],
+	   [  0.,   0.,   0.,   0.],
+	   [  0.,   0.,   0.,   0.]]])
+
+
+Two other functions we will be using a lot to create numpy arrays in
+this book are the random number array generators ``np.random.rand``
+and ``np.random.randn``.  The first creates random numbers from the
+uniform distribution from 0..1, and the second creates Gaussian random
+numbers with zero mean and unit standard deviation (the "n" in "randn"
+is for "normal").
+
+.. ipython::
+
+   # 5 random numbers from the uniform distribution over 0..1
+   In [117]: x = np.random.rand(5)
+
+   In [118]: x
+   Out[118]: array([ 0.17123039,  0.35602158,  0.9429075 ,  0.26874412,  0.55789462])
+
+   # 5 new random numbers from the uniform distribution over 0..1
+   In [119]: x = np.random.rand(5)
+
+   In [120]: x
+   Out[120]: array([ 0.60718795,  0.33060536,  0.06879506,  0.02842788,  0.060915  ])
+
+
+
+You can also create new arrays from operations on existing arrays, for
+example, by creating a new array ``y = 2*x`` which will have the same
+size and dtype as ``x`` but will be twice the value for each element.
+
+Finally, perhaps the most useful way to create numpy arrays is to load
+them from files using the functions ``np.loadtxt``, ``np.load`` and
+``np.fromfile``.  We will be encountering these in many examples below
+as we explore numpy in more depth.
+
+numpy indexing and slicing
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can *view* individual elements of the array using the integer
+index starting at 0 and ending at the length of the array minus one.
+
+.. ipython::
+
+   In [176]: x = 3*np.arange(7)
+
+   In [177]: x
+   Out[177]: array([ 0,  3,  6,  9, 12, 15, 18])
+
+   In [178]: x[0]
+   Out[178]: 0
+
+   In [179]: x[1]
+   Out[179]: 3
+
+   In [180]: x[6]
+   Out[180]: 18
+
+
+You can index into the end of the array using negative
+numbers -- -1 is the last elememt of the array, -2 is the second to
+last, etc...
+
+.. ipython::
+
+   In [181]: x[-1]
+   Out[181]: 18
+
+   In [182]: x[-2]
+   Out[182]: 15
+
+
+Similarly, you can *assign* to elemtns of the array with the same syntax.
+
+.. ipython::
+
+   In [183]: x[1] = 2358
+
+   In [184]: x[-2] = 123
+
+   In [185]: x
+   Out[185]: array([   0, 2358,    6,    9,   12,  123,   18])
+
+
+For multi-dimensional arrays, you specify the index of each axis in
+the array, starting with the row index, then the column index, and so
+on for higher dimensions.
+
+.. ipython::
+
+   # X is a two dimensional array, the first axis is the rows, the
+   # second axis is the columns.
+   In [187]: X = np.array([[4,5,6,7], [12,13,14,15]])
+
+   In [188]: X
+   Out[188]:
+   array([[ 4,  5,  6,  7],
+	  [12, 13, 14, 15]])
+
+   In [189]: X[0,2]
+   Out[189]: 6
+
+   In [190]: X[1,-1]
+   Out[190]: 15
+
+For a multi-dimensional array, if you give an index argument for less
+than the total number of dimensions, you get all of the elements of
+the remaining unspecified dimensions.  For example, X[0] specifies the
+entire first row and X[-1] is the entire last row
+
+.. ipython::
+
+   In [191]: X[0]
+   Out[191]: array([4, 5, 6, 7])
+
+   In [192]: X[-1]
+   Out[192]: array([12, 13, 14, 15])
+
+When you assign to a slice like the those in the rows above, numpy
+will try and mathc the shapes of the left hand side and right hand
+sides using broadcasting.  If the two sides have identical shapes, the
+assigment is straigntforward element-wise assigment.  If the right
+hand side has fewer elements than the left hand side, the element will
+be repeated to fill up the slice on the left hand side.
+
+.. ipython::
+
+   # the left hand and right hands sides are the same shape,
+   # element-wise assignment
+
+   In [196]: X[0] = [8,9,10,11]
+
+   In [197]: X
+   Out[197]:
+   array([[ 8,  9, 10, 11],
+	  [12, 13, 14, 15]])
+
+   # the left hand side is 4 elements, the right hand side is a single
+   # element, so the single element is broadcast to fill the left hand
+   # side
+
+   In [198]: X[-1] = 23
+
+   In [199]: X
+   Out[199]:
+   array([[ 8,  9, 10, 11],
+	  [23, 23, 23, 23]])
+
+
+
+numpy has a powerful syntax for viewing and operating on individual
+elements or slices of an array, using the
+``INDEX_START:INDEX_END:STRIDE`` syntax inspired Matlab(TM).  For
+example, to view a slice of every 2nd element (the ``STRIDE``) in the
+range from 0..20 starting at element 4 (``INDEX_START`` included) and
+ending at element 14 (``INDEX_END`` not included) you write
+
+.. ipython::
+
+   In [153]: x = np.arange(20)
+
+   In [154]: x
+   Out[154]:
+   array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
+	  17, 18, 19])
+
+   In [155]: x[4:14:2]
+   Out[155]: array([ 4,  6,  8, 10, 12])
+
+Each of these three slice arguments has a default value and can be left out.
+``INDEX_START`` defaults to 0, ``INDEX_END`` defaults to the length of
+the array, and ``STRIDE`` defaults to 1.  Here are several examples
+illustrating the defaults.
+
+.. ipython::
+
+   # INDEX_START defaults to 0
+   In [158]: x[:10:2]
+   Out[158]: array([0, 2, 4, 6, 8])
+
+   # INDEX_END defaults to 20
+   In [159]: x[4::2]
+   Out[159]: array([ 4,  6,  8, 10, 12, 14, 16, 18])
+
+   # STRIDE defaults to 1
+   In [160]: x[4:10]
+   Out[160]: array([4, 5, 6, 7, 8, 9])
+
+   # INDEX_START defaults to 0, INDEX_END defaults to 20
+   In [161]: x[::2]
+   Out[161]: array([ 0,  2,  4,  6,  8, 10, 12, 14, 16, 18])
+
+   # INDEX_START, INDEX_END and STRIDE all take on default values
+   In [163]: x[::]
+   Out[163]:
+   array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
+	  17, 18, 19])
+
+   # INDEX_START, INDEX_END and STRIDE all take on default values
+   In [164]: x[:]
+   Out[164]:
+   array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
+	  17, 18, 19])
+
+
+Now that we've indroduced indexing and slicing, we can combine the
+two.  For example, in a two dimensional array, the first axis might be
+indexed with a single integer index, and the second axis with a slice
+index.
+
+.. ipython::
+
+   In [202]: X = np.array([[4,5,6,7], [12,13,14,15]])
+
+   In [203]: X[1, 1::2]
+   Out[203]: array([13, 15])
+
+
+
+
+Working with numpy arrays
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In addition to providing the basic array data structure, numpy
 provides a set of core mathematical functions *ufuncs* on this data,
@@ -362,7 +748,9 @@ names.
 But no matter how you are configured, those are a lot of symbols --
 the basic numpy array is feature rich and powerful.  Below are a
 sampling with intuitive names -- try ``help`` on any method to see
-more information, for example in ipython you can type ``help x.clip``.
+more information, for example in ipython you can type ``help x.clip``
+which clips the values in a numpy array to the min/max values
+specified in the ``clip`` method call.
 
 
 .. ipython::
