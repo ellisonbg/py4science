@@ -387,21 +387,30 @@ floating point number.
 
 This wart, or feature depending on your worldview, was removed in
 Python 3.0, which introduced a new operator ``//`` for those who want
-to get an integer back, and returns a floating point number when using
-the ``/`` division operator.
+integer division to return an integer, and defines the ``/`` division
+operator to always return a floating point number regardless of
+whether the numerator or denominator are integers or floating points
+numbers.
 
 The other floating point surprise for new users is the representation
-of numbers like 1/10 or 2/3, which reflect the limited accuracy of
+of numbers like 1/10 or 2/3, which reflects the limited accuracy of
 floating point representations.
 
 .. ipython::
 
+   @verbatim
    In [242]: 0.1
    Out[242]: 0.10000000000000001
 
+   @verbatim
    In [243]: 2/3.
    Out[243]: 0.66666666666666663
 
+
+You may see different numbers on your machine, because the
+representation depends on the number of bits your hardware uses to
+store floating point numbers; fore more information see the `floating
+point tutorial <http://docs.python.org/tutorial/floatingpoint.html>`_.
 
 
 Python is dynamically typed
@@ -485,15 +494,15 @@ such as a sring.
    Out[231]: 'this is a string'
 
 
-The basic types
------------------
+The basic data containers
+--------------------------
 
 So far we've seen a few basic types in action: int, long and string.
 One of the strengths of Python is the power of its basic data
 structures for storing collections of data.  The built-in language has
-``tuple``, ``list`` and ``dict``, and the standard library has many
-more, such as binary trees and several queue structures among others.
-Let's explore the basic types.
+``tuple``, ``list``, ``dict`` and ``set``, and the standard library
+has many more, such as binary trees and several queue structures among
+others.  Let's explore the basic types.
 
 The two primary sequence containers are tuples and lists.  For the
 newcomer, it is often confusing why there are two -- we'll get into
@@ -571,10 +580,187 @@ below in which we slice out every 2nd element.
 
 The dictionary is the associative array data structure in Python, and
 is one of the most useful and powerful types in the language.  Many of
-the internals of the language are implemented in dictionaries,
-guaranteing that the ``dict`` is as efficient and robust as can be.
-The dictionary maps keys to values: they ke can be any mutable data
+the internals of the language are implemented in dictionaries, with
+the result that the ``dict`` is as efficient and robust as can be.
+The dictionary maps keys to values: they key can be any immutable data
 type and the value can be any python object.
+
+One typical use of a dictionary is to store a bunch of different data
+types in a single data structure -- a class is another and perhaps
+better way to achieve the same thing, and not coincidentally, a
+dictionary underpins the basic class machinery, as we will see later.
+Consider a dictionary representing a person, which stores their age,
+weight and name.
+
+.. ipython:
+
+   In [11]: person0 = {'name' : 'Bill', 'age' : 12, 'weight' : 65.0}
+
+   In [12]: person1 = {'name' : 'Sally', 'age' : 14, 'weight' : 95.0}
+
+The keys of these dictionaries are all strings: 'name', 'age', and
+'weight', though they needn't be.  We could just as well use integers,
+tuples, class instances, or other immutable types as keys.
+
+.. note::
+
+  When the keys of a dictionary are all strings and valid python
+  names, you use the alternative key/value constructor syntax with the
+  ``dict`` constructor.  For example::
+
+    
+    person0 = dict(name='Bill', age=12, weight=65.0)
+
+
+You can index a dictionary with the key name to read or write the
+value assigned to that key.
+
+.. ipython::
+
+   In [19]: person0['name']
+   Out[19]: 'Bill'
+
+   In [20]: person0['name'] = 'Jane'
+
+   @verbatim
+   In [21]: person0
+   Out[21]: {'age': 12, 'name': 'Jane', 'weight': 65.0}
+
+
+Notice in the example above that the keys are not in the same order
+which we used when defining the dictionary.  This is an important fact
+about dictionaries to remember: the keys are unordered.  There are
+many important methods of dictionaries, but three that are used all
+the time are ``keys`` which returns an unordered list of keys in the
+dictionary, ``values`` which returns an unordered list of values in
+the dictionary, and ``items``, which returns a list of (key, value)
+tuples, as shown below for ``person0``.
+
+.. ipython::
+
+   In [22]: person0.keys()
+   Out[22]: ['age', 'name', 'weight']
+
+   In [23]: person0.values()
+   Out[23]: [12, 'Jane', 65.0]
+
+   In [24]: person0.items()
+   Out[24]: [('age', 12), ('name', 'Jane'), ('weight', 65.0)]
+
+Python data structures are flexible: for example, you can easily
+create a list of dictionaries.
+
+.. ipython::
+
+  In [25]: mylist = [person0, person1]
+
+  In [26]: mylist
+  Out[26]: 
+  [{'age': 12, 'name': 'Jane', 'weight': 65.0},
+   {'age': 14, 'name': 'Sally', 'weight': 95.0}]
+
+or you can make a dictionary key point to another dictionary as a
+value, though you can't use a dictionary itself as the key in a
+dictionary since the keys must be immutable and as we have seen above
+when we changed the name of ``person0`` to "Jane" the dictionary is
+mutable.
+
+Another common usage of dictionaries is to store or cache values which
+you plan to use over and over again, particularly if the computation
+of those values is expensive.  For example, to store the cubes of the
+the first 100 perfect squares in a dictionary, you could use the
+following.
+
+.. python::
+
+    squared = dict()
+    for i in range(100):
+        squared[i**2] = i**3
+
+    
+    print squared[9]  # prints 27
+
+This particular example may not be the best one, since the computation
+of $i^3$ may be cheaper than the dictionary lookup, but in general
+whenever you have an expensive computation to perform and you want to
+cache the results for later reuse, a dictionary is the goto data
+structure for this task.  In the section of list and generator
+comprehensions below, we will see a syntactacically simpler way to
+create the squared dictionary, which we present here without comment.
+
+.. python::
+
+    squared = dict( (i**2, i**3) for i in range(100) )
+
+
+The final built-in data container we will look at is the ``set``,
+which behaves like the mathematical set.  It works like a dictionary
+with only keys and no values.  Like ``dict`` keys, the elements of a
+``set`` must be immutable, and they are unordered.  The set is built
+for efficient containment lookup, and set-wise operations like "and"
+and "or".  Let's look at two different Fibonacci series.
+
+
+.. ipython::
+
+   In [64]: fib0 = set([1, 1, 2, 3, 5, 8, 13, 21, 34])
+
+   In [65]: fib1 = set([2, 5, 7, 12, 19, 31, 50])
+
+   In [66]: 8 in fib0
+   Out[66]: True
+
+   In [67]: 8 in fib1
+   Out[67]: False
+
+
+Set-wise operations like union, intersection and set
+different  are easy.
+
+.. ipython::
+
+   # union
+   In [68]: fib0 & fib1
+   Out[68]: set([2, 5])
+
+   # intersection
+   In [69]: fib0 | fib1
+   Out[69]: set([1, 2, 3, 5, 7, 8, 12, 13, 19, 21, 31, 34, 50])
+
+   # set difference
+   In [70]: fib0 - fib1
+   Out[70]: set([1, 3, 8, 13, 21, 34])
+
+
+Additionally, you can easily ``add`` or ``remove`` existing elements
+of a set.  Here we "mistakenly" add a bogus element 56 to the ``fib0``
+series when we mean to add 55, so we correct the error by adding 55
+and then removing 56.
+
+.. ipython::
+
+   # oops, wrong number
+   In [77]: fib0.add(56)
+
+   In [78]: fib0
+   Out[78]: set([1, 2, 3, 5, 8, 13, 21, 34, 56])
+
+   # add the correct number
+   In [79]: fib0.add(55)
+
+   # remove the bogus number
+   In [80]: fib0.remove(56)
+
+   # all good
+   In [81]: fib0
+   Out[81]: set([1, 2, 3, 5, 8, 13, 21, 34, 55])
+
+That's it for an introduction to the basic python data container
+structures tuple, list, dict and set.  The `collections
+<http://docs.python.org/library/collections.html>`_ module in the
+standard library contains many more useful data structures, such as
+deque, ordered set, and named tuples.
+
 
 if, for and while
 --------------------------------
