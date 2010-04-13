@@ -33,7 +33,6 @@ def block_parser(part):
     parses the text into a list of::
 
       blocks = [ (TOKEN0, data0), (TOKEN1, data1), ...]
-
     where TOKEN is one of [COMMENT | INPUT | OUTPUT ] and
     data is, depending on the type of token::
 
@@ -180,6 +179,7 @@ class EmbeddedSphinxShell:
         process block from the block_parser and return a list of processed lines
         """
 
+        #print 'BLOCK', block
         ret = []
 
         output = None
@@ -206,7 +206,7 @@ class EmbeddedSphinxShell:
                 is_doctest = decorator=='@doctest' or self.is_doctest
                 is_suppress = decorator=='@suppress' or self.is_suppress
                 is_savefig = decorator is not None and decorator.startswith('@savefig')
-
+                #print 'is_verbatim=%s, is_doctest=%s, is_suppress=%s, is_savefig=%s'%(is_verbatim, is_doctest, is_suppress, is_savefig)
                 input_lines = input.split('\n')
 
 
@@ -509,6 +509,17 @@ In [152]: title('normal distribution')
 In [153]: grid(True)
 
         """,
+
+
+        r"""
+
+In [239]: 1/2
+@verbatim
+Out[239]: 0
+
+In [240]: 1.0/2.0
+Out[240]: 0.5
+""",
     ]
 
         
