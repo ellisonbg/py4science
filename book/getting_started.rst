@@ -671,7 +671,7 @@ of those values is expensive.  For example, to store the cubes of the
 the first 100 perfect squares in a dictionary, you could use the
 following.
 
-.. python::
+.. sourcecode:: python
 
     squared = dict()
     for i in range(100):
@@ -688,7 +688,7 @@ structure for this task.  In the section of list and generator
 comprehensions below, we will see a syntactacically simpler way to
 create the squared dictionary, which we present here without comment.
 
-.. python::
+.. sourcecode:: python
 
     squared = dict( (i**2, i**3) for i in range(100) )
 
@@ -765,9 +765,102 @@ deque, ordered set, and named tuples.
 if, for and while
 --------------------------------
 
-TODO
+Python is unusual in that it uses whitespace and colons to designate
+code blocks.  For example, in C/C++, we would write something like::
 
-list and generator comprehensions
+  if (x==1) {
+    printf("x is one!\n");   // this is executed iff x==1
+    x += 1;                  // and so is this
+  }
+
+  printf("you are here\n");  // this is executed unconditionally
+
+
+and in python we use whitespace indendation to designate the flow that
+is scoped by the if clause.
+
+.. sourcecode:: python
+
+  if (x==1):
+    print("x is one!")  # this is executed iff x==1
+    x += 1              # and so is this
+  
+  print("you are here") # this is executed unconditionally
+
+Python also optionally supports "else if" and "else" blocks.
+
+.. sourcecode:: python
+
+  if (x==1):
+    print("x is one")
+  else if (x==2):
+    print("x is two")
+  else:
+    print("x is not one or two")
+
+You can have zero or an unlimited number of "else if" clauses, and the
+first one that meets the "True" condition is executed and the
+subsequent condition/code blocks are short circuited.
+
+The "for" in python is particularly simple.  You can iterate over any
+sequence, including tuples, lists, dictionaries, strings and more
+using the same 'for ELEMENT in SOME_SEQUENCE' syntax.  In the example
+below, we iterate over the characters in a string.
+
+.. sourcecode:: python
+
+   for somechar in 'This is not a pipe':
+       print somechar, ord(somechar)
+
+Similarly, you can iterate over a list of integers.
+
+.. sourcecode:: python
+
+  for someint in [2, 3, 5, 8, 13, 21]:
+    x = 2*someint
+    print x, x**2
+
+Like the "if" block, all of the lines in the "for" block which are
+indented with respect to the "for" statement are executed for each
+ELEMENT in the sequence until the first unindented line (or a
+``break``) is encountered.
+
+One handy built-in function is ``enumerate``, which takes a sequence
+as input and returns a iterable sequence of (i, element) where i is
+the count, or index, of the position of the i-th element in the
+sequence.  For example, if you want to iterate over a list of lines,
+and break after you have processed 100 lines, a common idiom is
+
+.. sourcecode:: python
+
+    for i, line in enumerate(lines):
+       line = line.upper()  # do something with line
+       print(line)
+       if i==100:
+           break
+
+``while`` follows a similar pattern.  Here is an example from ipython,
+which uses the leading dots "..." to indicate an indented block.
+
+.. ipython::
+
+   In [94]: i = 5
+
+   In [95]: while i<1000:
+      ....:     i = i**2
+      ....:     print i
+      ....:     
+      ....:     
+   25
+   625
+   390625
+
+You can write indented blocks in an interactive ipython session.  The
+primary difference is that ipython requires two empty/blank lines to
+terminate the indented block.
+
+
+list and generator comprehensions 
 ----------------------------------
 TODO
 
