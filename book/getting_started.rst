@@ -592,7 +592,7 @@ dictionary underpins the basic class machinery, as we will see later.
 Consider a dictionary representing a person, which stores their age,
 weight and name.
 
-.. ipython:
+.. ipython::
 
    In [11]: person0 = {'name' : 'Bill', 'age' : 12, 'weight' : 65.0}
 
