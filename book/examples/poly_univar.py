@@ -375,3 +375,4 @@ if __name__ == '__main__':
     roots.sort()
     print()
     print('Roots:', roots)
+    sys.exit(1)

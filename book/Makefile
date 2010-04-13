@@ -74,7 +74,8 @@ pdf: latex
 	cd _build/latex && make all-pdf
 	-mkdir -p dist
 	-rm -f dist/*.pdf
-	-cd _build/latex && ln course.pdf py4science.pdf mscomp*pdf ../../dist
+	-cd _build/latex && ln course.pdf py4science.pdf mscomp*pdf \
+            p4s_work*.pdf ../../dist
 
 latex:
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) _build/latex

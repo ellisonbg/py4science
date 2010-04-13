@@ -101,6 +101,8 @@ Week 3
      - Plot the daily volume vs date. Then, overlay red dots on the days when
        the volume was in the upper 50% range (> than 0.5 of the max).
 
+       gcf().autofmt_xdate()
+
 Code:
 
 s = mlab.csv2rec ('crox.csv')
@@ -134,11 +136,62 @@ draw()
 Week 4
 ======
 
-10. f2py, cython and weave.
+10. OO, modules & packages, pythonpath
 
-    Homework: 
+    Decorators
+    - Basics
+    - intro from my site
 
+    Exercise:
+    @trace
+    @log(filename)
+    Note: trace/log calls from numpy.
+
+    Iterator protocol
+    __iter__: return iterator
+    .next(): object having next is iterator. Stops by raising StopIteration.
+
+    yield.
+    Exercise: def count(n).
+    See itertools
+    
+    OO
+    - constructors
+    - inheritance
+    - normal methods, call signatures
+    - special methods
+    - static methods
+    - class methods
+
+    Exercises
+    - create simple vector class with 1-3 components, without numpy.
+
+    Hw: fixed-size vectors that hash; immutable.
+    
+    Modules vs packages. PYTHONPATH and sys.path
+
+10. Review stock_simple from 0217.
+    See itertools in stdlib.
+    vectors.py solution: explain
+
+    pythonpath
+    cython: integrate
+    
+    Homework: optimize vectors.py with cython (addition, multiplication).
+    
+11. f2py, weave, mayavi, sage demo., kernprof. ctypes
+    cython: primes
+
+
+    
+Ran out of time
+===============
+   
 11. Parallel computing: multiprocessing, ipython.
+
+Broadcasting:
+http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html
+http://www.scipy.org/EricsBroadcastingDoc
 
     Homework:
     
