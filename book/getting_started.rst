@@ -13,7 +13,7 @@ shell, a code editor and debugger, a graphics library, integrated
 documentation and numerical algorithms built-in.  By contrast, Python
 is a programming language which has some of these things built-in, but
 it is not designed to be an environment for scientific computing.  It
-can be, and is, the basis if a top-notch scientific computing
+can be, and is, the basis of a top-notch scientific computing
 environment, but these pieces have to be assembled.  Many newcomers to
 Python feel overwhelmed by the multitude of choices.
 
@@ -39,6 +39,7 @@ forged by community development and use.
    In [5]: ion()
 
    In [6]: bookmark ipy_start
+
 .. _mins:
 
 MINS
@@ -63,16 +64,17 @@ all.  There are good turn-key solutions like EPD and Python(x,y) for
 getting everything in an easy installer, so we'll assume you have
 either installed everything from one of these packages or have
 installed the components yourself.  Note that while Python(x,y) is
-completely free for academic and commerical use, EPD is free only for
+completely free for academic and commercial use, EPD is free only for
 academic use and others can either try the demo version or pay a
 licensing fee with various levels of support -- the academic download
-is avalable at `EPD academic
+is available at `EPD academic
 <http://www.enthought.com/products/edudownload.php>`_
+
 
 .. _python_getting_started:
 
 The Python Language
--------------------
+===================
 
 As we discussed at some length in :ref:`why_python`, the major reasons
 to use Python for scientific computing are: the language itself, the
@@ -117,7 +119,7 @@ interpreter::
   >>> x.replace(' ', '_')
   'This_is_not_a_pipe'
   >>> for i in range(5):
-  ...      print i**2
+  ...      print(i**2)
   ...
   0
   1
@@ -146,8 +148,10 @@ these editors will pay off in spades, but does entail a significant
 "up-front" cost.  There are a variety of choices for those who prefer
 a graphical user interface environment for their editor, with the
 traditional "File/Edit" menus for loading and saving files with a
-mouse and doing search-and-replace operations.  A good choice is the
-`SciTE <http://www.scintilla.org/SciTE.html>`_ editor which ships with
+mouse and doing search-and-replace operations.  A good choice is `Idle <http://docs.python.org/library/idle.html>`_,
+a tkinter based editor which comes with the standard Python distribution.
+Another good choice is the `SciTE
+<http://www.scintilla.org/SciTE.html>`_ editor which ships with
 Python(x,y) and EPD, runs across major platforms, and supports python
 and most every other programming languages.  Essential things to look
 for in an editor are: syntax highlighting, syntax aware automatic
@@ -164,9 +168,9 @@ characters in "Hello World".
 
 .. sourcecode:: python
 
-    s = 'Hello World'
-    for char in s:
-        print(ord(char))
+    mystring = 'Hello World'
+    for c in mystring:
+        print(ord(c))
 
 and we can execute this file from the terminal (in windows you can get
 access to a primitive terminal by running ``cmd.exe``)::
@@ -186,10 +190,33 @@ access to a primitive terminal by running ``cmd.exe``)::
 
 
 
+In Windows you can execute a python file which ends in the suffix
+".py" by double clicking on it.  When you double click on it, you
+will see a command terminal window pop up, whatever output your
+program generates will scroll by, and the window will immediately
+disappear as soon as your program finished.  For most programs, this
+will happen in the blink of an eye, and you won't be able to see
+what output your program generated.  You can prevent your program
+from exiting by causing the execution to block waiting for input
+from the user by making a call to ``raw_input``.  Eg, for the test
+program above, we could write::
+
+  mystring = 'Hello World'
+  for c in mystring:
+      print(ord(c))
+
+
+  raw_input("press any key to exit")
+
+If you are running your program from the command like or a Python
+editor like Idle, or better yet from the IPython shell which we
+introduce below, this won't be necessary.
+
+
 .. _ipython_getting_started:
 
 IPython
---------
+========
 
 The interactive interpreter is one of the core strengths of python.
 Unlike compiled languages like C, FORTRAN and C++ which typically lead
@@ -202,19 +229,19 @@ modern terminal environments like the bash shell which include the
 ability to navigate the file systems, set bookmarks on favorite
 locations, use aliases for often typed commands, and use command
 completion, history and other nice readline features.  The "I" in
-IPython stands for *Interactive* and it is a python shell on steroids,
+IPython stands for *Interactive* and it is a Python shell on steroids,
 integrating all the features from the standard python interpreter with
 all the desirable features just mentioned and more.
 
 For many people who do scientific computing in Python as part of their
 research or employment, an open IPython shell is as much a feature of
-their everyday, all day work environment as firefox, a terminal shell
-and their favorite editor.  For the rest of this book, we'll spend
-*most* of our time in an IPython shell.  We can launch it just like we
-launched the plain vanilla Python interpreter above, but this time
-we'll prefix our command with an "i", and instead of seeing the
-familiar triple quoted prompt ``>>>`` from the Python interpreter, we
-see Mathematica-style numbered input and output prompts.  In the
+their everyday, all day work environment as a firefox web browser, a
+terminal shell and their favorite editor.  For the rest of this book,
+we'll spend *most* of our time in an IPython shell.  We can launch it
+just like we launched the plain vanilla Python interpreter above, but
+this time we'll prefix our command with an "i", and instead of seeing
+the familiar triple quoted prompt ``>>>`` from the Python interpreter,
+we see Mathematica-style numbered input and output prompts.  In the
 example below, we seamlessly blend python commands like ``2**100``
 with basic file system navigation and manipulation commands like
 ``cd``, ``mkdir`` and ``!more`` ::
@@ -254,61 +281,665 @@ section below.  For now we want to complete our tour of the basic MINS
 components to make sure everything is installed and working properly.
 
 
+
+.. _python_mini_tutorial:
+
+A Python Mini-Tutorial
+======================
+
+Python is a full-featured language which supports many programming
+idioms, including proceedural, functional, and object oriented
+concepts.  It comes with a rich `standard library
+<http://docs.python.org/library/>`_ consisting of *hundreds* of modules
+in the standard installation.  There are many excellent tutorials
+including the offical `Python Tutorial
+<http://docs.python.org/tutorial/index.html>`_ and free books online
+suvh as `Dive Into Python <http://diveintopython.org/>`_ and other
+excellent print books such as `The Python Essential Reference
+<http://www.amazon.com/Python-Essential-Reference-David-Beazley/dp/0672329786/ref=sr_1_1?ie=UTF8&s=books&qid=1271019394&sr=8-1>`_
+and the `Python Cookbook <http://oreilly.com/catalog/9780596001674>`_.
+
+
+Many scientists and engineers want to solve a specific problem, eg, to
+make a certain kind of graph, to numerically integrate an equation, or
+to fit some data to a parametric model, and don't have the time or
+interest to read several books or tutorials to get what they want.
+This guide is for them: a short overview of the language to help them
+get to what they want as quickly as possible.  We get to advanced
+material pretty quickly in this book, so it may be tough sledding if
+you are a python newbie.  Take in what you can, you can always come
+back to absorb more detail later, and digest these excellent tutorials
+and books referenced above as you have time.  Since we cannot begin to
+do justice to the breadth and depth of materail these resources cover,
+we won't try.  Rather, we will provide just the bare minimum for the
+reader who wants to get started right away using python for scientific
+computing.  We assume you have some experience with another
+programming language or two, and are comfortable with the concepts of
+variable types, for loops, function calls, and compilers.  We'll
+introduce you how to map these concepts into python.
+
+
+Python is a dynamically typed, object oriented, interpreted language.
+Interpreted means that your program interacts with the Python
+interpreter, similar to Matlab, Perl, Tcl and Java, and unlike
+FORTRAN, C, or C++ which are compiled.  If you've been following
+along, you know how to start the Python interpreter and the IPython
+interpreter.  You don't need IPython to learn Python itself, but since
+this is the environment we'll be using throughout the book, and since
+it is so helpful for inspecting and getting help on objects in python,
+we'll be using IPython in this mini-python tutorial.
+
+
+Python as a calculator
+----------------------
+
+You can use Python as a powerful calculator.
+
+.. ipython::
+
+   In [5]: 2+2
+   Out[5]: 4
+
+   In [6]: 123 * 234
+   Out[6]: 28782
+
+   In [7]: 2**100
+   Out[7]: 1267650600228229401496703205376L
+
+The basic mathematical functions like sqrt, exp, and sin, as well as
+numerical constants like $e$ and $\pi$ are provided by the standard
+library module `math <http://docs.python.org/library/math.html>`_
+which must be explicitly imported.
+
+.. ipython::
+
+   In [234]: import math
+
+   In [235]: math.sin(2*math.pi)
+   Out[235]: -2.4492127076447545e-16
+
+Notice that the result, while close to zero, is not exactly zero due
+to the floating point limitations in the representation of $\pi$ and
+the implementation of ``sin``.
+
+Although the floating point representation is limited to the size of a
+C-double, Python does support arbitrarily large integers in its long
+type (unlike a C long which are at least 4 bytes but have a finite
+size).  So you can compute arbitrarily large integer arithmetic
+expressions, limited only by your computer's memory and processor.
+
+There are two common confusions in Python involving floating point
+numbers.  The first potential gotcha to be aware of for those with
+limited experience in Python or C.  In Python 2.X, the ratio of two
+integers is always an integer, truncated to the nearest integer.  So
+1/2 returns 0, not the expected 0.5.  If you want floating point
+division, make sure either the numerator or denominator or both is a
+floating point number.
+
+.. ipython::
+
+
+   In [239]: 1/2
+   @verbatim
+   Out[239]: 0
+
+   In [240]: 1.0/2.0
+   Out[240]: 0.5
+
+This wart, or feature depending on your worldview, was removed in
+Python 3.0, which introduced a new operator ``//`` for those who want
+integer division to return an integer, and defines the ``/`` division
+operator to always return a floating point number regardless of
+whether the numerator or denominator are integers or floating points
+numbers.
+
+The other floating point surprise for new users is the representation
+of numbers like 1/10 or 2/3, which reflects the limited accuracy of
+floating point representations.
+
+.. ipython::
+
+
+   In [242]: 0.1
+   @verbatim
+   Out[242]: 0.10000000000000001
+
+
+   In [243]: 2/3.
+   @verbatim
+   Out[243]: 0.66666666666666663
+
+
+You may see different numbers on your machine, because the
+representation depends on the number of bits your hardware uses to
+store floating point numbers; fore more information see the `floating
+point tutorial <http://docs.python.org/tutorial/floatingpoint.html>`_.
+
+
+Python is dynamically typed
+-----------------------------
+
+In the example above we computed $2^100$
+
+.. ipython::
+
+   In [7]: 2**100
+   Out[7]: 1267650600228229401496703205376L
+
+
+The "L" at the end of the last example is interesting.  It means that
+the result of $2^100$ in Python is a long integer, unlike the plain
+integers 2 and 100.  Python is dynamically typed, and there are
+several built-in numerical types such as integer, float and long to
+represent numerical data.  Let's explore this for the numbers in the
+example above using Python's built-in "type" function, which takes a
+Python object as input and returns the type of the object.
+
+.. ipython::
+
+   In [8]: type(2)
+   Out[8]: <type 'int'>
+
+   In [9]: type(2**100)
+   Out[9]: <type 'long'>
+
+Unlike C or C++, in which we declare a variable like ``int x`` and x
+will now and forever more be an integer, in Python the variables are
+names which point to objects, and a name can be reassigned to a
+different object of a different type.  Let's see this in action where
+we assign the name ``x`` to the largest integer available on my 32-bit
+system, and then add 1 to it.  This will overflow the maximum integer
+into a long.  On a 32-bit system, the largest signed integer is
+$2^31-1$, which can be found in the standard library module ``sys`` as
+``sys.maxint``.  To import a Python module, either from the standard
+library or 3rd part code, you simply ``import`` it.
+
+.. ipython::
+
+  In [221]: import sys
+
+  # the largest integer on a 32 bit system 2^31-1
+  In [222]: sys.maxint
+  @verbatim
+  Out[222]: 2147483647
+
+  In [223]: x = sys.maxint
+
+  # x is an int
+  In [224]: type(x)
+  Out[224]: <type 'int'>
+
+  In [225]: x
+  @verbatim
+  Out[225]: 2147483647
+
+  # if we add 1, we overflow from int -> long
+  In [226]: x = x+1
+
+  # x is now a long
+  In [227]: type(x)
+  Out[227]: <type 'long'>
+
+  In [228]: x
+  @verbatim
+  Out[228]: 2147483648L
+
+Likewise, we could simply assign the name ``x`` to a non-numeric type
+such as a sring.
+
+.. ipython::
+
+   In [230]: x = 'this is a string'
+
+   In [231]: x
+   Out[231]: 'this is a string'
+
+
+The basic data containers
+--------------------------
+
+So far we've seen a few basic types in action: int, long and string.
+One of the strengths of Python is the power of its basic data
+structures for storing collections of data.  The built-in language has
+``tuple``, ``list``, ``dict`` and ``set``, and the standard library
+has many more, such as binary trees and several queue structures among
+others.  Let's explore the basic types.
+
+The two primary sequence containers are tuples and lists.  For the
+newcomer, it is often confusing why there are two -- we'll get into
+that in a minute.  First, let's look at how they are constructed and
+what their differences are.  The ``tuple`` is an immutable sequence,
+which means once it has been created it cannot be changed.  It is
+created using either the ``tuple`` constructor or the parentheses syntax.
+
+.. ipython::
+
+   In [254]: x = (2,3,5,8,13)
+
+   In [255]: type(x)
+   Out[255]: <type 'tuple'>
+
+   In [256]: x[0]
+   Out[256]: 2
+
+   @verbatim
+   In [257]: x[0] = 12
+   ---------------------------------------------------------------------------
+   TypeError: 'tuple' object does not support item assignment
+
+
+The last error is because we tried to write to the tuple, which is
+immutable.
+
+The ``list``, however, is much like the tuple except that it is
+mutable (changeable): we can grow the list, shrink it, delete items
+from it, or change an element of the list.  A list is constructed
+using the ``list`` constructor or square brackets.  You can add any
+type of data you want to a list or tuple; the most common case is to
+add data of the same type, eg all strings or all numbers, but this is
+not required.  In the example below, we add some non-numeric data to
+our list.
+
+.. ipython::
+
+   In [258]: x = [2, 3, 5, 8, 13]
+
+   In [259]: type(x)
+   Out[259]: <type 'list'>
+
+   # a list, unlike a tuple, supports assignment
+   In [260]: x[0] = 12
+
+   In [261]: x
+   Out[261]: [12, 3, 5, 8, 13]
+
+   # and we can mix arbitrary data types in the list
+   In [262]: x.append('this is not a pipe')
+
+   In [263]: x
+   Out[263]: [12, 3, 5, 8, 13, 'this is not a pipe']
+
+   # we can also delete elements; the 0 index is the first element,
+   # and the 1 index is the second element since Python indexing
+   # starts at 0, so here we are removing the element 3
+   In [264]: del x[1]
+
+   In [265]: x
+   Out[265]: [12, 5, 8, 13, 'this is not a pipe']
+
+Python also supports fancy slice indexing, which is very useful and
+powerful with numpy arrays which have the same syntax.  Since we cover
+it below, we'll leave the detailed explanation for later
+(:ref:`numpy_indexing_slicing`, and only demonstrate it in the example
+below in which we slice out every 2nd element.
+
+.. ipython::
+
+   In [266]: x[::2]
+   Out[266]: [12, 8, 'this is not a pipe']
+
+The dictionary is the associative array data structure in Python, and
+is one of the most useful and powerful types in the language.  Many of
+the internals of the language are implemented in dictionaries, with
+the result that the ``dict`` is as efficient and robust as can be.
+The dictionary maps keys to values: they key can be any immutable data
+type and the value can be any python object.
+
+One typical use of a dictionary is to store a bunch of different data
+types in a single data structure -- a class is another and perhaps
+better way to achieve the same thing, and not coincidentally, a
+dictionary underpins the basic class machinery, as we will see later.
+Consider a dictionary representing a person, which stores their age,
+weight and name.
+
+.. ipython::
+
+   In [11]: person0 = {'name' : 'Bill', 'age' : 12, 'weight' : 65.0}
+
+   In [12]: person1 = {'name' : 'Sally', 'age' : 14, 'weight' : 95.0}
+
+The keys of these dictionaries are all strings: 'name', 'age', and
+'weight', though they needn't be.  We could just as well use integers,
+tuples, class instances, or other immutable types as keys.
+
+.. note::
+
+  When the keys of a dictionary are all strings and valid python
+  names, you use the alternative key/value constructor syntax with the
+  ``dict`` constructor.  For example::
+
+    
+    person0 = dict(name='Bill', age=12, weight=65.0)
+
+
+You can index a dictionary with the key name to read or write the
+value assigned to that key.
+
+.. ipython::
+
+   In [19]: person0['name']
+   Out[19]: 'Bill'
+
+   In [20]: person0['name'] = 'Jane'
+
+   In [21]: person0
+   @verbatim
+   Out[21]: {'age': 12, 'name': 'Jane', 'weight': 65.0}
+
+
+Notice in the example above that the keys are not in the same order
+which we used when defining the dictionary.  This is an important fact
+about dictionaries to remember: the keys are unordered.  There are
+many important methods of dictionaries, but three that are used all
+the time are ``keys`` which returns an unordered list of keys in the
+dictionary, ``values`` which returns an unordered list of values in
+the dictionary, and ``items``, which returns a list of (key, value)
+tuples, as shown below for ``person0``.
+
+.. ipython::
+
+   In [22]: person0.keys()
+   Out[22]: ['age', 'name', 'weight']
+
+   In [23]: person0.values()
+   Out[23]: [12, 'Jane', 65.0]
+
+   In [24]: person0.items()
+   Out[24]: [('age', 12), ('name', 'Jane'), ('weight', 65.0)]
+
+Python data structures are flexible: for example, you can easily
+create a list of dictionaries.
+
+.. ipython::
+
+  In [25]: mylist = [person0, person1]
+
+  In [26]: mylist
+  Out[26]: 
+  [{'age': 12, 'name': 'Jane', 'weight': 65.0},
+   {'age': 14, 'name': 'Sally', 'weight': 95.0}]
+
+or you can make a dictionary key point to another dictionary as a
+value, though you can't use a dictionary itself as the key in a
+dictionary since the keys must be immutable and as we have seen above
+when we changed the name of ``person0`` to "Jane" the dictionary is
+mutable.
+
+Another common usage of dictionaries is to store or cache values which
+you plan to use over and over again, particularly if the computation
+of those values is expensive.  For example, to store the cubes of the
+the first 100 perfect squares in a dictionary, you could use the
+following.
+
+.. sourcecode:: python
+
+    squared = dict()
+    for i in range(100):
+        squared[i**2] = i**3
+
+    
+    print(squared[9])  # prints 27
+
+This particular example may not be the best one, since the computation
+of $i^3$ may be cheaper than the dictionary lookup, but in general
+whenever you have an expensive computation to perform and you want to
+cache the results for later reuse, a dictionary is the goto data
+structure for this task.  In the section of list and generator
+comprehensions below, we will see a syntactacically simpler way to
+create the squared dictionary, which we present here without comment.
+
+.. sourcecode:: python
+
+    squared = dict( (i**2, i**3) for i in range(100) )
+
+
+The final built-in data container we will look at is the ``set``,
+which behaves like the mathematical set.  It works like a dictionary
+with only keys and no values.  Like ``dict`` keys, the elements of a
+``set`` must be immutable, and they are unordered.  The set is built
+for efficient containment lookup, and set-wise operations like "and"
+and "or".  Let's look at two different Fibonacci series.
+
+
+.. ipython::
+
+   In [64]: fib0 = set([1, 1, 2, 3, 5, 8, 13, 21, 34])
+
+   In [65]: fib1 = set([2, 5, 7, 12, 19, 31, 50])
+
+   In [66]: 8 in fib0
+   Out[66]: True
+
+   In [67]: 8 in fib1
+   Out[67]: False
+
+
+Set-wise operations like union, intersection and set
+different  are easy.
+
+.. ipython::
+
+   # union
+   In [68]: fib0 & fib1
+   Out[68]: set([2, 5])
+
+   # intersection
+   In [69]: fib0 | fib1
+   Out[69]: set([1, 2, 3, 5, 7, 8, 12, 13, 19, 21, 31, 34, 50])
+
+   # set difference
+   In [70]: fib0 - fib1
+   Out[70]: set([1, 3, 8, 13, 21, 34])
+
+
+Additionally, you can easily ``add`` or ``remove`` existing elements
+of a set.  Here we "mistakenly" add a bogus element 56 to the ``fib0``
+series when we mean to add 55, so we correct the error by adding 55
+and then removing 56.
+
+.. ipython::
+
+   # oops, wrong number
+   In [77]: fib0.add(56)
+
+   In [78]: fib0
+   Out[78]: set([1, 2, 3, 5, 8, 13, 21, 34, 56])
+
+   # add the correct number
+   In [79]: fib0.add(55)
+
+   # remove the bogus number
+   In [80]: fib0.remove(56)
+
+   # all good
+   In [81]: fib0
+   Out[81]: set([1, 2, 3, 5, 8, 13, 21, 34, 55])
+
+That's it for an introduction to the basic python data container
+structures tuple, list, dict and set.  The `collections
+<http://docs.python.org/library/collections.html>`_ module in the
+standard library contains many more useful data structures, such as
+deque, ordered set, and named tuples.
+
+
+if, for and while
+--------------------------------
+
+Python is unusual in that it uses whitespace and colons to designate
+code blocks.  For example, in C/C++, we would write something like::
+
+  if (x==1) {
+    printf("x is one!\n");   // this is executed iff x==1
+    x += 1;                  // and so is this
+  }
+
+  printf("you are here\n");  // this is executed unconditionally
+
+
+and in python we use whitespace indendation rather than curly braces
+to designate the flow that is scoped by the ``if`` clause.
+
+.. sourcecode:: python
+
+  if (x==1):
+    print("x is one!")  # this is executed iff x==1
+    x += 1              # and so is this
+  
+  print("you are here") # this is executed unconditionally
+
+Python also optionally supports ``else if`` and ``else`` blocks.
+
+.. sourcecode:: python
+
+  if (x==1):
+    print("x is one")
+  else if (x==2):
+    print("x is two")
+  else:
+    print("x is not one or two")
+
+You can have zero or an unlimited number of ``else if`` clauses, and the
+first one that meets the "True" condition is executed and the
+subsequent condition/code blocks are short circuited.
+
+The ``for`` loop in python is particularly simple.  You can iterate over any
+sequence, including tuples, lists, dictionaries, strings and more
+using the same "for ELEMENT in SOME_SEQUENCE" syntax.  In the example
+below, we iterate over the characters in a string.
+
+.. sourcecode:: python
+
+   for somechar in 'This is not a pipe':
+       print(somechar, ord(somechar))
+
+Similarly, you can iterate over a list of integers.
+
+.. sourcecode:: python
+
+  for someint in [2, 3, 5, 8, 13, 21]:
+    x = 2*someint
+    print(x, x**2)
+
+Like the ``if`` block, all of the lines in the ``for`` block which are
+indented with respect to the "for" statement are executed for each
+ELEMENT in the sequence until the first unindented line (or a
+``break``) is encountered.
+
+One handy built-in function is ``enumerate``, which takes a sequence
+as input and returns a iterable sequence of (i, element) where i is
+the count, or index, of the position of the i-th element in the
+sequence.  For example, if you want to iterate over a list of lines,
+and break after you have processed 100 lines, a common idiom is
+
+.. sourcecode:: python
+
+    for i, line in enumerate(lines):
+       line = line.upper()  # do something with line
+       print(line)
+       if i==100:
+           break
+
+``while`` follows a similar pattern.  Here is an example from ipython,
+which uses the leading dots "..." to indicate an indented block.
+
+.. ipython::
+
+   In [94]: i = 5
+
+   In [95]: while i<1000:
+      ....:     i = i**2
+      ....:     print(i)
+      ....:     
+      ....:     
+   25
+   625
+   390625
+
+You can write indented blocks in an interactive ipython session.  The
+primary difference is that ipython requires two empty/blank lines to
+terminate the indented block.
+
+
+list and generator comprehensions 
+----------------------------------
+TODO
+
+Exceptions
+------------
+
+TODO
+
+Functions and classes
+----------------------
+
+TODO
+
+Modules and packages
+---------------------
+
+TODO
+
+
+
+
 .. _numpy_getting_started:
 
 Numpy
--------
+======
 
 Numpy is the core extension library on which almost all other
 libraries for scientific computing in python are built.  It provides
 an N-dimensional array implemented in C which provides extremely fast
 operations on large blocks of data.  For example, in plain python to
-compute the square root of the first 5 integers, we could write a
-for-loop and use ``math.sqrt``
+compute $2 i^2$ for the first 5 integers, we could write a for-loop
 
 .. ipython::
 
-   In [11]: import math
-
-   In [12]: for i in range(5):
-      ....:     print math.sqrt(i)
-      ....:
-      ....:
-   0.0
-   1.0
-   1.41421356237
-   1.73205080757
-   2.0
+   In [130]: for i in range(5):
+      .....:     print(i, 2*i**2)
+      .....:
+      .....:
+   0 0
+   1 2
+   2 8
+   3 18
+   4 32
 
 but this can be quite slow for a large number of integers because
 python is a dynamic interpreted language.  For each integer in the
 loop, python has to look up i, determine its type and value, look up
-the symbol ``math`` and figure out what the ``.`` operator does, and
-then look up the name ``sqrt`` and see if implements the function call
-operator ``()`` and so on.  And it doesn't learn: it does each of
-these operations on every pass through the loop.  This can be
-extremely slow.  In numpy we simply do
+the multiplication and exponentiation operators ``*`` and ``**`` to see
+how to handle them for integers and so on.  And it doesn't learn: it
+does each of these operations on every pass through the loop.  This
+can be extremely slow.  In numpy we simply do
 
 .. ipython::
 
-   In [13]: import numpy as np
 
-   In [14]: np.sqrt(np.arange(5))
-   Out[14]: array([ 0.        ,  1.        ,  1.41421356,
-                    1.73205081,  2.        ])
+   In [139]: import numpy as np
 
-and everything happens in C -- we have to do each lookup only one
-time, for example the lookup to figure out what ``np.sqrt`` is --
-whereas in python we had to lookup ``math.sqrt`` for each element in
-the range.  For loops with a large number of iterations, the
-differences can be a 100-fold or more performance improvement, which
-is why dynamic interpreted languages like Python and Matlab rely so
-heavily on array based computations.
+   In [140]: x = np.arange(5)
 
-In code, we will be utilizing the import abbreviation ``np`` for
-``numpy`` throughout the book.  You can check which version of numpy
-you are running, and where it is installed, by inspecting the
-``__version__`` and ``__file__`` attributes.
+   In [141]: 2*x**2
+   Out[141]: array([ 0,  2,  8, 18, 32])
+
+Not only is this syntactically convenient -- we can get the same
+result with less typing and less code -- it has much better
+performance in an interpreted language like Python because most of the
+work happens in C.  Python only has to do look up the variable name
+"x" and multiplication and exponentiation operators one time to see how
+to use them with numpy arrays, unlike in the Python case where it had
+to do the look up in each iteration of the loop.  For loops with a
+large number of iterations, the differences can be a 100-fold or more
+performance improvement, which is why dynamic interpreted languages
+like Python and Matlab rely so heavily on array based computations.
+This is sometimes confusing for people coming from languages which do
+not encourage or support array based element-wise operations.
+
+In this book, as above, we will be utilizing the import abbreviation
+``np`` for ``numpy``.  You can check which version of numpy you are
+running, and where it is installed, by inspecting the ``__version__``
+and ``__file__`` attributes.
 
 .. ipython::
 
@@ -318,6 +949,366 @@ you are running, and where it is installed, by inspecting the
    In [19]: np.__version__
    Out[19]: '1.4.0.dev7577'
 
+
+Creating numpy arrays
+---------------------
+
+The basic data structure numpy provides is an N-dimensional array of
+homogeneous elements, the ``ndarray``.  The simplest ndarray is one
+dimension, for example the numbers from 0..5 we used in the example
+above which we created with ``np.arange(5)`` -- this is the numpy
+version of the built-in python function ``range`` which creates a
+*list* of the integers from 0 to 5.
+
+.. ipython::
+
+
+   # a python list
+   In [52]: mylist = range(5)
+
+   In [53]: mylist
+   Out[53]: [0, 1, 2, 3, 4]
+
+   # a numpy array
+   In [54]: myarray = np.arange(5)
+
+   In [55]: myarray
+   Out[55]: array([0, 1, 2, 3, 4])
+
+You may be surprised that both ``mylist`` and ``myarray`` do not
+include the end point number 5; this is a feature of python in which
+ranges start at the beginning number and go up to, but do not include
+the terminal number.  Unlike the python list in ``mylist``, the numpy
+array ``myarray`` is build for efficiency in storage and performance,
+and is represented internally as a C data buffer of integers.  There
+are several crucial methods to inspect the size and type of numpy
+arrays, including ``shape``, ``size``, and ``dtype``, which show the
+dimensional shape of the array, the total number of elements in the
+array, and the datatype of the array (eg integer or float).
+
+.. ipython::
+
+   # the shape here is a length 1 python tuple reflecting the fact
+   # that myarray is is a 1 dimensional array.  The first (and only)
+   # dimension has 5 elements in it
+   In [56]: myarray.shape
+   Out[56]: (5,)
+
+   In [57]: myarray.size
+   Out[57]: 5
+
+   # the dtype, or "data type" here is 'int32' for a 32 bit integer.
+   # If you are working on a 64 bit architecture, you will see 'int64'
+   In [58]: myarray.dtype
+   @verbatim
+   Out[58]: dtype('int32')
+
+
+There are lots of ways of creating numpy arrays.  ``np.arange``
+created 5 python integers from 0 to 5; it inspected the argument ``5``
+and inferred that we wanted to create an integer array.  If instead we
+wanted to create an array of floating point numbers, we could give the
+argument ``5.0`` or explicitly pass in ``dtype=float`` to the
+constructor.
+
+.. ipython::
+
+   # note the "." at the end of the numbers, indicating floating point
+   # numbers
+   In [76]: farray = np.arange(5.)
+
+   In [77]: farray
+   Out[77]: array([ 0.,  1.,  2.,  3.,  4.])
+
+   # unlike integers, where the default size of 32bit or 64bit is
+   # platform dependent, the default floating point size is 64bit (8
+   # bytes).
+   In [78]: farray.dtype
+   Out[78]: dtype('float64')
+
+   In [79]: farray = np.arange(5, dtype=float)
+
+   In [80]: farray
+   Out[80]: array([ 0.,  1.,  2.,  3.,  4.])
+
+   In [81]: farray.dtype
+   Out[81]: dtype('float64')
+
+There are several other useful functions for creating numpy arrays.
+``np.array`` creates an array from existing data.  Below we create a
+two dimension array from lists of python integers
+
+.. ipython::
+
+   In [91]: X = np.array([[4,5,6,7], [12,13,14,15]])
+
+   In [92]: X
+   Out[92]:
+   array([[ 4,  5,  6,  7],
+	  [12, 13, 14, 15]])
+
+   # the shape is a length 2 tuple showing that the array is 2 rows
+   # and 4 columns
+   In [93]: X.shape
+   Out[93]: (2, 4)
+
+   # the size is the total number of elements in the array
+   In [94]: X.size
+   Out[94]: 8
+
+   In [95]: X.dtype
+   Out[95]: dtype('int32')
+
+
+Another set of handy functions for creating arrays are ``zeros`` and
+``ones``, create an array filled with either zeros or ones.  In the
+example below, we create a 3x3x4 array of zeros and then assign the
+first element the value 12
+
+.. ipython::
+
+   In [108]: Z = zeros((3,3,4))
+
+   In [109]: Z.shape
+   Out[109]: (3, 3, 4)
+
+   In [110]: Z[0,0,0] = 12
+
+   In [111]: Z
+   Out[111]:
+   array([[[ 12.,   0.,   0.,   0.],
+	   [  0.,   0.,   0.,   0.],
+	   [  0.,   0.,   0.,   0.]],
+
+	  [[  0.,   0.,   0.,   0.],
+	   [  0.,   0.,   0.,   0.],
+	   [  0.,   0.,   0.,   0.]],
+
+	  [[  0.,   0.,   0.,   0.],
+	   [  0.,   0.,   0.,   0.],
+	   [  0.,   0.,   0.,   0.]]])
+
+
+Two other functions we will be using a lot to create numpy arrays in
+this book are the random number array generators ``np.random.rand``
+and ``np.random.randn``.  The first creates random numbers from the
+uniform distribution from 0..1, and the second creates Gaussian random
+numbers with zero mean and unit standard deviation (the "n" in "randn"
+is for "normal").
+
+.. ipython::
+
+   # 5 random numbers from the uniform distribution over 0..1
+   In [117]: x = np.random.rand(5)
+
+   In [118]: x
+   Out[118]: array([ 0.17123039,  0.35602158,  0.9429075 ,  0.26874412,  0.55789462])
+
+   # 5 new random numbers from the uniform distribution over 0..1
+   In [119]: x = np.random.rand(5)
+
+   In [120]: x
+   Out[120]: array([ 0.60718795,  0.33060536,  0.06879506,  0.02842788,  0.060915  ])
+
+
+
+You can also create new arrays from operations on existing arrays, for
+example, by creating a new array ``y = 2*x`` which will have the same
+size and dtype as ``x`` but will be twice the value for each element.
+
+Finally, perhaps the most useful way to create numpy arrays is to load
+them from files using the functions ``np.loadtxt``, ``np.load`` and
+``np.fromfile``.  We will be encountering these in many examples below
+as we explore numpy in more depth.
+
+.. _numpy_indexing_slicing:
+
+numpy indexing and slicing
+---------------------------
+
+You can *view* individual elements of the array using the integer
+index starting at 0 and ending at the length of the array minus one.
+
+.. ipython::
+
+   In [176]: x = 3*np.arange(7)
+
+   In [177]: x
+   Out[177]: array([ 0,  3,  6,  9, 12, 15, 18])
+
+   In [178]: x[0]
+   Out[178]: 0
+
+   In [179]: x[1]
+   Out[179]: 3
+
+   In [180]: x[6]
+   Out[180]: 18
+
+
+You can index into the end of the array using negative
+numbers -- -1 is the last element of the array, -2 is the second to
+last, etc...
+
+.. ipython::
+
+   In [181]: x[-1]
+   Out[181]: 18
+
+   In [182]: x[-2]
+   Out[182]: 15
+
+
+Similarly, you can *assign* to elements of the array with the same syntax.
+
+.. ipython::
+
+   In [183]: x[1] = 2358
+
+   In [184]: x[-2] = 123
+
+   In [185]: x
+   Out[185]: array([   0, 2358,    6,    9,   12,  123,   18])
+
+
+For multi-dimensional arrays, you specify the index of each axis in
+the array, starting with the row index, then the column index, and so
+on for higher dimensions.
+
+.. ipython::
+
+   # X is a two dimensional array, the first axis is the rows, the
+   # second axis is the columns.
+   In [187]: X = np.array([[4,5,6,7], [12,13,14,15]])
+
+   In [188]: X
+   Out[188]:
+   array([[ 4,  5,  6,  7],
+	  [12, 13, 14, 15]])
+
+   In [189]: X[0,2]
+   Out[189]: 6
+
+   In [190]: X[1,-1]
+   Out[190]: 15
+
+For a multi-dimensional array, if you give an index argument for less
+than the total number of dimensions, you get all of the elements of
+the remaining unspecified dimensions.  For example, X[0] specifies the
+entire first row and X[-1] is the entire last row
+
+.. ipython::
+
+   In [191]: X[0]
+   Out[191]: array([4, 5, 6, 7])
+
+   In [192]: X[-1]
+   Out[192]: array([12, 13, 14, 15])
+
+When you assign to a slice like the those in the rows above, numpy
+will try and match the shapes of the left hand side and right hand
+sides using broadcasting.  If the two sides have identical shapes, the
+assignment is straightforward element-wise assignment.  If the right
+hand side has fewer elements than the left hand side, the element will
+be repeated to fill up the slice on the left hand side.
+
+.. ipython::
+
+   # the left hand and right hands sides are the same shape,
+   # element-wise assignment
+
+   In [196]: X[0] = [8,9,10,11]
+
+   In [197]: X
+   Out[197]:
+   array([[ 8,  9, 10, 11],
+	  [12, 13, 14, 15]])
+
+   # the left hand side is 4 elements, the right hand side is a single
+   # element, so the single element is broadcast to fill the left hand
+   # side
+
+   In [198]: X[-1] = 23
+
+   In [199]: X
+   Out[199]:
+   array([[ 8,  9, 10, 11],
+	  [23, 23, 23, 23]])
+
+
+
+numpy has a powerful syntax for viewing and operating on individual
+elements or slices of an array, using the
+``INDEX_START:INDEX_END:STRIDE`` syntax inspired Matlab(TM).  For
+example, to view a slice of every 2nd element (the ``STRIDE``) in the
+range from 0..20 starting at element 4 (``INDEX_START`` included) and
+ending at element 14 (``INDEX_END`` not included) you write
+
+.. ipython::
+
+   In [153]: x = np.arange(20)
+
+   In [154]: x
+   Out[154]:
+   array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
+	  17, 18, 19])
+
+   In [155]: x[4:14:2]
+   Out[155]: array([ 4,  6,  8, 10, 12])
+
+Each of these three slice arguments has a default value and can be left out.
+``INDEX_START`` defaults to 0, ``INDEX_END`` defaults to the length of
+the array, and ``STRIDE`` defaults to 1.  Here are several examples
+illustrating the defaults.
+
+.. ipython::
+
+   # INDEX_START defaults to 0
+   In [158]: x[:10:2]
+   Out[158]: array([0, 2, 4, 6, 8])
+
+   # INDEX_END defaults to 20
+   In [159]: x[4::2]
+   Out[159]: array([ 4,  6,  8, 10, 12, 14, 16, 18])
+
+   # STRIDE defaults to 1
+   In [160]: x[4:10]
+   Out[160]: array([4, 5, 6, 7, 8, 9])
+
+   # INDEX_START defaults to 0, INDEX_END defaults to 20
+   In [161]: x[::2]
+   Out[161]: array([ 0,  2,  4,  6,  8, 10, 12, 14, 16, 18])
+
+   # INDEX_START, INDEX_END and STRIDE all take on default values
+   In [163]: x[::]
+   Out[163]:
+   array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
+	  17, 18, 19])
+
+   # INDEX_START, INDEX_END and STRIDE all take on default values
+   In [164]: x[:]
+   Out[164]:
+   array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
+	  17, 18, 19])
+
+
+Now that we've introduced indexing and slicing, we can combine the
+two.  For example, in a two dimensional array, the first axis might be
+indexed with a single integer index, and the second axis with a slice
+index.
+
+.. ipython::
+
+   In [202]: X = np.array([[4,5,6,7], [12,13,14,15]])
+
+   In [203]: X[1, 1::2]
+   Out[203]: array([13, 15])
+
+
+
+
+Working with numpy arrays
+--------------------------
 
 In addition to providing the basic array data structure, numpy
 provides a set of core mathematical functions *ufuncs* on this data,
@@ -362,7 +1353,9 @@ names.
 But no matter how you are configured, those are a lot of symbols --
 the basic numpy array is feature rich and powerful.  Below are a
 sampling with intuitive names -- try ``help`` on any method to see
-more information, for example in ipython you can type ``help x.clip``.
+more information, for example in ipython you can type ``help x.clip``
+which clips the values in a numpy array to the min/max values
+specified in the ``clip`` method call.
 
 
 .. ipython::
@@ -418,7 +1411,7 @@ with our tour of MINS.
 .. matplotlib_getting_started:
 
 Matplotlib
------------
+================
 
 Matplotlib is a package for making scientific graphs and data
 visualizations.  Although it has limited support for basic 3D graphs
@@ -554,7 +1547,7 @@ method, which returns true if every element in the array is true.
 
 so we can take any one of these channels to be the "luminosity"
 channel ``lum``, or more generally we can take the average of red,
-green and blue to get the lumonsity channel by taking the average of
+green and blue to get the luminosity channel by taking the average of
 the red, green and blue channels.  We can do this in numpy by
 computing the mean over the last axis, which is ``axis=2``.  Since
 this is luminosity data, we can do pseudo-color mapping.
@@ -658,7 +1651,7 @@ normal color order of the map from luminosity to color.  For, example,
 .. scipy_getting_started:
 
 Scipy
------
+=======
 
 For a quick look at what's available in scipy, just import it and type
 ``help scipy`` in IPython.
@@ -738,7 +1731,7 @@ ipython.
 
   In [16]: X = np.loadtxt('bodyfat.dat')
 
-  In [17]: print X.shape
+  In [17]: print(X.shape)
   (252, 15)
 
 
@@ -749,12 +1742,6 @@ ipython.
 
 
 
-.. _python_mini_tutorial:
-
-A Python Mini-Tutorial
-======================
-
-TODO
 
 
 .. _basic_workflow:

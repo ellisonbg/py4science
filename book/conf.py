@@ -29,7 +29,7 @@ extensions = ['sphinx.ext.doctest',
               #'sphinx.ext.jsmath',
               'sphinx.ext.pngmath',
               'sphinx.ext.ifconfig',
-              
+
               'ipython_console_highlighting',
               'math_dollar',
               'cite',

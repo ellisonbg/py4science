@@ -9,7 +9,7 @@ Consider the problem of solving for $t$ in
 
 .. math::
   \int_{o}^{t}f(s)ds=u
-  
+
 where $f(s)$ is a monotonically increasing function of $s$ and $u>0$.
 
 
@@ -19,17 +19,17 @@ package that contains a Newton-Raphson solver called ``scipy.optimize.newton.``
 This solver can optionally take a known derivative for the function whose roots
 are being sought.
 
-For this exercise, implement the solution for the test function 
+For this exercise, implement the solution for the test function
 
 .. math::
 
    f(t)=t\sin^{2}(t),
-   
-using 
+
+using
 
 .. math::
 
-   u=\frac{1}{4}. 
+   u=\frac{1}{4}.
 
 
 .. only:: instructor
