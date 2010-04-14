@@ -608,7 +608,7 @@ tuples, class instances, or other immutable types as keys.
   names, you use the alternative key/value constructor syntax with the
   ``dict`` constructor.  For example::
 
-    
+
     person0 = dict(name='Bill', age=12, weight=65.0)
 
 
@@ -655,7 +655,7 @@ create a list of dictionaries.
   In [25]: mylist = [person0, person1]
 
   In [26]: mylist
-  Out[26]: 
+  Out[26]:
   [{'age': 12, 'name': 'Jane', 'weight': 65.0},
    {'age': 14, 'name': 'Sally', 'weight': 95.0}]
 
@@ -675,10 +675,11 @@ following.
 
     squared = dict()
     for i in range(100):
-        squared[i**2] = i**3
+        i2 = i**2
+        squared[i2] = i2**3
 
-    
-    print squared[9]  # prints 27
+
+    print squared[9]  # prints 729
 
 This particular example may not be the best one, since the computation
 of $i^3$ may be cheaper than the dictionary lookup, but in general
@@ -686,19 +687,21 @@ whenever you have an expensive computation to perform and you want to
 cache the results for later reuse, a dictionary is the goto data
 structure for this task.  In the section of list and generator
 comprehensions below, we will see a syntactacically simpler way to
-create the squared dictionary, which we present here without comment.
+create the squared dictionary which takes advantage of the fact that a
+dictionary can be initialized with a sequence of (key, value) tuples.
 
 .. python::
 
-    squared = dict( (i**2, i**3) for i in range(100) )
+    squared = dict( (i**2, i**6) for i in range(100) )
 
 
 The final built-in data container we will look at is the ``set``,
 which behaves like the mathematical set.  It works like a dictionary
 with only keys and no values.  Like ``dict`` keys, the elements of a
 ``set`` must be immutable, and they are unordered.  The set is built
-for efficient containment lookup, and set-wise operations like "and"
-and "or".  Let's look at two different Fibonacci series.
+for efficient containment lookup, and set-wise operations like union,
+intersection and set differences.  Let's look at two different
+Fibonacci series.
 
 
 .. ipython::
@@ -715,7 +718,7 @@ and "or".  Let's look at two different Fibonacci series.
 
 
 Set-wise operations like union, intersection and set
-different  are easy.
+different are easy.
 
 .. ipython::
 
