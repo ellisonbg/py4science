@@ -11,8 +11,7 @@
    trapezoid
    monte_carlo
    bessel
-
-.. moon_denoise
+   moon_denoise
    quad_newton
    stats_descriptives
    poly_univar
