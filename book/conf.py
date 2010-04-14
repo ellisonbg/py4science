@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+
+# The setting for student or instructor display. Uncomment the relevant line:
+tags.add('instructor')
+#tags.add('student')
+
 #
 # Py4Science documentation build configuration file, created by
 # sphinx-quickstart on Tue Aug 25 23:58:54 2009.
@@ -203,18 +208,30 @@ book = ('index', 'py4science.tex',
         u'Scientific Computing in Python',
         authors, 'manual')
 
+# Mark solutions manuals
+sln = '_solutions' if 'instructor' in tags else ''
+solutions = ' - Instructor Solutions' if 'instructor' in tags else ''
+
 course_outline = ('course', 'course.tex', u'Course outline', authors, 'howto')
 
-problem_sets = range(1,6)
+intro_problems = ('problems/index_all', 'p4s_workbook%s.tex' % sln,
+                  u'Py4Science Workbook%s' % solutions,
+                  authors, 'howto')
+
+problem_sets = range(1,7)
 problems = [  ('problems/index_problem_set_%s' % i,
-               'mscomp_problems_%s.tex' % i,
-               u'Problem set \#%s' % i,
+               'mscomp_problems_%s%s.tex' % (i, sln),
+               u'Problem set \#%s%s' % (i, solutions),
                authors, 'howto') for i in problem_sets ]
 
 # All
-latex_documents = [book, course_outline] + problems
-# To just build a few
-#latex_documents = problems[4:5]
+all_latex_documents = [book, course_outline] + problems + [intro_problems]
+# To just build a few, select here.  Keep in mind the files are named counting
+# from 1...
+#latex_documents = problems[5:6]
+latex_documents = problems
+latex_documents = [intro_problems]
+#latex_documents = all_latex_documents
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
@@ -249,8 +266,3 @@ latex_elements = dict(#docclass = 'article',
                       #classoptions = ',english,twocolumn',
                       fontpkg=r'\usepackage{textcomp}',
                       )
-
-
-# The setting for student or instructor display. Uncomment the relevant line:
-#tags.add('instructor')
-tags.add('student')

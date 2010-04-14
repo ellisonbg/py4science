@@ -1,7 +1,7 @@
 .. _fft_imdenoise:
 
 FFT Image Denoising
--------------------
+===================
 
 **Illustrates**: 2-d image denoising, use of the numpy FFT library, array
 manipulations, image plotting.

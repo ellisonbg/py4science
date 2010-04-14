@@ -28,58 +28,20 @@ general linear models, \dots) to analytical and numerical tools for working
 with almost every discrete and continuous statistical distribution you can
 think of (normal, gamma, poisson, weibull, lognormal, levy stable, \dots).
 
-.. _stats_descriptives:
 
-Descriptive statistics
-----------------------
+.. include:: stats_descriptives.rst
 
-The first step in any statistical analysis should be to describe,
-charaterize and importantly, visualize your data.  The normal
-distribution (aka Gaussian or bell curve) lies at the heart of much of
-formal statistical analysis, and normal distributions have the tidy
-property that they are completely characterized by their mean and
-variance.  As you may have observed in your interactions with family
-and friends, most of the world is not normal, and many statistical
-analyses are flawed by summarizing data with just the mean and
-standard deviation (square root of variance) and associated
-signficance tests (eg the T-Test) as if it were normally distributed
-data.
-
-In the exercise below, we write a class to provide descriptive
-statistics of a data set passed into the constructor, with class
-methods to pretty print the results and to create a battery of
-standard plots which may show structure missing in a casual analysis.
-Many new programmers, or even experienced programmers used to a
-proceedural environment, are uncomfortable with the idea of classes,
-having hear their geekier programmer friends talk about them but not
-really sure what to do with them.  There are many interesting things
-one can do with classes (aka object oriented programming) but at their
-hear they are a way of bundling data with methods that operate on that
-data.  The ``self`` variable is special in python and is how the
-class refers to its own data and methods.  Here is a toy example
-
-.. ipython::
-
-   In [115]: class MyData:
-      .....:     def __init__(self, x):
-      .....:         self.x = x
-      .....:     def sumsquare(self):
-      .....:         return (self.x**2).sum()
-      .....:     
-      .....:     
-
-   In [116]: mydata = MyData(np.random.rand(100))
-
-   In [117]: mydata.sumsquare()
-   Out[117]: 29.6851135284
-
-
+The example below implements a more elaborate class that can actually be used
+in practice to get a quick idea of some of the properties of a dataset stored
+as a text file.  You can even run it as a program at the command-line, with the
+name of the data file, and it will print a summary as well as producing a plot
+window with some informative figures:
+   
 .. plot:: examples/stats_descriptives.py
    :width: 4in
    :include-source:
 
    Descriptive statistics.
-
 
    
 .. _stats_distributions:
