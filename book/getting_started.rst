@@ -88,7 +88,7 @@ server in Matlab, you probably wouldn't want to.  In contrast, the
 *Curse of Python* is that it is so fun and easy to implement powerful
 tools that people often prefer to "roll their own" web application
 server, plotting library or machine learning toolkit rather than use
-someone elses.  This is a bit tongue in cheek: over time communities
+someone else's.  This is a bit tongue in cheek: over time communities
 do coalesce around successful packages, but in early stages there is
 often too much choice rather than too little simply because Python
 developers enjoy writing Python code, since it is so expressive and
@@ -130,7 +130,7 @@ interpreter::
 
 .. figure:: _static/pythonxy_launcher.png
 
-   *The Python(x,y) launch utility* for windows and ubuntu linux.
+   *The Python(x,y) launch utility* for windows and Ubuntu linux.
    Choose your editing environment under "Applications" and click the
    green check mark to launch.  Choose the "Interactive console", here
    the plain vanilla python interpreter but next we'll launch the much
@@ -241,10 +241,7 @@ we'll spend *most* of our time in an IPython shell.  We can launch it
 just like we launched the plain vanilla Python interpreter above, but
 this time we'll prefix our command with an "i", and instead of seeing
 the familiar triple quoted prompt ``>>>`` from the Python interpreter,
-we see Mathematica-style numbered input and output prompts.  In the
-example below, we seamlessly blend python commands like ``2**100``
-with basic file system navigation and manipulation commands like
-``cd``, ``mkdir`` and ``!more`` ::
+we see Mathematica-style numbered input and output prompts.
 
   > ipython
   Python 2.6.4 (r264:75706, Nov  2 2009, 14:38:03)
@@ -259,28 +256,288 @@ with basic file system navigation and manipulation commands like
   In [1]: 2**100
   Out[1]: 1267650600228229401496703205376L
 
+
+Getting help in ipython
+------------------------
+
+There are lots of features in ipython to help you explore python
+objects you are working with.  Often you get some object returned by
+numpy, scipy or matplotlib and you are not exactly sure what you have
+on your hands.  Your first three lines of defense are the ``type``
+function, ``help`` and its IPython cousins ``?`` and ``??``, and TAB
+which shows you a list of available attributes and methods.  Let's
+look at this in action for a basic string "somefile.dat" which is the
+name mythical file we plan to do some work on.
+
+
+.. ipython::
+
+   In [128]: myfile = 'somefile.dat'
+
+   In [129]: myfile
+   Out[129]: 'somefile.dat'
+
+   In [130]: type(myfile)
+   Out[130]: <type 'str'>
+
+You can do ``myfile?`` to see the basic help on the object.
+
+
+.. sourcecode:: ipython
+
+   In [148]: myfile?
+   Type:           str
+   Base Class:     <type 'str'>
+   String Form:    somefile.dat
+   Namespace:      Interactive
+   Length:         12
+   Docstring:
+       str(object) -> string
+
+       Return a nice string representation of the object.
+       If the argument is a string, the return value is the same object.
+
+
+
+Which isn't too helpful here.  Our last and most valuable line of
+defense seeking help is TAB completion, which will list the complete
+set of methods of Python strings can be viewed by typing ``a.<TAB>``
+
+.. sourcecode:: ipython
+
+   In [150]: myfile.<TAB>
+   a.__add__          a.__init__      a.__setattr__ a.isdigit a.rsplit
+   a.__class__        a.__le__        a.__str__     a.islower a.rstrip
+   a.__contains__     a.__len__       a.capitalize  a.isspace a.split
+   a.__delattr__      a.__lt__        a.center      a.istitle a.splitlines
+   a.__doc__          a.__mod__       a.count       a.isupper a.startswith
+   a.__eq__           a.__mul__       a.decode      a.join    a.strip
+   a.__ge__           a.__ne__        a.encode      a.ljust   a.swapcase
+   a.__getattribute__ a.__new__       a.endswith    a.lower   a.title
+   a.__getitem__      a.__reduce__    a.expandtabs  a.lstrip  a.translate
+   a.__getnewargs__   a.__reduce_ex__ a.find        a.replace a.upper
+   a.__getslice__     a.__repr__      a.index       a.rfind   a.zfill
+   a.__gt__           a.__rmod__      a.isalnum     a.rindex
+   a.__hash__         a.__rmul__      a.isalpha     a.rjust
+
+
+Each of these methods can be queried similarly with the ``?``
+operator as above.  For more details on Python strings and their
+companion sequence types, see `string methods
+<http://docs.python.org/library/stdtypes.html#string-methods>`_.  The
+"double underscore" methods are special methods that make strings act
+like strings, and are not important for users of the basic string
+types.  There are many other basic methods that *are* quite useful.
+Use the ``?`` operator in ipython to get basic help on any of these
+methods.
+
+.. sourcecode:: ipython
+
+   In [151]: myfile.upper?
+   Type:           builtin_function_or_method
+   Base Class:     <type 'builtin_function_or_method'>
+   String Form:    <built-in method upper of str object at 0x980e2f0>
+   Namespace:      Interactive
+   Docstring:
+       S.upper() -> string
+
+       Return a copy of the string S converted to uppercase.
+
+
+   In [152]: myfile.upper()
+   Out[153]:
+
+
+Another really nifty feature in ipython that doesn't always help is
+the double question mark ``??`.  The single question mark ``?`` brings
+up the *docstring* help for the object you are interrogating, the
+double question mark ``??`` brings up the *source code* itself, if
+available.  The reason the ``??`` doesn't always bring up the source
+code is that some python methods are written in compiled binary code,
+and so the source is not available.  For example, if you wanted to see
+the implementation of numpy's ``trapz``, which does trapezoidal
+integration, the ``??`` interrogation shows you the standard IPython
+help including a header indicating the object type (in this case a
+"function") the source code file, the method signature (the line
+starting with ``def trapz``) and a docstring delineated by triple
+quotes ``"""``, which we've elided here for brevity.  The section
+below the docstring is the actual sourcecode implementation.
+
+..sourcecode:: ipython
+
+  In [212]: np.trapz??
+
+  Type:             function
+  Base Class:       <type 'function'>
+  String Form:   <function trapz at 0x86528ec>
+  Namespace:        Interactive
+  File:             /home/titan/johnh/dev/lib/python2.4/site-packages/numpy/lib/function_base.py
+  Definition:       np.trapz(y, x=None, dx=1.0, axis=-1)
+  Source:
+  def trapz(y, x=None, dx=1.0, axis=-1):
+      """
+      Integrate along the given axis using the composite trapezoidal rule.
+
+      Integrate `y` (`x`) along given axis.
+      ...snip lots of documentation...
+      Examples
+      --------
+      >>> np.trapz([1,2,3])
+      >>> 4.0
+      >>> np.trapz([1,2,3], [4,6,8])
+      >>> 8.0
+
+      """
+      y = asarray(y)
+      if x is None:
+	  d = dx
+      else:
+	  x = asarray(x)
+	  if x.ndim == 1:
+	      d = diff(x)
+	      # reshape to correct shape
+	      shape = [1]*y.ndim
+	      shape[axis] = d.shape[0]
+	      d = d.reshape(shape)
+	  else:
+	      d = diff(x, axis=axis)
+      nd = len(y.shape)
+      slice1 = [slice(None)]*nd
+      slice2 = [slice(None)]*nd
+      slice1[axis] = slice(1,None)
+      slice2[axis] = slice(None,-1)
+      return add.reduce(d * (y[slice1]+y[slice2])/2.0,axis)
+
+Navigating the file-system and running scripts
+--------------------------------------------------
+
+In addition to being a full-featured Python interpreter, IPython also
+has some magic commands to do things you cannot do in the standard
+Python interpreter, like navigating the file system with ``cd``,
+``mkdir`` and ``pwd``, inspecting file contents with ``less``,
+executing systems commands with the ``!`` prefix, and running python
+code from the IPython shell with the IPython magic command ``run``.
+
+.. sourcecode:: ipython
+
+  # use the ipython magic commands mkdir, cd and pwd to navigate the
+  # file system, on Windows, Unix or OSX
   In [2]: mkdir mypy
 
   In [3]: cd mypy/
   /home/jdhunter/mypy
 
+  # use pure Python commands to create a test file
   In [4]: fh = file('mydata.dat', 'w')
 
   In [5]: fh.write('this is a test')
 
   In [6]: fh.close()
 
+  # use the IPython magic command ls to list the contents of the
+  # current directory
   In [7]: ls
   mydata.dat
 
+  # make a system call to "more" by prefixing the command with an
+  # exclamation point to view the data file (ipython also has a
+  # cross-platform magic command "less" but this is for illustration
+  # of a system call).
   In [8]: !more mydata.dat
   this is a test
 
-We'll talk more about IPython below in our :ref:`basic_workflow`
-section below.  For now we want to complete our tour of the basic MINS
-components to make sure everything is installed and working properly.
 
 
+Perhaps the most useful magic command in the IPython arsenal is
+``run`` which is used to run a python script on the system.  Open your
+favorite IPython editor, create a simple test script names
+:file:`myhello.py`, and save it on your local file system.  We'll put
+it in the newly created :file:`mypy` directory from the example above.
+
+
+.. sourcecode:: python
+
+   hellostr = 'hello world'
+   for word in hellostr.split():
+       print(word, word[::-1])
+
+
+First make sure you are in the right directory (``pwd``), that your
+file is there (``ls``) and that it has the right contents (``cat``).
+All of these commands are inspired by their UNIX cousins with the same
+names, but they are actually IPython magic commands which work across
+platforms.
+
+.. ipython::
+   :verbatim:
+
+   In [6]: pwd
+   Out[6]: '/home/jdhunter/mypy'
+
+   In [7]: ls -l
+   total 8
+   -rw-r--r-- 1 jdhunter jdhunter 14 2010-04-14 13:16 mydata.dat
+   -rw-r--r-- 1 jdhunter jdhunter 83 2010-04-14 13:16 myhello.py
+
+   In [8]: cat myhello.py
+   hellostr = 'hello world'
+   for word in hellostr.split():
+       print(word, word[::-1])
+
+Note that no code has been executed yet; we've just inspected the
+contents of the directory and the file :file:`myhello.py`.  To execute
+the file in the current IPython interpreter, we need to ``run`` it.
+First let's confirm that none of these variables exist in our
+namespace.
+
+.. ipython::
+   :verbatim:
+
+   In [9]: hellostr
+   ---------------------------------------------------------------------------
+   NameError                                 Traceback (most recent call last)
+
+   /home/jdhunter/mypy/<ipython console> in <module>()
+
+   NameError: name 'hellostr' is not defined
+
+The Python exception ``NameError`` indicates that the variable name
+``hellostr`` is not known to the Python interpreter in the local
+namespace.  Now we run the script, which prints the words in "hello
+world" forwards and backwards.
+
+.. ipython::
+   :verbatim:
+
+   In [10]: run myhello.py
+   ('hello', 'olleh')
+   ('world', 'dlrow')
+
+Not only is this convenient for running scripts without having to
+switch between the IPython shell and the terminal shell, it has a
+couple of other important benefits as well.  For one, we don't have to
+pay the startup time of the Python interpreter or any modules we
+import every time we run the script as we enhance and debug it.  For
+another, any variables, functions or classes defined in the script are
+now accessible in our local IPython namespace for us to inspect and
+continue working with.
+
+.. ipython::
+   :verbatim:
+
+   In [16]: hellostr
+   Out[16]: 'hello world'
+
+   In [17]: hellostr.upper()
+   Out[17]: 'HELLO WORLD'
+
+Now we no longer get the ``NameError`` when we print the ``hellostr``
+variable, because it was defined in our local namespace when we ran
+the script.  There are lots of useful command options to run, notably
+``-i`` to run a script in the context of the local namespace, ``-t``
+to print timing information, ``-d`` to run under the debugger and
+more.  We'll encounter these as we move along in more advanced
+sections; execute ``run?`` at the IPython prompt for more information.
 
 .. _python_mini_tutorial:
 
@@ -288,13 +545,13 @@ A Python Mini-Tutorial
 ======================
 
 Python is a full-featured language which supports many programming
-idioms, including proceedural, functional, and object oriented
+idioms, including procedural, functional, and object oriented
 concepts.  It comes with a rich `standard library
 <http://docs.python.org/library/>`_ consisting of *hundreds* of modules
 in the standard installation.  There are many excellent tutorials
-including the offical `Python Tutorial
+including the official `Python Tutorial
 <http://docs.python.org/tutorial/index.html>`_ and free books online
-suvh as `Dive Into Python <http://diveintopython.org/>`_ and other
+such as `Dive Into Python <http://diveintopython.org/>`_ and other
 excellent print books such as `The Python Essential Reference
 <http://www.amazon.com/Python-Essential-Reference-David-Beazley/dp/0672329786/ref=sr_1_1?ie=UTF8&s=books&qid=1271019394&sr=8-1>`_
 and the `Python Cookbook <http://oreilly.com/catalog/9780596001674>`_.
@@ -310,7 +567,7 @@ material pretty quickly in this book, so it may be tough sledding if
 you are a python newbie.  Take in what you can, you can always come
 back to absorb more detail later, and digest these excellent tutorials
 and books referenced above as you have time.  Since we cannot begin to
-do justice to the breadth and depth of materail these resources cover,
+do justice to the breadth and depth of material these resources cover,
 we won't try.  Rather, we will provide just the bare minimum for the
 reader who wants to get started right away using python for scientific
 computing.  We assume you have some experience with another
@@ -378,7 +635,6 @@ floating point number.
 
 .. ipython::
 
-
    In [239]: 1/2
    @verbatim
    Out[239]: 0
@@ -398,7 +654,6 @@ of numbers like 1/10 or 2/3, which reflects the limited accuracy of
 floating point representations.
 
 .. ipython::
-
 
    In [242]: 0.1
    @verbatim
@@ -485,7 +740,7 @@ library or 3rd part code, you simply ``import`` it.
   Out[228]: 2147483648L
 
 Likewise, we could simply assign the name ``x`` to a non-numeric type
-such as a sring.
+such as a string.
 
 .. ipython::
 
@@ -495,8 +750,8 @@ such as a sring.
    Out[231]: 'this is a string'
 
 
-The basic data containers
---------------------------
+The basic data containers: tuple, list, dict, set
+--------------------------------------------------
 
 So far we've seen a few basic types in action: int, long and string.
 One of the strengths of Python is the power of its basic data
@@ -686,7 +941,7 @@ of $i^3$ may be cheaper than the dictionary lookup, but in general
 whenever you have an expensive computation to perform and you want to
 cache the results for later reuse, a dictionary is the goto data
 structure for this task.  In the section of list and generator
-comprehensions below, we will see a syntactacically simpler way to
+comprehensions below, we will see a syntactically simpler way to
 create the squared dictionary which takes advantage of the fact that a
 dictionary can be initialized with a sequence of (key, value) tuples.
 
@@ -765,7 +1020,103 @@ standard library contains many more useful data structures, such as
 deque, ordered set, and named tuples.
 
 
-if, for and while
+Strings
+------------
+
+Python has very good infrastructure for processing strings.  Like
+``int``, ``float`` and ``complex``, a ``string is a basic type in
+python.  We saw a list of the methods available on strings in the
+basic IPython workflow introduction.  Although there is far too much
+functionality in the basic string to be covered here, and you can read
+about them in the standard library string ``documentation
+<http://docs.python.org/library/stdtypes.html#string-methods>`_ we'll
+mention a few of the really useful methods here.
+
+``find`` returns the index of the first occurrence of a character or
+sub-string passed as input to the method.  If the sub-string does not
+occur, it returns -1.
+
+.. ipython::
+
+   In [151]: myfile
+   Out[151]: 'somefile.dat'
+
+   In [152]: myfile.find('jdh')
+   Out[152]: -1
+
+   In [153]: myfile.find('file')
+   Out[153]: 4
+
+``split`` will split the string on the indicated character into a list
+of string.  The default is to split on white space, but you can split
+on any other character, substring, newlines, of even the empty string
+itself (which just returns a list of characters).
+
+.. ipython::
+
+   # there is no whitespace so the whole string is returned
+   In [154]: myfile.split(' ')
+   Out[154]: ['somefile.dat']
+
+   In [155]: myfile.split('.')
+   Out[155]: ['somefile', 'dat']
+
+   In [156]: myfile.split('file')
+   Out[156]: ['some', '.dat']
+
+The case methods ``upper``, ``lower`` and ``capitalize`` are
+straightforward but useful, returning "SOMEFILE.DAT", "somefile.dat"
+and "Somefile.dat" respectively for the string "somefile.dat"
+
+Another useful method is ``startswith`` (and its cousin ``endswith``)
+to determine whether a string starts or ends with a given substring,
+which arises when checking file types for example.  Notice in the
+example below that the ``lower`` method returns a string itself, so we
+can chain together in a pipeline the ``lower`` and ``endswith``
+methods to perform a case-insensitive check to see if our filename
+ends with "csv".
+
+.. ipython::
+
+   In [160]: if myfile.lower().endswith('csv'):
+      .....:     print("do something with CSV file")
+      .....:
+      .....:
+
+Python also has support for regular expressions in the `re
+<http://docs.python.org/library/re.html>`` standard library module.
+They are not built into the basic string types as they are in Perl,
+and Python programmers often ascribe Jamie Zawinski's view. *Some
+people, when confronted with a problem, think "I know, I'll use
+regular expressions." Now they have two problems.* Which is to say,
+there are many problems which can be solved with basic string methods
+that do not need the full machinery of regular expressions.  But
+Python does have full support when you do need them.
+
+A typical case arises in file processing , where you may have a list of
+files like 'energy001.dat', 'energy002.dat', 'matter001.dat',
+'matter1024.dat' and you want to extract both the basename ("energy"
+or "matter") as well as the file number, perhaps as an integer.
+Regular expressions are good for this.
+
+.. ipython::
+
+   In [197]: fname = 'energy001.dat'
+
+   In [198]: import re
+
+   In [199]: rgx = re.compile('([a-z]+)(\d+)\.dat')
+
+   In [200]: m = rgx.match(fname)
+
+   In [201]: m.group(1)
+   Out[201]: 'energy'
+
+   In [202]: m.group(2)
+   Out[202]: '001'
+
+
+Flow control: if, for and while
 --------------------------------
 
 Python is unusual in that it uses whitespace and colons to designate
@@ -787,7 +1138,7 @@ to designate the flow that is scoped by the ``if`` clause.
   if (x==1):
     print("x is one!")  # this is executed iff x==1
     x += 1              # and so is this
-  
+
   print("you are here") # this is executed unconditionally
 
 Python also optionally supports ``else if`` and ``else`` blocks.
@@ -852,8 +1203,8 @@ which uses the leading dots "..." to indicate an indented block.
    In [95]: while i<1000:
       ....:     i = i**2
       ....:     print(i)
-      ....:     
-      ....:     
+      ....:
+      ....:
    25
    625
    390625
@@ -863,8 +1214,77 @@ primary difference is that ipython requires two empty/blank lines to
 terminate the indented block.
 
 
-list and generator comprehensions 
+list and generator comprehensions
 ----------------------------------
+
+Python provides a handy syntax for writing loop one-liners: the
+generator and list comprehensions.  A list comprehension uses the
+square brackets as the regular list constructor, but allows you to
+write a for loop inside the brackets to create the list.  For example,
+to create a list of the first 5 perfect squares, we could use a list
+comprehension (later we'll see numpy has more efficient ways of doing
+the same thing for numbers, but list comprehensions are useful for
+many non-numeric operations on sequences).
+
+.. ipython::
+
+   In [95]: x = [i**2 for i in range(5)]
+
+   In [96]: x
+   Out[96]: [0, 1, 4, 9, 16]
+
+
+Similarly, we could create a list of some of the characters in the ASCII character set
+
+.. ipython::
+
+   In [103]: [chr(i) for i in range(55, 70)]
+   Out[103]: ['7', '8', '9', ':', ';', '<', '=', '>', '?', '@', 'A', 'B', 'C', 'D', 'E']
+
+
+You can create lists of other data structures, such as a list of (key,
+value) tuples.  Here we create a mapping from words to their lengths.
+
+.. ipython::
+
+   In [112]: sentence = 'this is not a pipe'
+
+   In [113]: wordlens = [(word, len(word)) for word in sentence.split()]
+
+   In [114]: wordlens
+   Out[114]: [('this', 4), ('is', 2), ('not', 3), ('a', 1), ('pipe', 4)]
+
+We mentioned above that you can pass a list of (key, value) tuples
+into the ``dict`` constructor, and this a a very-handy way to create a
+dictionary, "on the fly".  Typically we would write a one-line.
+.. ipython::
+
+   In [115]: wordlend = dict([(word, len(word)) for word in sentence.split()])
+
+   In [116]: wordlend['this']
+   Out[116]: 4
+
+The generator comprehension is very similar to the list comprehension
+except it is denoted with parentheses rather than square brackets.
+The important difference is that the list comprehension is constructed
+entirely in memory, but the generator comprehension takes advantage of
+python generators to consume sequences as they are generated, on the
+fly, rather than all at once in memory.  For example, the python
+built-in function ``sum`` takes a sequence as input and computes the
+sum on the fly, without having to store the entire sequence in memory,
+which can be useful if you need to operate over data that cannot be
+read into memory, for example some data streaming from disk or over a
+socket.
+
+.. ipython::
+
+   In [118]: sum(i**2 for i in range(4096))
+   Out[118]: 22898104320L
+
+
+Files and Paths
+----------------
+
 TODO
 
 Exceptions
@@ -1747,12 +2167,6 @@ ipython.
 
 
 
-.. _basic_workflow:
-
-Basic workflow
-================
-
-TODO
 
 .. _how_to_get_help:
 

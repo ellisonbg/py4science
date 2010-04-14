@@ -610,31 +610,6 @@ more details on it in IPython using the built-in help:
    In [72]: a.split()
    Out[72]: ['some', 'string']
 
-The complete set of methods of Python strings can be viewed by typing
-``a.<TAB>``
-
-.. sourcecode:: ipython
-
-   In [73]: a.
-   a.__add__          a.__init__      a.__setattr__ a.isdigit a.rsplit
-   a.__class__        a.__le__        a.__str__     a.islower a.rstrip
-   a.__contains__     a.__len__       a.capitalize  a.isspace a.split
-   a.__delattr__      a.__lt__        a.center      a.istitle a.splitlines
-   a.__doc__          a.__mod__       a.count       a.isupper a.startswith
-   a.__eq__           a.__mul__       a.decode      a.join    a.strip
-   a.__ge__           a.__ne__        a.encode      a.ljust   a.swapcase
-   a.__getattribute__ a.__new__       a.endswith    a.lower   a.title
-   a.__getitem__      a.__reduce__    a.expandtabs  a.lstrip  a.translate
-   a.__getnewargs__   a.__reduce_ex__ a.find        a.replace a.upper
-   a.__getslice__     a.__repr__      a.index       a.rfind   a.zfill
-   a.__gt__           a.__rmod__      a.isalnum     a.rindex
-   a.__hash__         a.__rmul__      a.isalpha     a.rjust
-
-
-Each of them can be queried similarly with the ``'?'`` operator as
-above.  For more details on Python strings and their companion
-sequence types, see `string methods
-<http://docs.python.org/library/stdtypes.html#string-methods>`_
 
 Back to Alice.  We want to read the text in from the zip file, split
 it into words and then count the frequency of each word.  You will
