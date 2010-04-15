@@ -50,6 +50,7 @@ def block_parser(part):
 
     block = []
     lines = part.split('\n')
+    #print 'PARSE', lines
     N = len(lines)
     i = 0
     decorator = None
@@ -116,10 +117,11 @@ def block_parser(part):
             if i<N-1:
                 output = '\n'.join([output] + lines[i:])
 
-
+            #print 'OUTPUT', output
             block.append((OUTPUT, output))
             break
 
+    #print 'returning block', block
     return block
 
 
@@ -271,20 +273,27 @@ class EmbeddedSphinxShell:
                             # the "rest" is the standard output of the
                             # input, which needs to be added in
                             # verbatim mode
-                            ret.append(rest)
-
+                            ret.append("%s"%rest)
+                            ret.append('')
 
                 self.cout.seek(0)
                 output = self.cout.read()
-                if not is_suppress and not is_semicolon:
+                if not is_suppress and not is_semicolon and not is_verbatim:
                     ret.append(output)
 
                 self.cout.truncate(0)
 
 
-                #print 'OUTPUT', output
+
 
             elif token==OUTPUT:
+                #print 'token==OUTPUT is_verbatim=%s'%is_verbatim
+                if is_verbatim:
+                    # construct a mock output prompt
+                    output = '%s %s\n'%(fmtout%lineno, data)
+                    ret.append(output)
+
+                #print 'token==OUTPUT', output
                 if is_doctest:
                     submitted = data.strip()
                     found = output
@@ -398,7 +407,7 @@ In [3]: im = imread('stinkbug.png')
 @savefig mystinkbug.png width=4in
 In [4]: imshow(im)
 Out[4]: <matplotlib.image.AxesImage object at 0x39ea850>
-        
+
 """,
         r"""
 
@@ -520,9 +529,27 @@ Out[239]: 0
 In [240]: 1.0/2.0
 Out[240]: 0.5
 """,
+
+        r"""
+@verbatim
+In [6]: pwd
+Out[6]: '/home/jdhunter/mypy'
+""",
+
+        r"""
+@verbatim
+In [151]: myfile.upper?
+Type:           builtin_function_or_method
+Base Class:     <type 'builtin_function_or_method'>
+String Form:    <built-in method upper of str object at 0x980e2f0>
+Namespace:      Interactive
+Docstring:
+    S.upper() -> string
+    Return a copy of the string S converted to uppercase.
+ """
     ]
 
-        
+
 
     ipython_directive.DEBUG = True
     #options = dict(suppress=True)

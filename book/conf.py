@@ -261,7 +261,8 @@ intersphinx_mapping = {'http://docs.python.org/': None}
 # Other options
 # If this is True, todo and todolist produce output, else they produce
 # nothing. The default is False.
-todo_include_todos = True
+#todo_include_todos = True
+todo_include_todos = False
 
 latex_elements = dict(#docclass = 'article',
                       #classoptions = ',english,twocolumn',

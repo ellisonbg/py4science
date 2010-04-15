@@ -19,7 +19,7 @@ Python feel overwhelmed by the multitude of choices.
 
 The freedom to assemble the pieces as you like is a blessing for the
 advanced researcher or programmer, but it can be a curse for the
-newcomer, who wants things to just work out of the box without too
+newcomer who wants things to just work out of the box without too
 much assembly required.  Fortunately, there are sophisticated packages
 like the Enthought Python Distribution (EPD) and Python(x,y), which do
 provide a comprehensive environment for scientific computing in a
@@ -60,15 +60,15 @@ The basic components we need are: a good programming language
 type commands and explore data (IPython), support for efficient array
 based computations (numpy), a library of efficient scientific
 algorithms (scipy), the ability to make scientific graphs (matplotlib)
-and efficient interactive 3D visualization (MayaVi).  There are many
-other other wonderful packages out there, some of which are absolutely
-essential for certain kinds of work, but with Python and (M)atplotlib,
-(I)Python, (N)umpy and (S)cipy (MINS) you can achieve a fantastic
-level of productivity, and these tools alone are all that many people
-need, particularly at the student level.  As people progress, they
-bring in many more packages into their daily workflow -- nonetheless,
-these packages are sufficiently powerful and scalable that they remain
-the core tools for most users.
+and support for efficient interactive 3D visualization (MayaVi).
+There are many other other wonderful packages out there, some of which
+are absolutely essential for certain kinds of work, but with Python
+and (M)atplotlib, (I)Python, (N)umpy and (S)cipy (MINS) you can
+achieve a fantastic level of productivity, and these tools alone are
+all that many people need, particularly at the student level.  As
+people progress, they bring in many more packages into their daily
+workflow -- nonetheless, these packages are sufficiently powerful and
+scalable that they remain the core tools for most users.
 
 We'll explore each of these components in turn.  Because there are a
 variety of ways to install Python and associated tools across the
@@ -109,7 +109,7 @@ developers enjoy writing Python code.
 
 We'll introduce the basics of the python programming language below in
 :ref:`python_mini_tutorial`.  For now, make sure you can fire up the
-interactive interpreter.  In linux or OS X, to start the python
+interactive interpreter.  In linux or OS X, to start the Python
 interpreter you should open a terminal window and simply type
 ``python``.  In Windows, there will be an entry for Python in the
 Start Menu, under a top-level folder like "Python" or "EPD" depending
@@ -203,7 +203,7 @@ access to a primitive terminal by running ``cmd.exe``)::
 
 
 
-In Windows you can execute a python file which ends in the suffix
+In Windows you can also execute a python file which ends in the suffix
 ".py" by double clicking on it.  When you double click on it, you
 will see a command terminal window pop up, whatever output your
 program generates will scroll by, and the window will immediately
@@ -242,8 +242,8 @@ includes the ability to navigate the file systems, set bookmarks on
 favorite locations, use aliases for often typed commands, use command
 completion, history and other readline features.  The "I" in IPython
 stands for *Interactive* and it is a Python shell on steroids,
-integrating all the features from the standard python interpreter with
-all the desirable features just mentioned, and more.
+integrating all the features from the standard python shell with all
+the desirable features just mentioned, and more.
 
 For many people who do scientific computing in Python as part of their
 research or employment, an open IPython shell is as much a feature of
@@ -298,7 +298,8 @@ do some work on.
 You can do ``myfile?`` to see the basic help on the object.
 
 
-.. sourcecode:: ipython
+.. ipython::
+   :verbatim:
 
    In [148]: myfile?
    Type:           str
@@ -308,7 +309,6 @@ You can do ``myfile?`` to see the basic help on the object.
    Length:         12
    Docstring:
        str(object) -> string
-
        Return a nice string representation of the object.
        If the argument is a string, the return value is the same object.
 
@@ -319,7 +319,8 @@ valuable line of defense when seeking help is TAB completion, which
 will list the complete set of methods of Python strings can be viewed
 by typing ``a.<TAB>``
 
-.. sourcecode:: ipython
+.. ipython::
+   :verbatim:
 
    In [150]: myfile.<TAB>
    a.__add__          a.__init__      a.__setattr__ a.isdigit a.rsplit
@@ -347,7 +348,8 @@ services.  There are many other basic methods that *are* quite useful,
 and we can use the ``?`` operator in IPython to get basic help on any
 of these methods.
 
-.. sourcecode:: ipython
+.. ipython::
+   :verbatim:
 
    In [151]: myfile.upper?
    Type:           builtin_function_or_method
@@ -356,7 +358,6 @@ of these methods.
    Namespace:      Interactive
    Docstring:
        S.upper() -> string
-
        Return a copy of the string S converted to uppercase.
 
 
@@ -380,6 +381,8 @@ starting with ``def trapz``) and a docstring delineated by triple
 quotes ``"""`, which we've elided here for brevity.  Additionally,
 `??` provides the actual sourcecode implementation below the
 docstring::
+
+  In [211]: import numpy as np
 
   In [212]: np.trapz??
 
@@ -537,10 +540,6 @@ import every time we run the script as we enhance and debug it.  For
 another, any variables, functions or classes defined in the script are
 now accessible in our local IPython namespace for us to inspect and
 continue working with.
-
-.. todo::
-
-   fixme: verbatim is not printing the Out lines
 
 .. ipython::
    :verbatim:
@@ -970,7 +969,7 @@ following.
     print squared[9]  # prints 729
 
 This particular example may not be the best one, since the computation
-of $i^2^3$ may be cheaper than the dictionary lookup, but in general
+of ${i^2}^3$ may be cheaper than the dictionary lookup, but in general
 whenever you have an expensive computation to perform and you want to
 cache the results for later reuse, a dictionary is the goto data
 structure for this task.  In the section of list and generator
@@ -1330,15 +1329,290 @@ amazing array of third party tools such as those provided by numpy,
 scipy, matplotlib, and beyond.  The basic workhorse of reading and
 writing files is the built-in ``file`` command.
 
-Exceptions
-------------
+We've seen above the use of ``file`` to write a test file.  It's even
+easier to read a file. Create a CSV file called :file:`birthdays.csv`
+with the following contents::
 
-TODO
+  First,Last,Age,Weight,Height,Birthday
+  John,Hunter,36,175,180,1968-03-05
+  Miriam,Sierig,33,135,177,1971-05-04
+  Rahel,Hunter,7,55,134,1998-02-25
+  Ava,Hunter,3,45,121,2001-04-26
+  Clara,Hunter,0,15,55,2004-10-02
+
+It turns out Python and the scientific extension tools we'll be
+presenting in this book make it trivial to load CSV files.  Python has
+a built-in ``csv`` module in the standard library and numpy has
+``np.loadtxt`` and matplotlib has ``mlab.csv2rec`` so you will rarely
+need to parse an actual CSV file manually.  But in this example, we'll
+work with the raw text as an illustration of how to read and parse
+files.
+
+We can use the ``read`` method of ``file`` to read the entire file in
+as a single string.
+
+.. ipython::
+
+   In [53]: cd bookdata/
+   /home/jdhunter/py4science/book/bookdata
+
+   In [54]: s = file('birthdays.csv').read()
+
+   In [55]: type(s)
+   Out[55]: <type 'str'>
+
+   In [56]: len(s)
+   Out[56]: 204
+
+   In [59]: print(s)
+   First,Last,Age,Weight,Height,Birthday
+   John,Hunter,36,175,180,1968-03-05
+   Miriam,Sierig,33,135,177,1971-05-04
+   Rahel,Hunter,7,55,134,1998-02-25
+   Ava,Hunter,3,45,121,2001-04-26
+   Clara,Hunter,0,15,55,2004-10-02
+
+You can use ``readlines`` to get as list of lines from the file.
+
+.. ipython::
+
+   In [60]: lines = file('birthdays.csv').readlines()
+
+   In [61]: lines
+   Out[61]:
+   ['First,Last,Age,Weight,Height,Birthday\n',
+    'John,Hunter,36,175,180,1968-03-05\n',
+    'Miriam,Sierig,33,135,177,1971-05-04\n',
+    'Rahel,Hunter,7,55,134,1998-02-25\n',
+    'Ava,Hunter,3,45,121,2001-04-26\n',
+    'Clara,Hunter,0,15,55,2004-10-02\n']
+
+Alternatively, you can iterate over the file object directly, one line
+at a time.  Here we have a simple script to iterate over the
+:file:`birthdays.csv` file, split the lines on the commas, and convert
+the numeric data to integers and floats::
+
+  data = []
+  for i, line in enumerate(file('birthdays.csv')):
+      if i==0: continue    # skip the header
+      line = line.strip()  # remove the newline
+      first, last, age, weight, height, birthday = line.split(',')
+      d = dict(first=first, last=last, age=int(age),
+	       weight=float(weight), height=float(height),
+	       birthday=birthday)
+      data.append(d)
+
+  print(data)
+
+As mentioned above, there are better utilities for parsing CSV files,
+and there are better data structures for storing this kind of data --
+namely numpy record arrays.  In this script we use a list of Python
+dictionaries, which works, but as we will see the numpy record and
+structured arrays are ideal for storing this kind of heterogeneous
+tabular data.
+
+The file API is quite ubiquitous in Python and the standard library.
+For example, the ``gzip`` module allows you to open :file:`gz`
+compressed files transparently and work with them as if they were the
+plain text, uncompressed files.
+
+.. ipython::
+
+   In [76]: import gzip
+   In [77]: s = gzip.open('birthdays.csv.gz').read()
+
+   In [78]: len(s)
+   Out[78]: 204
+
+Similarly, the standard library module ``urllib.urlopen`` exposes the same API, so you can call
+``read``, ``readlines`` or iterate over web resources as if they were
+local files.  Here we grab a CSV file from the Yahoo finance web
+server and print the first few lines.
+
+.. ipython::
+   :verbatim:
+
+   In [85]: url = 'http://ichart.finance.yahoo.com/table.csv?s=CROX'
+
+   In [86]: import urllib
+
+   In [87]: lines = urllib.urlopen(url).readlines()
+
+   In [88]: for line in lines[:5]:
+      ....:     print(line),
+      ....:
+      ....:
+   Date,Open,High,Low,Close,Volume,Adj Close
+   2010-04-14,9.95,10.59,9.86,10.55,8222200,10.55
+   2010-04-13,9.36,9.97,9.26,9.79,9121700,9.79
+   2010-04-12,8.73,8.89,8.72,8.89,2911600,8.89
+   2010-04-09,8.52,8.83,8.39,8.76,3272100,8.76
+
+This is another example of the power of duck-typing.  In Python we can
+write functions that take file like objects as inputs, and operate on
+these objects using the stndard sequence protocol, ``read``,
+``readlines``, etc....  We don't care whether the object *is* a file
+on our system; as long as it quacks like a file, we can use it.
+
 
 Functions and classes
 ----------------------
 
 TODO
+
+Exceptions
+------------
+
+When Python encounters an error, it raises an Exception, which tells
+you what type of error occurred in what file, and gives you the line
+number of the file that triggered the error.  It gives you the entire
+calling stack that ultimately led to the error.  Because the stack
+proceeds from the top level function call down to the ultimate code
+that triggered the error, you have to learn to read exceptions *from
+the bottom up* to see where the error ultimately occurred.  We'll
+create a simple python script that contains an error within a function
+call to see this in action.  This is not a good example of how to code
+-- it is just a quick attempt to create a script that makes a couple
+of function calls and generates and error. Create a file
+:file:`test_error.py` with the contents.
+
+.. sourcecode:: python
+
+   def divide_them(x, y):
+       'return x divided by y using float division'
+       return float(x)/y
+
+   def successive_ratios(N=5):
+       'return the successive ratios if i+1/i up to N'
+       ret = []
+       lasti = None
+       for i in range(N):
+	   if lasti is None:
+	       lasti = i
+	       continue
+
+	   r = divide_them(i, lasti)
+	   ret.append(r)
+	   lasti = i
+
+       return ret
+
+   print(successive_ratios(10))
+
+This script is supposed to compute the ratio of $\frac{i+1}{i}$ for
+the first $N$ integers, but it has a bug.  Let's run it from the
+terminal::
+
+  jdhunter@uqbar:mypy> python test_error.py
+  Traceback (most recent call last):
+    File "test_error.py", line 20, in <module>
+      print(successive_ratios(10))
+    File "test_error.py", line 14, in successive_ratios
+      r = divide_them(i, lasti)
+    File "test_error.py", line 3, in divide_them
+      return float(x)/y
+  ZeroDivisionError: float division
+
+As we mentioned, we need to read the error from the bottom up, and we
+see that we have a ``ZeroDivisionError`` in the function
+``divide_them`` on line 3.  Moving up the stack we see that the
+function was called from the ``successive_ratios`` function on line
+14 in the call to ``r = divide_them(i, lasti)``.
+
+If you ``run`` the script in IPython, you see something similar, but
+the error messages are syntax highlighted and slightly more verbose,
+showing you the context of the code around which the error occurs.
+
+.. sourcecode:: ipython
+
+  In [23]: run test_error.py
+  ---------------------------------------------------------------------------
+  ZeroDivisionError                         Traceback (most recent call last)
+
+  /home/jdhunter/mypy/test_error.py in <module>()
+       18     return ret
+       19
+  ---> 20 print(successive_ratios(10))
+       21
+       22
+
+  /home/jdhunter/mypy/test_error.py in successive_ratios(N)
+       12             continue
+       13
+  ---> 14         r = divide_them(i, lasti)
+       15         ret.append(r)
+       16         lasti = i
+
+  /home/jdhunter/mypy/test_error.py in divide_them(x, y)
+	1 def divide_them(x, y):
+	2     'return x divided by y using float division'
+  ----> 3     return float(x)/y
+	4
+	5 def successive_ratios(N=5):
+
+  ZeroDivisionError: float division
+  WARNING: Failure executing file: <test_error.py>
+
+IPython has a magic ``xmode`` which controls the level of verbosity in
+exception reporting.  The choices are ``Plain``, ``Context`` and
+``Verbose``.  ``Plain`` is what Python generates by default, ``Context``
+is the IPython default and has the extra code shown above.
+``Verbose`` gives lots of extra information like all the variables and
+their values in the local namespace.
+
+
+.. sourcecode:: ipython
+
+   In [29]: xmode Verbose
+   Exception reporting mode: Verbose
+
+   In [30]: run test_error.py
+   ---------------------------------------------------------------------------
+   ZeroDivisionError                         Traceback (most recent call last)
+
+   /home/jdhunter/mypy/test_error.py in <module>()
+	18     return ret
+	19
+   ---> 20 print(successive_ratios(10))
+	   global successive_ratios = <function successive_ratios at 0x22c9848>
+	21
+	22
+
+   /home/jdhunter/mypy/test_error.py in successive_ratios(N=10)
+	12             continue
+	13
+   ---> 14         r = divide_them(i, lasti)
+	   r = undefined
+	   global divide_them = <function divide_them at 0x2207aa0>
+	   i = 1
+	   lasti = 0
+	15         ret.append(r)
+	16         lasti = i
+
+   /home/jdhunter/mypy/test_error.py in divide_them(x=1, y=0)
+	 1 def divide_them(x, y):
+	 2     'return x divided by y using float division'
+   ----> 3     return float(x)/y
+	   global float = undefined
+	   x = 1
+	   y = 0
+	 4
+	 5 def successive_ratios(N=5):
+
+   ZeroDivisionError: float division
+   WARNING: Failure executing file: <test_error.py>
+
+Here again, reading from the bottom up, we see that the error occrred
+on line 3 in the ``divide_them`` function, but additionally we see
+that the values ``x = 1`` and ``y = 0`` were passed in, hence the
+divide by zero error.  Walking up the stack into the
+``successive_ratios`` function which called the ``divide_them``
+function, we see that ``i = 1`` and ``lasti = 0`` were the two
+arguments passed to this function, and this should speed us on our way
+to fixing the bug.
+
+The most important thing to remember about exceptions: read them.  The
+second most important thing: read them from the bottom up.
 
 Modules and packages
 ---------------------
