@@ -1285,7 +1285,15 @@ socket.
 Files and Paths
 ----------------
 
-TODO
+In scientific and engineering applicaitons, a lot of data resides on
+the file systems, some of it in standard formats like HDF5, some flat
+text file formats like CSV, some in proprietary or custom binary
+formats, and some compressed and archived in tar or zip files.  Python
+has excellent support for all of these and more through an amazing
+array of built in functions and standard modules, and an equally
+amazing array of third party tools such as those provided by numpy,
+scipy, matplotlib, and beyond.  The basic workhorse of reading and
+writing files is the built-in ``file`` command.
 
 Exceptions
 ------------
