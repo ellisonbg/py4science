@@ -15,7 +15,7 @@ import re
 from pygments.lexer import Lexer, do_insertions
 from pygments.lexers.agile import (PythonConsoleLexer, PythonLexer, 
                                    PythonTracebackLexer)
-from pygments.token import Comment, Generic
+from pygments.token import Comment, Generic, Other
 
 from sphinx import highlighting
 
@@ -73,18 +73,19 @@ class IPythonConsoleLexer(Lexer):
                                    [(0, Comment, line)]))
             elif input_prompt is not None:
                 insertions.append((len(curcode),
-                                   [(0, Generic.Prompt, input_prompt.group())]))
+                                   [(0, Other, input_prompt.group())]))
                 curcode += line[input_prompt.end():]
             elif continue_prompt is not None:
                 insertions.append((len(curcode),
-                                   [(0, Generic.Prompt, continue_prompt.group())]))
+                                   [(0, Other, continue_prompt.group())]))
                 curcode += line[continue_prompt.end():]
             elif output_prompt is not None:
                 # Use the 'error' token for output.  We should probably make
                 # our own token, but error is typicaly in a bright color like
                 # red, so it works fine for our output prompts.
                 insertions.append((len(curcode),
-                                   [(0, Generic.Error, output_prompt.group())]))
+                                   [(0, Other, #Generic.Error,
+                                     output_prompt.group())]))
                 curcode += line[output_prompt.end():]
             else:
                 if curcode:
