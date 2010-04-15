@@ -23,12 +23,22 @@ newcomer, who wants things to just work out of the box without too
 much assembly required.  Fortunately, there are sophisticated packages
 like the Enthought Python Distribution (EPD) and Python(x,y), which do
 provide a comprehensive environment for scientific computing in a
-single click installer.  We encourage people to use these packages.
-For those who want to assemble their own and for those who want a
-better understanding of how the core pieces fit together, we will look
-at the core pieces that make up any good environment for scientific
-computing, and the Python packages filling these niches that have been
-forged by community development and use.
+single click installer.  We encourage people to use these packages,
+particularly those just getting started with Python.  Once you get
+past the beginner stage, if you don't mind wrestling with some
+compilation and installation issues, you will get the most out of open
+source software if you assemble your own stack, because the true
+strength of open source is that an army of volunteers are continuously
+fixing and improving the existing software, and often the version that
+provides some feature you want or bug you need fixed is the one that
+is living in the source code repository not yet released.
+
+In this chapter, we provide a tutorial introduction to the Python
+packages which form the core stack of scientific computing tools in
+Python.  There are many important packages we leave out -- for some
+applications these we leave out may be the critical and essential
+tool.  We'll try and mention as many of these as possible as we
+progress.
 
 .. ipython::
    :suppress:
@@ -46,16 +56,19 @@ MINS
 ====
 
 The basic components we need are: a good programming language
-(Python), a code editor (you decide), and interactive shell in which
-to type commands and explore data (IPython), support for efficient
-array based computations (numpy), a library of efficient scientific
-algorithms (scipy), and the ability to make scientific graphs
-(matplotlib) and efficient interactive 3D visualization (MayaVi).
-There are many other other wonderful packages out there, some of which
-are absolutely essential for certain kinds of work, but with Python
-and (M)atplotlib, (I)Python, (N)umpy and (S)cipy (MINS) you can achieve a
-fantastic level of productivity, and these tools alone are all that
-many people need, particularly at the student level.
+(Python), a code editor (you decide), an interactive shell in which to
+type commands and explore data (IPython), support for efficient array
+based computations (numpy), a library of efficient scientific
+algorithms (scipy), the ability to make scientific graphs (matplotlib)
+and efficient interactive 3D visualization (MayaVi).  There are many
+other other wonderful packages out there, some of which are absolutely
+essential for certain kinds of work, but with Python and (M)atplotlib,
+(I)Python, (N)umpy and (S)cipy (MINS) you can achieve a fantastic
+level of productivity, and these tools alone are all that many people
+need, particularly at the student level.  As people progress, they
+bring in many more packages into their daily workflow -- nonetheless,
+these packages are sufficiently powerful and scalable that they remain
+the core tools for most users.
 
 We'll explore each of these components in turn.  Because there are a
 variety of ways to install Python and associated tools across the
@@ -91,8 +104,7 @@ server, plotting library or machine learning toolkit rather than use
 someone else's.  This is a bit tongue in cheek: over time communities
 do coalesce around successful packages, but in early stages there is
 often too much choice rather than too little simply because Python
-developers enjoy writing Python code, since it is so expressive and
-powerful.
+developers enjoy writing Python code.
 
 
 We'll introduce the basics of the python programming language below in
@@ -137,27 +149,27 @@ interpreter::
    enhanced IPython interpreter
 
 
-Now that we've tested the interactive interpreter, next we want to
-write a simple python script and make sure we can run it in python.
-For this you will need a code editor.  Many hardcore programmers use
-the plain text editors emacs or vi, and there are endless debates and
-even paintball wars to resolve which is superior.  We won't wade into
-that particular debate except to say both are good choices and if you
-have some time to invest in your future productivity, learning one of
-these editors will pay off in spades, but does entail a significant
+Now that we've tested the interactive interpreter, we want to write a
+simple python script and make sure we can run it in python.  For this
+you will need a code editor.  Many hardcore programmers use the plain
+text editors emacs or vi, and there are endless debates and even
+paintball wars to resolve which is superior.  We won't wade into that
+particular debate except to say both are good choices and if you have
+some time to invest in your future productivity, learning one of these
+editors will pay off in spades, but does entail a significant
 "up-front" cost.  There are a variety of choices for those who prefer
 a graphical user interface environment for their editor, with the
-traditional "File/Edit" menus for loading and saving files with a
-mouse and doing search-and-replace operations.  A good choice is `Idle <http://docs.python.org/library/idle.html>`_,
-a tkinter based editor which comes with the standard Python distribution.
-Another good choice is the `SciTE
-<http://www.scintilla.org/SciTE.html>`_ editor which ships with
-Python(x,y) and EPD, runs across major platforms, and supports python
-and most every other programming languages.  Essential things to look
-for in an editor are: syntax highlighting, syntax aware automatic
-indentation for code blocks, and the ability to use whitespace instead
-of tabs for indentation. google "python code editor" for more
-information and see the `python editors
+traditional "File/Edit" menus for loading and saving files or doing
+search-and-replace operations.  A good choice is `Idle
+<http://docs.python.org/library/idle.html>`_, a tkinter based editor
+which comes with the standard Python distribution.  Another good
+choice is the `SciTE <http://www.scintilla.org/SciTE.html>`_ editor
+which ships with Python(x,y) and EPD, runs across major platforms, and
+supports python and most every other programming languages.  Essential
+things to look for in an editor are: syntax highlighting, syntax aware
+automatic indentation for code blocks, and the ability to use
+whitespace instead of tabs for indentation. Google "python code
+editor" for more information and see the `python editors
 <http://wiki.python.org/moin/PythonEditors>`_ section of the Python
 wiki.
 
@@ -170,23 +182,24 @@ characters in "Hello World".
 
     mystring = 'Hello World'
     for c in mystring:
-        print(ord(c))
+        print(c, ord(c))
 
 and we can execute this file from the terminal (in windows you can get
 access to a primitive terminal by running ``cmd.exe``)::
 
-  > python my_hello.py
-  72
-  101
-  108
-  108
-  111
-  32
-  87
-  111
-  114
-  108
-  100
+
+  > python test.py
+  ('H', 72)
+  ('e', 101)
+  ('l', 108)
+  ('l', 108)
+  ('o', 111)
+  (' ', 32)
+  ('W', 87)
+  ('o', 111)
+  ('r', 114)
+  ('l', 108)
+  ('d', 100)
 
 
 
@@ -194,17 +207,16 @@ In Windows you can execute a python file which ends in the suffix
 ".py" by double clicking on it.  When you double click on it, you
 will see a command terminal window pop up, whatever output your
 program generates will scroll by, and the window will immediately
-disappear as soon as your program finished.  For most programs, this
+disappear as soon as your program finishes.  For most programs, this
 will happen in the blink of an eye, and you won't be able to see
 what output your program generated.  You can prevent your program
 from exiting by causing the execution to block waiting for input
-from the user by making a call to ``raw_input``.  Eg, for the test
+from the user with a call to ``raw_input``.  Eg, for the test
 program above, we could write::
 
   mystring = 'Hello World'
   for c in mystring:
-      print(ord(c))
-
+      print(c, ord(c))
 
   raw_input("press any key to exit")
 
@@ -219,29 +231,31 @@ IPython
 ========
 
 The interactive interpreter is one of the core strengths of python.
-Unlike compiled languages like C, FORTRAN and C++ which typically lead
+Unlike the compiled languages C, FORTRAN and C++ which typically lead
 to a work-flow where you write code, compile it, run it, find
-problems, go back and insert diagnostic output, and repeat *ad
-nauseum*, with an interactive interpreter you can explore code and data
-as you develop it.  The Python interpreter is great for this, but is
-not a full featured command shell that you expect if you are used to
-modern terminal environments like the bash shell which include the
-ability to navigate the file systems, set bookmarks on favorite
-locations, use aliases for often typed commands, and use command
-completion, history and other nice readline features.  The "I" in
-IPython stands for *Interactive* and it is a Python shell on steroids,
+problems, go back and insert diagnostic output, and wash-rinse-repeat,
+with an interactive interpreter you can explore code and data as you
+develop it.  The Python interpreter is useful for this, but is not the
+full featured command shell you expect if you are used to modern
+terminal environments like the bash shell.  A full-featured shell
+includes the ability to navigate the file systems, set bookmarks on
+favorite locations, use aliases for often typed commands, use command
+completion, history and other readline features.  The "I" in IPython
+stands for *Interactive* and it is a Python shell on steroids,
 integrating all the features from the standard python interpreter with
-all the desirable features just mentioned and more.
+all the desirable features just mentioned, and more.
 
 For many people who do scientific computing in Python as part of their
 research or employment, an open IPython shell is as much a feature of
-their everyday, all day work environment as a firefox web browser, a
-terminal shell and their favorite editor.  For the rest of this book,
-we'll spend *most* of our time in an IPython shell.  We can launch it
-just like we launched the plain vanilla Python interpreter above, but
-this time we'll prefix our command with an "i", and instead of seeing
-the familiar triple quoted prompt ``>>>`` from the Python interpreter,
-we see Mathematica-style numbered input and output prompts.
+their everyday work environment as a firefox web browser, a terminal
+shell and a favorite editor.  For the rest of this book, we'll spend
+*most* of our time in an IPython shell.  We can launch it from the
+terminal -- EPD and Python(x,y) users can launch it from their
+respective menus -- just like we launched the plain vanilla Python
+interpreter above.  But this time we'll prefix our command with an
+"i", and instead of seeing the familiar triple quoted prompt ``>>>``
+from the Python interpreter, we see Mathematica-style numbered input
+and output prompts::
 
   > ipython
   Python 2.6.4 (r264:75706, Nov  2 2009, 14:38:03)
@@ -257,17 +271,18 @@ we see Mathematica-style numbered input and output prompts.
   Out[1]: 1267650600228229401496703205376L
 
 
-Getting help in ipython
+Getting help in IPython
 ------------------------
 
-There are lots of features in ipython to help you explore python
-objects you are working with.  Often you get some object returned by
-numpy, scipy or matplotlib and you are not exactly sure what you have
-on your hands.  Your first three lines of defense are the ``type``
-function, ``help`` and its IPython cousins ``?`` and ``??``, and TAB
-which shows you a list of available attributes and methods.  Let's
-look at this in action for a basic string "somefile.dat" which is the
-name mythical file we plan to do some work on.
+There are lots of features in IPython to help you explore the Python
+objects you are working with.  Often you are handed some object
+returned by a method call in numpy, scipy or matplotlib, and you are
+not exactly sure what you have on your hands.  Your first three lines
+of defense are the ``type`` function, ``help`` and its IPython cousins
+``?`` and ``??``, and TAB which shows you a list of available
+attributes and methods.  Let's look at this in action for a basic
+string "somefile.dat" which is the name of a mythical file we plan to
+do some work on.
 
 
 .. ipython::
@@ -299,9 +314,10 @@ You can do ``myfile?`` to see the basic help on the object.
 
 
 
-Which isn't too helpful here.  Our last and most valuable line of
-defense seeking help is TAB completion, which will list the complete
-set of methods of Python strings can be viewed by typing ``a.<TAB>``
+Which isn't too helpful in this particular case.  Our last and most
+valuable line of defense when seeking help is TAB completion, which
+will list the complete set of methods of Python strings can be viewed
+by typing ``a.<TAB>``
 
 .. sourcecode:: ipython
 
@@ -321,15 +337,15 @@ set of methods of Python strings can be viewed by typing ``a.<TAB>``
    a.__hash__         a.__rmul__      a.isalpha     a.rjust
 
 
-Each of these methods can be queried similarly with the ``?``
-operator as above.  For more details on Python strings and their
-companion sequence types, see `string methods
+Each of these methods can be queried similarly with the ``?`` operator
+as above.  For more details on Python strings and their companion
+sequence types, see `string methods
 <http://docs.python.org/library/stdtypes.html#string-methods>`_.  The
 "double underscore" methods are special methods that make strings act
-like strings, and are not important for users of the basic string
-types.  There are many other basic methods that *are* quite useful.
-Use the ``?`` operator in ipython to get basic help on any of these
-methods.
+like strings, and are not important for most users of the basic string
+services.  There are many other basic methods that *are* quite useful,
+and we can use the ``?`` operator in IPython to get basic help on any
+of these methods.
 
 .. sourcecode:: ipython
 
@@ -345,25 +361,25 @@ methods.
 
 
    In [152]: myfile.upper()
-   Out[153]:
+   Out[153]: 'SOMEFILE.DAT'
 
 
-Another really nifty feature in ipython that doesn't always help is
-the double question mark ``??`.  The single question mark ``?`` brings
-up the *docstring* help for the object you are interrogating, the
-double question mark ``??`` brings up the *source code* itself, if
-available.  The reason the ``??`` doesn't always bring up the source
-code is that some python methods are written in compiled binary code,
-and so the source is not available.  For example, if you wanted to see
-the implementation of numpy's ``trapz``, which does trapezoidal
-integration, the ``??`` interrogation shows you the standard IPython
-help including a header indicating the object type (in this case a
+Another really useful feature in IPython is the double question mark
+``??``.  The single question mark ``?`` brings up the *docstring* help
+for the object you are interrogating; the double question mark ``??``
+brings up the *source code* itself, if available.  This doesn't
+*always* work, because some Python methods are written in compiled
+binary code and the source is simply not available.  But for many
+modules and methods, the source is written in Python and available.
+For example, if you wanted to see the implementation of numpy's
+``trapz``, which does trapezoidal integration, the ``??``
+interrogation shows you not only the standard IPython help which
+includes a header indicating the object type (in this case a
 "function") the source code file, the method signature (the line
 starting with ``def trapz``) and a docstring delineated by triple
-quotes ``"""``, which we've elided here for brevity.  The section
-below the docstring is the actual sourcecode implementation.
-
-..sourcecode:: ipython
+quotes ``"""`, which we've elided here for brevity.  Additionally,
+`??` provides the actual sourcecode implementation below the
+docstring::
 
   In [212]: np.trapz??
 
@@ -522,6 +538,10 @@ another, any variables, functions or classes defined in the script are
 now accessible in our local IPython namespace for us to inspect and
 continue working with.
 
+.. todo::
+
+   fixme: verbatim is not printing the Out lines
+
 .. ipython::
    :verbatim:
 
@@ -605,7 +625,7 @@ You can use Python as a powerful calculator.
 
 The basic mathematical functions like sqrt, exp, and sin, as well as
 numerical constants like $e$ and $\pi$ are provided by the standard
-library module `math <http://docs.python.org/library/math.html>`_
+library module `math <http://docs.python.org/library/math.html>`_,
 which must be explicitly imported.
 
 .. ipython::
@@ -615,23 +635,23 @@ which must be explicitly imported.
    In [235]: math.sin(2*math.pi)
    Out[235]: -2.4492127076447545e-16
 
-Notice that the result, while close to zero, is not exactly zero due
+Notice that the result -- though close to zero -- is not exactly zero, due
 to the floating point limitations in the representation of $\pi$ and
 the implementation of ``sin``.
 
 Although the floating point representation is limited to the size of a
 C-double, Python does support arbitrarily large integers in its long
-type (unlike a C long which are at least 4 bytes but have a finite
+type (unlike a C long which is at least 4 bytes but has a finite
 size).  So you can compute arbitrarily large integer arithmetic
 expressions, limited only by your computer's memory and processor.
 
 There are two common confusions in Python involving floating point
-numbers.  The first potential gotcha to be aware of for those with
-limited experience in Python or C.  In Python 2.X, the ratio of two
-integers is always an integer, truncated to the nearest integer.  So
-1/2 returns 0, not the expected 0.5.  If you want floating point
-division, make sure either the numerator or denominator or both is a
-floating point number.
+numbers.  The first potential gotcha to be aware of (in Python 2.x but
+not 3.x) for those with limited experience in Python or C is that the
+ratio of two integers is always an integer, truncated to the nearest
+integer.  So 1/2 returns 0, not the expected 0.5.  If you want
+floating point division, make sure either the numerator or denominator
+or both is a floating point number.
 
 .. ipython::
 
@@ -642,7 +662,7 @@ floating point number.
    In [240]: 1.0/2.0
    Out[240]: 0.5
 
-This wart, or feature depending on your worldview, was removed in
+This wart -- or feature depending on your worldview -- was removed in
 Python 3.0, which introduced a new operator ``//`` for those who want
 integer division to return an integer, and defines the ``/`` division
 operator to always return a floating point number regardless of
@@ -667,14 +687,14 @@ floating point representations.
 
 You may see different numbers on your machine, because the
 representation depends on the number of bits your hardware uses to
-store floating point numbers; fore more information see the `floating
+store floating point numbers; for more information see the `floating
 point tutorial <http://docs.python.org/tutorial/floatingpoint.html>`_.
 
 
 Python is dynamically typed
 -----------------------------
 
-In the example above we computed $2^100$
+In the example above we computed $2^{100}$
 
 .. ipython::
 
@@ -683,12 +703,13 @@ In the example above we computed $2^100$
 
 
 The "L" at the end of the last example is interesting.  It means that
-the result of $2^100$ in Python is a long integer, unlike the plain
-integers 2 and 100.  Python is dynamically typed, and there are
-several built-in numerical types such as integer, float and long to
-represent numerical data.  Let's explore this for the numbers in the
-example above using Python's built-in "type" function, which takes a
-Python object as input and returns the type of the object.
+the result of $2^{100}$ in Python is a ``long`` integer, unlike the
+plain integers 2 and 100.  Python is dynamically typed, and there are
+several built-in numerical types such as ``int``, ``lomg``, ``float``
+and ``complex`` to represent numerical data.  Let's explore this for
+the numbers in the example above using Python's built-in ``type``
+function, which takes a Python object as input and returns the type of
+the object.
 
 .. ipython::
 
@@ -698,49 +719,50 @@ Python object as input and returns the type of the object.
    In [9]: type(2**100)
    Out[9]: <type 'long'>
 
-Unlike C or C++, in which we declare a variable like ``int x`` and x
-will now and forever more be an integer, in Python the variables are
-names which point to objects, and a name can be reassigned to a
-different object of a different type.  Let's see this in action where
-we assign the name ``x`` to the largest integer available on my 32-bit
-system, and then add 1 to it.  This will overflow the maximum integer
-into a long.  On a 32-bit system, the largest signed integer is
-$2^31-1$, which can be found in the standard library module ``sys`` as
-``sys.maxint``.  To import a Python module, either from the standard
-library or 3rd part code, you simply ``import`` it.
+Unlike C or C++, in which we declare a variable like ``int x`` and
+``x`` will for now and forever more be an integer, in Python the
+variables are names which point to objects, and a name can be
+reassigned to a different object of a different type at any time.
+Let's see this in action where we assign the name ``x`` to the largest
+integer available on my 32-bit system, and then add 1 to it.  This
+will overflow the maximum ``int`` into a ``long``.  On a 32-bit
+system, the largest signed integer is $2^{31}-1$ and on a 64-bit
+system it is $2^{65}-1$.  Regardless of your platform, the largest
+``int`` can be found in the standard library module ``sys`` as
+``sys.maxint``, and the largest ``int`` will overflow if we add one to
+it.
 
 .. ipython::
 
-  In [221]: import sys
+   In [221]: import sys
 
-  # the largest integer on a 32 bit system 2^31-1
-  In [222]: sys.maxint
-  @verbatim
-  Out[222]: 2147483647
+   # the largest integer on a 32 bit system 2^31-1; on a 64 bit system
+   # it is 2^65-1
+   In [222]: sys.maxint
+   Out[222]: 2147483647
 
-  In [223]: x = sys.maxint
+   In [223]: x = sys.maxint
 
-  # x is an int
-  In [224]: type(x)
-  Out[224]: <type 'int'>
+   # x is an int
+   In [224]: type(x)
+   Out[224]: <type 'int'>
 
-  In [225]: x
-  @verbatim
-  Out[225]: 2147483647
+   In [225]: x
+   Out[225]: 2147483647
 
-  # if we add 1, we overflow from int -> long
-  In [226]: x = x+1
+   # if we add 1, we overflow from int -> long
+   In [226]: x = x+1
 
-  # x is now a long
-  In [227]: type(x)
-  Out[227]: <type 'long'>
+   # x is now a long
+   In [227]: type(x)
+   Out[227]: <type 'long'>
 
-  In [228]: x
-  @verbatim
-  Out[228]: 2147483648L
+   In [228]: x
+   Out[228]: 2147483648L
 
-Likewise, we could simply assign the name ``x`` to a non-numeric type
-such as a string.
+In the example above the name ``x`` was initially assigned to an
+``int`` and subsequently assigned to a ``long``.  Likewise, we can
+simply reassign the name ``x`` to any other type nonsuch as a string.
 
 .. ipython::
 
@@ -749,16 +771,24 @@ such as a string.
    In [231]: x
    Out[231]: 'this is a string'
 
+In this sense Python is dynamically typed.  The objects have types: an
+int is an int and a string is a string.  But we can reassign any name
+which points to an object of a given type to another object of another
+type as desired, and often we care less about the type of an object a
+name points to than we do about how it performs.  This is the concept
+of *duck-typing*: if something walks like a duck and quacks like a
+duck, we may not care whether or not it is a duck.  We only care
+whether it behaves like a duck.
 
 The basic data containers: tuple, list, dict, set
 --------------------------------------------------
 
-So far we've seen a few basic types in action: int, long and string.
-One of the strengths of Python is the power of its basic data
-structures for storing collections of data.  The built-in language has
-``tuple``, ``list``, ``dict`` and ``set``, and the standard library
-has many more, such as binary trees and several queue structures among
-others.  Let's explore the basic types.
+So far we've seen a few basic types in action: ``int``, ``long`` and
+``string``.  One of the strengths of Python is the power of its basic
+data structures for storing collections of data.  The built-in
+language has ``tuple``, ``list``, ``dict`` and ``set``, and the
+standard library has many more, such as binary trees and several queue
+structures among others.  Let's explore the basic types.
 
 The two primary sequence containers are tuples and lists.  For the
 newcomer, it is often confusing why there are two -- we'll get into
@@ -825,8 +855,8 @@ our list.
 Python also supports fancy slice indexing, which is very useful and
 powerful with numpy arrays which have the same syntax.  Since we cover
 it below, we'll leave the detailed explanation for later
-(:ref:`numpy_indexing_slicing`, and only demonstrate it in the example
-below in which we slice out every 2nd element.
+(:ref:`numpy_indexing_slicing`), and only demonstrate it in the
+example below in which we slice out every 2nd element.
 
 .. ipython::
 
@@ -838,7 +868,10 @@ is one of the most useful and powerful types in the language.  Many of
 the internals of the language are implemented in dictionaries, with
 the result that the ``dict`` is as efficient and robust as can be.
 The dictionary maps keys to values: they key can be any immutable data
-type and the value can be any python object.
+type and the value can be any python object.  Technically, the
+requirement for a key to a dictionary is that it has a unique hash; as
+you can easily verify tuples are hashable ``hash((1,2,3))`` and lists
+not ``hash([1,2,3])``.
 
 One typical use of a dictionary is to store a bunch of different data
 types in a single data structure -- a class is another and perhaps
@@ -867,7 +900,7 @@ tuples, class instances, or other immutable types as keys.
     person0 = dict(name='Bill', age=12, weight=65.0)
 
 
-You can index a dictionary with the key name to read or write the
+You can index into a dictionary with the key name to read or write the
 value assigned to that key.
 
 .. ipython::
@@ -883,7 +916,7 @@ value assigned to that key.
 
 
 Notice in the example above that the keys are not in the same order
-which we used when defining the dictionary.  This is an important fact
+we used when defining the dictionary.  This is an important fact
 about dictionaries to remember: the keys are unordered.  There are
 many important methods of dictionaries, but three that are used all
 the time are ``keys`` which returns an unordered list of keys in the
@@ -917,7 +950,7 @@ create a list of dictionaries.
 or you can make a dictionary key point to another dictionary as a
 value, though you can't use a dictionary itself as the key in a
 dictionary since the keys must be immutable and as we have seen above
-when we changed the name of ``person0`` to "Jane" the dictionary is
+when we changed the name of ``person0`` to "Jane", the dictionary is
 mutable.
 
 Another common usage of dictionaries is to store or cache values which
@@ -937,12 +970,12 @@ following.
     print squared[9]  # prints 729
 
 This particular example may not be the best one, since the computation
-of $i^3$ may be cheaper than the dictionary lookup, but in general
+of $i^2^3$ may be cheaper than the dictionary lookup, but in general
 whenever you have an expensive computation to perform and you want to
 cache the results for later reuse, a dictionary is the goto data
 structure for this task.  In the section of list and generator
 comprehensions below, we will see a syntactically simpler way to
-create the squared dictionary which takes advantage of the fact that a
+create the ``squared`` dictionary which takes advantage of the fact that a
 dictionary can be initialized with a sequence of (key, value) tuples.
 
 .. sourcecode:: python
@@ -1014,22 +1047,22 @@ and then removing 56.
    Out[81]: set([1, 2, 3, 5, 8, 13, 21, 34, 55])
 
 That's it for an introduction to the basic python data container
-structures tuple, list, dict and set.  The `collections
-<http://docs.python.org/library/collections.html>`_ module in the
-standard library contains many more useful data structures, such as
-deque, ordered set, and named tuples.
+structures ``tuple``, ``list``, ``dict`` and ``set``.  The
+`collections <http://docs.python.org/library/collections.html>`_
+module in the standard library contains many more useful data
+structures, such as deque, ordered set, and named tuples.
 
 
 Strings
 ------------
 
 Python has very good infrastructure for processing strings.  Like
-``int``, ``float`` and ``complex``, a ``string is a basic type in
+``int``, ``float`` and ``complex``, a ``string`` is a basic type in
 python.  We saw a list of the methods available on strings in the
 basic IPython workflow introduction.  Although there is far too much
 functionality in the basic string to be covered here, and you can read
-about them in the standard library string ``documentation
-<http://docs.python.org/library/stdtypes.html#string-methods>`_ we'll
+about them in the standard library string `documentation
+<http://docs.python.org/library/stdtypes.html#string-methods>`_, we'll
 mention a few of the really useful methods here.
 
 ``find`` returns the index of the first occurrence of a character or
@@ -1047,10 +1080,11 @@ occur, it returns -1.
    In [153]: myfile.find('file')
    Out[153]: 4
 
-``split`` will split the string on the indicated character into a list
-of string.  The default is to split on white space, but you can split
-on any other character, substring, newlines, of even the empty string
-itself (which just returns a list of characters).
+``split`` will split the string on the indicated character or
+substring into a list of strings.  The default is to split on white
+space, but you can split on any other character, substring, newlines,
+of even the empty string itself (which just returns a list of
+characters).
 
 .. ipython::
 
@@ -1066,11 +1100,11 @@ itself (which just returns a list of characters).
 
 The case methods ``upper``, ``lower`` and ``capitalize`` are
 straightforward but useful, returning "SOMEFILE.DAT", "somefile.dat"
-and "Somefile.dat" respectively for the string "somefile.dat"
+and "Somefile.dat" respectively for the string "somefile.dat".
 
 Another useful method is ``startswith`` (and its cousin ``endswith``)
 to determine whether a string starts or ends with a given substring,
-which arises when checking file types for example.  Notice in the
+which often arises when checking file types.  Notice in the
 example below that the ``lower`` method returns a string itself, so we
 can chain together in a pipeline the ``lower`` and ``endswith``
 methods to perform a case-insensitive check to see if our filename
@@ -1084,20 +1118,20 @@ ends with "csv".
       .....:
 
 Python also has support for regular expressions in the `re
-<http://docs.python.org/library/re.html>`` standard library module.
+<http://docs.python.org/library/re.html>`_ standard library module.
 They are not built into the basic string types as they are in Perl,
-and Python programmers often ascribe Jamie Zawinski's view. *Some
+and Python programmers often ascribe Jamie Zawinski's view: *Some
 people, when confronted with a problem, think "I know, I'll use
 regular expressions." Now they have two problems.* Which is to say,
 there are many problems which can be solved with basic string methods
 that do not need the full machinery of regular expressions.  But
 Python does have full support when you do need them.
 
-A typical case arises in file processing , where you may have a list of
-files like 'energy001.dat', 'energy002.dat', 'matter001.dat',
-'matter1024.dat' and you want to extract both the basename ("energy"
-or "matter") as well as the file number, perhaps as an integer.
-Regular expressions are good for this.
+A typical case arises in file processing, in which you may have a list
+of files like :file:`energy001.dat`, :file:`energy002.dat`,
+:file:`matter001.dat`, :file:`matter1024.dat` and you want to extract
+both the basename ("energy" or "matter") as well as the file number,
+perhaps as an integer.  Regular expressions are good for this.
 
 .. ipython::
 
@@ -1156,10 +1190,10 @@ You can have zero or an unlimited number of ``else if`` clauses, and the
 first one that meets the "True" condition is executed and the
 subsequent condition/code blocks are short circuited.
 
-The ``for`` loop in python is particularly simple.  You can iterate over any
-sequence, including tuples, lists, dictionaries, strings and more
-using the same "for ELEMENT in SOME_SEQUENCE" syntax.  In the example
-below, we iterate over the characters in a string.
+The ``for`` loop in python is particularly simple.  You can iterate
+over any sequence, including tuples, lists, dictionaries, sets,
+strings and more using the same "for ELEMENT in SOME_SEQUENCE" syntax.
+In the example below, we iterate over the characters in a string.
 
 .. sourcecode:: python
 
@@ -1209,8 +1243,8 @@ which uses the leading dots "..." to indicate an indented block.
    625
    390625
 
-You can write indented blocks in an interactive ipython session.  The
-primary difference is that ipython requires two empty/blank lines to
+You can write indented blocks in an interactive IPython session.  The
+primary difference is that IPython requires two empty/blank lines to
 terminate the indented block.
 
 
@@ -1256,7 +1290,8 @@ value) tuples.  Here we create a mapping from words to their lengths.
 
 We mentioned above that you can pass a list of (key, value) tuples
 into the ``dict`` constructor, and this a a very-handy way to create a
-dictionary, "on the fly".  Typically we would write a one-line.
+dictionary, "on the fly".  Typically we would write a one-liner.
+
 .. ipython::
 
    In [115]: wordlend = dict([(word, len(word)) for word in sentence.split()])
@@ -1286,11 +1321,11 @@ Files and Paths
 ----------------
 
 In scientific and engineering applicaitons, a lot of data resides on
-the file systems, some of it in standard formats like HDF5, some flat
-text file formats like CSV, some in proprietary or custom binary
+the file systems, some of it in standard formats like HDF5, some in
+flat text file formats like CSV, some in proprietary or custom binary
 formats, and some compressed and archived in tar or zip files.  Python
 has excellent support for all of these and more through an amazing
-array of built in functions and standard modules, and an equally
+array of built-in functions and standard modules, and an equally
 amazing array of third party tools such as those provided by numpy,
 scipy, matplotlib, and beyond.  The basic workhorse of reading and
 writing files is the built-in ``file`` command.
@@ -1338,7 +1373,7 @@ compute $2 i^2$ for the first 5 integers, we could write a for-loop
 
 but this can be quite slow for a large number of integers because
 python is a dynamic interpreted language.  For each integer in the
-loop, python has to look up i, determine its type and value, look up
+loop, python has to look up ``i``, determine its type and value, look up
 the multiplication and exponentiation operators ``*`` and ``**`` to see
 how to handle them for integers and so on.  And it doesn't learn: it
 does each of these operations on every pass through the loop.  This
@@ -1358,17 +1393,18 @@ Not only is this syntactically convenient -- we can get the same
 result with less typing and less code -- it has much better
 performance in an interpreted language like Python because most of the
 work happens in C.  Python only has to do look up the variable name
-"x" and multiplication and exponentiation operators one time to see how
-to use them with numpy arrays, unlike in the Python case where it had
-to do the look up in each iteration of the loop.  For loops with a
-large number of iterations, the differences can be a 100-fold or more
-performance improvement, which is why dynamic interpreted languages
-like Python and Matlab rely so heavily on array based computations.
-This is sometimes confusing for people coming from languages which do
-not encourage or support array based element-wise operations.
+``x`` and multiplication ``*`` and exponentiation ``**`` operators one
+time to see how to use them with numpy arrays, unlike in the Python
+case where it had to do the look up in each iteration of the loop.
+For loops with a large number of iterations, the differences can be a
+100-fold or more performance improvement, which is why dynamic
+interpreted languages like Python and Matlab rely so heavily on array
+based computations.  This is sometimes confusing for people coming
+from languages which do not encourage or support array based
+element-wise operations.
 
 In this book, as above, we will be utilizing the import abbreviation
-``np`` for ``numpy``.  You can check which version of numpy you are
+``import numpy as np``.  You can check which version of numpy you are
 running, and where it is installed, by inspecting the ``__version__``
 and ``__file__`` attributes.
 
@@ -1408,9 +1444,9 @@ version of the built-in python function ``range`` which creates a
 
 You may be surprised that both ``mylist`` and ``myarray`` do not
 include the end point number 5; this is a feature of python in which
-ranges start at the beginning number and go up to, but do not include
+ranges start at the beginning number and go up to, but do not include,
 the terminal number.  Unlike the python list in ``mylist``, the numpy
-array ``myarray`` is build for efficiency in storage and performance,
+array ``myarray`` is built for efficiency in storage and performance,
 and is represented internally as a C data buffer of integers.  There
 are several crucial methods to inspect the size and type of numpy
 arrays, including ``shape``, ``size``, and ``dtype``, which show the
@@ -1428,19 +1464,19 @@ array, and the datatype of the array (eg integer or float).
    In [57]: myarray.size
    Out[57]: 5
 
-   # the dtype, or "data type" here is 'int32' for a 32 bit integer.
-   # If you are working on a 64 bit architecture, you will see 'int64'
+   # the dtype, or "data type" here is 'int32' for a 32 bit integer or
+   # 'int64' for a 64 bit architecture.  The dtype depends on the
+   # archituecture of your machine
    In [58]: myarray.dtype
-   @verbatim
    Out[58]: dtype('int32')
 
 
-There are lots of ways of creating numpy arrays.  ``np.arange``
-created 5 python integers from 0 to 5; it inspected the argument ``5``
-and inferred that we wanted to create an integer array.  If instead we
+There are lots of ways to create numpy arrays.  ``np.arange`` created
+5 python integers from 0 to 5; it inspected the argument ``5`` and
+inferred that we wanted to create an integer array.  If instead we
 wanted to create an array of floating point numbers, we could give the
-argument ``5.0`` or explicitly pass in ``dtype=float`` to the
-constructor.
+argument ``5.0`` in which case the introspection machinery would
+determine that we want a floating point array.
 
 .. ipython::
 
@@ -1457,6 +1493,12 @@ constructor.
    In [78]: farray.dtype
    Out[78]: dtype('float64')
 
+Alternatively, we can explicitly *request* a floating point array by
+passing in the ``dtype`` keyword argument to the array creation
+methods.
+
+.. ipython::
+
    In [79]: farray = np.arange(5, dtype=float)
 
    In [80]: farray
@@ -1467,7 +1509,7 @@ constructor.
 
 There are several other useful functions for creating numpy arrays.
 ``np.array`` creates an array from existing data.  Below we create a
-two dimension array from lists of python integers
+two dimension array from lists of python integers.
 
 .. ipython::
 
@@ -1492,9 +1534,9 @@ two dimension array from lists of python integers
 
 
 Another set of handy functions for creating arrays are ``zeros`` and
-``ones``, create an array filled with either zeros or ones.  In the
-example below, we create a 3x3x4 array of zeros and then assign the
-first element the value 12
+``ones``, which create a pre-dimensioned array filled with either
+zeros or ones.  In the example below, we create a 3x3x4 array of zeros
+and then assign the first element the value 12
 
 .. ipython::
 
@@ -1784,7 +1826,7 @@ names.
 But no matter how you are configured, those are a lot of symbols --
 the basic numpy array is feature rich and powerful.  Below are a
 sampling with intuitive names -- try ``help`` on any method to see
-more information, for example in ipython you can type ``help x.clip``
+more information, for example in IPython you can type ``help x.clip``
 which clips the values in a numpy array to the min/max values
 specified in the ``clip`` method call.
 
@@ -2148,7 +2190,7 @@ The data for the examples used in the book is available at bookdata_.
 Download this zip file and unzip it in a working directory on your
 system.  You can check your self to make sure the download and unzip
 was successful by testing to see if you can load a simple dataset from
-ipython.
+IPython.
 
 .. sourcecode:: ipython
 
