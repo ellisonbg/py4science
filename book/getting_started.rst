@@ -378,9 +378,9 @@ interrogation shows you not only the standard IPython help which
 includes a header indicating the object type (in this case a
 "function") the source code file, the method signature (the line
 starting with ``def trapz``) and a docstring delineated by triple
-quotes ``"""`, which we've elided here for brevity.  Additionally,
-`??` provides the actual sourcecode implementation below the
-docstring::
+quotes ``"""``, which we've partially elided here for brevity.
+Additionally, ``??`` provides the actual sourcecode implementation below
+the docstring::
 
   In [211]: import numpy as np
 
@@ -469,7 +469,7 @@ code from the IPython shell with the IPython magic command ``run``.
 
 Perhaps the most useful magic command in the IPython arsenal is
 ``run`` which is used to run a python script on the system.  Open your
-favorite IPython editor, create a simple test script names
+favorite IPython editor, create a simple test script named
 :file:`myhello.py`, and save it on your local file system.  We'll put
 it in the newly created :file:`mypy` directory from the example above.
 
@@ -515,9 +515,7 @@ namespace.
    In [9]: hellostr
    ---------------------------------------------------------------------------
    NameError                                 Traceback (most recent call last)
-
    /home/jdhunter/mypy/<ipython console> in <module>()
-
    NameError: name 'hellostr' is not defined
 
 The Python exception ``NameError`` indicates that the variable name
@@ -532,7 +530,7 @@ world" forwards and backwards.
    ('hello', 'olleh')
    ('world', 'dlrow')
 
-Not only is this convenient for running scripts without having to
+Not only is ``run`` convenient for executing scripts without having to
 switch between the IPython shell and the terminal shell, it has a
 couple of other important benefits as well.  For one, we don't have to
 pay the startup time of the Python interpreter or any modules we
@@ -551,7 +549,7 @@ continue working with.
    Out[17]: 'HELLO WORLD'
 
 Now we no longer get the ``NameError`` when we print the ``hellostr``
-variable, because it was defined in our local namespace when we ran
+variable, because IPython placed it in our local namespace when we ran
 the script.  There are lots of useful command options to run, notably
 ``-i`` to run a script in the context of the local namespace, ``-t``
 to print timing information, ``-d`` to run under the debugger and
@@ -584,26 +582,26 @@ This guide is for them: a short overview of the language to help them
 get to what they want as quickly as possible.  We get to advanced
 material pretty quickly in this book, so it may be tough sledding if
 you are a python newbie.  Take in what you can, you can always come
-back to absorb more detail later, and digest these excellent tutorials
-and books referenced above as you have time.  Since we cannot begin to
-do justice to the breadth and depth of material these resources cover,
+back to absorb more detail later, and digest the excellent tutorials
+and books referenced above as you have time.  We cannot begin to do
+justice to the breadth and depth of material these resources cover and
 we won't try.  Rather, we will provide just the bare minimum for the
 reader who wants to get started right away using python for scientific
 computing.  We assume you have some experience with another
 programming language or two, and are comfortable with the concepts of
-variable types, for loops, function calls, and compilers.  We'll
-introduce you how to map these concepts into python.
+variable types, for loops, function calls, and compilers.  We'll help
+you map these concepts into python.
 
 
 Python is a dynamically typed, object oriented, interpreted language.
 Interpreted means that your program interacts with the Python
 interpreter, similar to Matlab, Perl, Tcl and Java, and unlike
-FORTRAN, C, or C++ which are compiled.  If you've been following
-along, you know how to start the Python interpreter and the IPython
-interpreter.  You don't need IPython to learn Python itself, but since
-this is the environment we'll be using throughout the book, and since
-it is so helpful for inspecting and getting help on objects in python,
-we'll be using IPython in this mini-python tutorial.
+FORTRAN, C, or C++ which are compiled.  By this point, you should know
+how to start the Python and IPython interpreters.  You don't need
+IPython to learn Python itself, but since this is the environment
+we'll be using throughout the book, and since it is so helpful for
+inspecting and getting help on objects in python, we'll be using
+IPython in this mini-python tutorial.
 
 
 Python as a calculator
@@ -642,7 +640,8 @@ Although the floating point representation is limited to the size of a
 C-double, Python does support arbitrarily large integers in its long
 type (unlike a C long which is at least 4 bytes but has a finite
 size).  So you can compute arbitrarily large integer arithmetic
-expressions, limited only by your computer's memory and processor.
+expressions in Python, limited only by your computer's memory and
+processor.
 
 There are two common confusions in Python involving floating point
 numbers.  The first potential gotcha to be aware of (in Python 2.x but
@@ -670,7 +669,7 @@ numbers.
 
 The other floating point surprise for new users is the representation
 of numbers like 1/10 or 2/3, which reflects the limited accuracy of
-floating point representations.
+binary floating point storage.
 
 .. ipython::
 
@@ -693,7 +692,7 @@ point tutorial <http://docs.python.org/tutorial/floatingpoint.html>`_.
 Python is dynamically typed
 -----------------------------
 
-In the example above we computed $2^{100}$
+In the example above we computed $2^{100}$.
 
 .. ipython::
 
@@ -726,7 +725,7 @@ Let's see this in action where we assign the name ``x`` to the largest
 integer available on my 32-bit system, and then add 1 to it.  This
 will overflow the maximum ``int`` into a ``long``.  On a 32-bit
 system, the largest signed integer is $2^{31}-1$ and on a 64-bit
-system it is $2^{65}-1$.  Regardless of your platform, the largest
+system it is $2^{63}-1$.  Regardless of your platform, the largest
 ``int`` can be found in the standard library module ``sys`` as
 ``sys.maxint``, and the largest ``int`` will overflow if we add one to
 it.
@@ -736,7 +735,7 @@ it.
    In [221]: import sys
 
    # the largest integer on a 32 bit system 2^31-1; on a 64 bit system
-   # it is 2^65-1
+   # it is 2^63-1
    In [222]: sys.maxint
    Out[222]: 2147483647
 
@@ -853,9 +852,10 @@ our list.
 
 Python also supports fancy slice indexing, which is very useful and
 powerful with numpy arrays which have the same syntax.  Since we cover
-it below, we'll leave the detailed explanation for later
-(:ref:`numpy_indexing_slicing`), and only demonstrate it in the
-example below in which we slice out every 2nd element.
+it below in the introduction to numpy, we'll leave the detailed
+explanation for later (:ref:`numpy_indexing_slicing`), and only
+demonstrate it in the example below in which we slice out every 2nd
+element.
 
 .. ipython::
 
@@ -865,12 +865,12 @@ example below in which we slice out every 2nd element.
 The dictionary is the associative array data structure in Python, and
 is one of the most useful and powerful types in the language.  Many of
 the internals of the language are implemented in dictionaries, with
-the result that the ``dict`` is as efficient and robust as can be.
-The dictionary maps keys to values: they key can be any immutable data
-type and the value can be any python object.  Technically, the
-requirement for a key to a dictionary is that it has a unique hash; as
-you can easily verify tuples are hashable ``hash((1,2,3))`` and lists
-not ``hash([1,2,3])``.
+the result that the ``dict`` is efficient and robust.  The dictionary
+maps keys to values: they key can be any immutable data type and the
+value can be any python object.  Technically, the requirement for a
+key to a dictionary is that it has a unique hash; as you can easily
+verify tuples are hashable with ``hash((1,2,3))`` and lists are not
+with ``hash([1,2,3])``.
 
 One typical use of a dictionary is to store a bunch of different data
 types in a single data structure -- a class is another and perhaps
@@ -973,9 +973,10 @@ of ${i^2}^3$ may be cheaper than the dictionary lookup, but in general
 whenever you have an expensive computation to perform and you want to
 cache the results for later reuse, a dictionary is the goto data
 structure for this task.  In the section of list and generator
-comprehensions below, we will see a syntactically simpler way to
-create the ``squared`` dictionary which takes advantage of the fact that a
-dictionary can be initialized with a sequence of (key, value) tuples.
+comprehensions below, we will discuss a syntactically simpler way to
+create the ``squared`` dictionary which takes advantage of the fact
+that a dictionary can be initialized with a sequence of (key, value)
+tuples.
 
 .. sourcecode:: python
 
@@ -1122,9 +1123,9 @@ They are not built into the basic string types as they are in Perl,
 and Python programmers often ascribe Jamie Zawinski's view: *Some
 people, when confronted with a problem, think "I know, I'll use
 regular expressions." Now they have two problems.* Which is to say,
-there are many problems which can be solved with basic string methods
-that do not need the full machinery of regular expressions.  But
-Python does have full support when you do need them.
+there are many problems which can be better solved with basic string
+methods that do not need the full machinery of regular expressions.
+But Python does have full support when you do need them.
 
 A typical case arises in file processing, in which you may have a list
 of files like :file:`energy001.dat`, :file:`energy002.dat`,
@@ -1148,12 +1149,27 @@ perhaps as an integer.  Regular expressions are good for this.
    In [202]: m.group(2)
    Out[202]: '001'
 
+Let's deconstruct this regular expression.  The stuff between the two
+groups of parentheses are groups 1 and 2, which we want to extract
+later with ``m.group(1)`` and ``m.group(2)``.  The first group match
+string is ``[a-z]+`` which means "one or more characters between a and
+z"; this will match the basename, eg "energy" or "matter" or any other
+lower case purely alphabetical string.  The second group is ``\d+``
+which means "one or more digits" and matches the file number.  The
+last part of the regular expression, which is not grouped by
+parentheses, is ``\.dat``; we use the literal slash to quote the
+period because '.' has a special meaning "match any character" in
+regular expressions and here we want to refer to the literal period
+separating the filename from the extension.  The return object ``m``
+in ``m = rgx.match(fname)`` is the regular expression match object,
+and will be ``None`` if no match occurs.
 
 Flow control: if, for and while
 --------------------------------
 
 Python is unusual in that it uses whitespace and colons to designate
-code blocks.  For example, in C/C++, we would write something like::
+code blocks.  For example, in C/C++, we use curly braces to delineate
+the scope of an if/for/while clause, eg::
 
   if (x==1) {
     printf("x is one!\n");   // this is executed iff x==1
@@ -1226,7 +1242,7 @@ and break after you have processed 100 lines, a common idiom is
        if i==100:
            break
 
-``while`` follows a similar pattern.  Here is an example from ipython,
+``while`` follows a similar pattern.  Here is an example from IPython,
 which uses the leading dots "..." to indicate an indented block.
 
 .. ipython::
@@ -1293,11 +1309,13 @@ dictionary, "on the fly".  Typically we would write a one-liner.
 
 .. ipython::
 
-   In [115]: wordlend = dict([(word, len(word)) for word in sentence.split()])
+   In [115]: wordlend = dict((word, len(word)) for word in sentence.split())
 
    In [116]: wordlend['this']
    Out[116]: 4
 
+Note we omitted the square brackets in the ``dict`` constructor above
+-- this is a generator comprehension rather than a list comprehension.
 The generator comprehension is very similar to the list comprehension
 except it is denoted with parentheses rather than square brackets.
 The important difference is that the list comprehension is constructed
@@ -1419,6 +1437,7 @@ plain text, uncompressed files.
 .. ipython::
 
    In [76]: import gzip
+
    In [77]: s = gzip.open('birthdays.csv.gz').read()
 
    In [78]: len(s)
@@ -1497,27 +1516,27 @@ variety of arguments.
 .. ipython::
    :verbatim:
 
-   In[1]: crox = fetch_csv('CROX', asrec=True)
+   In [1]: crox = fetch_csv('CROX', asrec=True)
 
-   In[2]: aapl = fetch_csv('AAPL', asrec=True)
+   In [2]: aapl = fetch_csv('AAPL', asrec=True)
 
 
 
 Exceptions
 ------------
 
-When Python encounters an error, it raises an Exception, which tells
-you what type of error occurred in what file, and gives you the line
-number of the file that triggered the error.  It gives you the entire
-calling stack that ultimately led to the error.  Because the stack
-proceeds from the top level function call down to the ultimate code
-that triggered the error, you have to learn to read exceptions *from
-the bottom up* to see where the error ultimately occurred.  We'll
-create a simple python script that contains an error within a function
-call to see this in action.  This is not a good example of how to code
--- it is just a quick attempt to create a script that makes a couple
-of function calls and generates and error. Create a file
-:file:`test_error.py` with the contents.
+When Python encounters an error, it raises an ``Exception``, which
+tells you what type of error occurred in what file, and gives you the
+line number of the file that triggered the error.  It gives you the
+entire calling stack that ultimately led to the error.  Because the
+stack proceeds from the top level function call down to the ultimate
+code that triggered the error, you have to learn to read exceptions
+*from the bottom up* to see where the error ultimately occurred.
+We'll create a simple python script that contains an error within a
+function call to see this in action.  This is not a good example of
+how to code -- it is just a quick attempt to create a script that
+makes a couple of function calls and generates and error. Create a
+file :file:`test_error.py` with the contents.
 
 .. sourcecode:: python
 
@@ -1705,12 +1724,14 @@ create a single constant ``myconstant`` and function ``myfunc``.
 We are now ready to test our module.  A module is meant to be
 imported, but the line ``if __name__=='__main__':`` is a standard
 python idiom that allows us to use the module as a module or a script.
-When we import it, the name is ``'mypackage.mymodule'`` but when we
+When we import it, the name is ``'mypackage.mymodule'`` which doesn't
+equal '__main__' so the stuff at the end is not executed.  But when we
 run it as a script using python or IPython's run, then the name is set
-to ``'__main__'`` and and the indented block is run.  For those of you
-familiar with C, this is inspired by and functionally equivalent to
-the ``main`` function in a C program.  This is handy when testing
-debugging; from the shell we can run our module as a script with ::
+to ``'__main__'`` and and the indented block at the end is executed,
+allowing us to test our code.  For those of you familiar with C, this is
+inspired by and mostly equivalent to the ``main`` function in a
+C program.  This is handy when testing debugging; from the shell we
+can run our module as a script with ::
 
   > cd mypackage/
   mypackage> python mymodule.py
@@ -1739,7 +1760,7 @@ containing ``mypackage`` in our ``PYTHONPATH``.
    Out[109]: 0.12964175479131679
 
 One important thing to note: a module is only imported once.  If you
-make a chance to :file:`mymodule.py`, it will not be seen by Python
+make a change to :file:`mymodule.py`, it will not be seen by Python
 within a single interpreter session even if you re-import the module.
 This is an efficiency that saves Python time when multiple scripts and
 modules import the same library: the import actually happens only
