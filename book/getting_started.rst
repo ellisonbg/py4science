@@ -704,7 +704,7 @@ In the example above we computed $2^{100}$
 The "L" at the end of the last example is interesting.  It means that
 the result of $2^{100}$ in Python is a ``long`` integer, unlike the
 plain integers 2 and 100.  Python is dynamically typed, and there are
-several built-in numerical types such as ``int``, ``lomg``, ``float``
+several built-in numerical types such as ``int``, ``long``, ``float``
 and ``complex`` to represent numerical data.  Let's explore this for
 the numbers in the example above using Python's built-in ``type``
 function, which takes a Python object as input and returns the type of
@@ -761,7 +761,7 @@ it.
 
 In the example above the name ``x`` was initially assigned to an
 ``int`` and subsequently assigned to a ``long``.  Likewise, we can
-simply reassign the name ``x`` to any other type nonsuch as a string.
+simply reassign the name ``x`` to any other type such as a string.
 
 .. ipython::
 
@@ -1319,7 +1319,7 @@ socket.
 Files and Paths
 ----------------
 
-In scientific and engineering applicaitons, a lot of data resides on
+In scientific and engineering applications, a lot of data resides on
 the file systems, some of it in standard formats like HDF5, some in
 flat text file formats like CSV, some in proprietary or custom binary
 formats, and some compressed and archived in tar or zip files.  Python
@@ -1424,10 +1424,10 @@ plain text, uncompressed files.
    In [78]: len(s)
    Out[78]: 204
 
-Similarly, the standard library module ``urllib.urlopen`` exposes the same API, so you can call
-``read``, ``readlines`` or iterate over web resources as if they were
-local files.  Here we grab a CSV file from the Yahoo finance web
-server and print the first few lines.
+Similarly, the standard library module ``urllib.urlopen`` exposes the
+same API, so you can call ``read``, ``readlines`` or iterate over web
+resources as if they were local files.  Here we grab a CSV file from
+the Yahoo finance web server and print the first few lines.
 
 .. ipython::
    :verbatim:
@@ -1450,7 +1450,7 @@ server and print the first few lines.
 
 This is another example of the power of duck-typing.  In Python we can
 write functions that take file like objects as inputs, and operate on
-these objects using the stndard sequence protocol, ``read``,
+these objects using the standard sequence protocol, ``read``,
 ``readlines``, etc....  We don't care whether the object *is* a file
 on our system; as long as it quacks like a file, we can use it.
 
@@ -1458,7 +1458,50 @@ on our system; as long as it quacks like a file, we can use it.
 Functions and classes
 ----------------------
 
-TODO
+The basic python function consists of a name, an optional list of
+arguments, and optional list of keyword argument which take default
+value but can be overridden, a docstring, and the function body which
+returns a python object.  Ie, it looks like this.
+
+.. sourcecode:: python
+
+   def fetch_csv(ticker, asrec=True):
+       """
+       Fetch a CSV file from Yahoo finance for stock ticker.
+       If asrec=True, return the result as a numpy record array, else return
+       a list of dictionaries for each row.
+       """
+       url = 'http://ichart.finance.yahoo.com/table.csv?s=%s'%ticker
+       import urllib
+
+       lines = urllib.urlopen(url).readlines()
+
+       # now parse the results and return a list of dicts or a record
+       # array depending on the asrec kwarg.  this part is left as an
+       # exercise!
+       return something
+
+In this example, the function name is ``fetch_csv``, the first
+argument is ``ticker``, the keyword argument is ``asrec`` which
+defaults to ``True``, the docstring is the part between the triple
+quoted strings after the function definition and which shows up when
+you ask for ``help(fetch_csv)``, and finally the function body, which
+is only partially complete here.
+
+Like the flow control statements ``if``, ``for``, and ``while`` we
+discussed above, the docstring and function body are delineated by
+indented whitespace, not with curly braces like we see in C and C++.
+Once you have defined your function, you can easily call it with a
+variety of arguments.
+
+.. ipython::
+   :verbatim:
+
+   In[1]: crox = fetch_csv('CROX', asrec=True)
+
+   In[2]: aapl = fetch_csv('AAPL', asrec=True)
+
+
 
 Exceptions
 ------------
@@ -1602,7 +1645,7 @@ their values in the local namespace.
    ZeroDivisionError: float division
    WARNING: Failure executing file: <test_error.py>
 
-Here again, reading from the bottom up, we see that the error occrred
+Here again, reading from the bottom up, we see that the error occurred
 on line 3 in the ``divide_them`` function, but additionally we see
 that the values ``x = 1`` and ``y = 0`` were passed in, hence the
 divide by zero error.  Walking up the stack into the
@@ -1617,10 +1660,107 @@ second most important thing: read them from the bottom up.
 Modules and packages
 ---------------------
 
-TODO
+A Python *module* is any file in your import path (defined by the
+``PYTHONPATH`` environment variable).  Typically it provides
+constants, functions and classes that you can reuse.  Python modules
+can be defined in pure Python or in C using the Python extension API.
+Examples of Python modules abound in the standard library such as
+``gzip`` and ``csv`` and in third party packages such as matplotlib's
+``matplotlib.pyplot`` module which provides a Matlab-like interface to
+the matplotlib plotting library.  A Python *package* is a collection
+of Python modules; examples include all the packages we discussed in
+MINS: matplotlib, IPython, numpy and scipy.
 
+To create your own python package, simply create a directory, we'll
+call it :file:`mypackage`, and create two files in that directory
+:file:`__int__.py` and another file called :file:`mymodule.py` -- of
+course in real life it is better to create package and module names
+that reflect their function.  The :file:`__init__.py` should be an
+empty file which serves to tell Python that the directory it resides
+in (:file:`mypackage`) is a Python package that should be searched for
+modules on import requests.
 
+On a UNIX system, we can create the package hierarchy with::
 
+  > cd mypackage/
+  mypackage> touch __init__.py
+  mypackage> touch mymodule.py
+
+and then open :file:`mymodule.py` in our favorite editor.  We'll
+create a single constant ``myconstant`` and function ``myfunc``.
+
+.. sourcecode:: python
+
+  import math
+  myconstant = math.exp(-math.pi)
+
+  def myfunc(x):
+      'scale x by myconstant e^-pi'
+      return myconstant * x
+
+  if __name__=='__main__':
+      x = 2.0
+      print('testing with x=%f, myfunc=%f'%(x, myfunc(x)))
+
+We are now ready to test our module.  A module is meant to be
+imported, but the line ``if __name__=='__main__':`` is a standard
+python idiom that allows us to use the module as a module or a script.
+When we import it, the name is ``'mypackage.mymodule'`` but when we
+run it as a script using python or IPython's run, then the name is set
+to ``'__main__'`` and and the indented block is run.  For those of you
+familiar with C, this is inspired by and functionally equivalent to
+the ``main`` function in a C program.  This is handy when testing
+debugging; from the shell we can run our module as a script with ::
+
+  > cd mypackage/
+  mypackage> python mymodule.py
+  testing with x=2.000000, myfunc=0.086428
+
+We can also import ``mymodule`` either in another module or script, or
+from the interactive shell.  To import it, we either need to navigate
+to the directory containing ``mypackage``, or put the directory
+containing ``mypackage`` in our ``PYTHONPATH``.
+
+.. ipython::
+
+   @verbatim
+   In [105]: ls -ld mypackage
+   drwxr-xr-x 2 jdhunter jdhunter 4096 2010-04-15 12:28 mypackage/
+
+   In [106]: import mypackage.mymodule as mymod
+
+   In [107]: mymod.__name__
+   Out[107]: 'mypackage.mymodule'
+
+   In [108]: mymod.myconstant
+   Out[108]: 0.043213918263772258
+
+   In [109]: mymod.myfunc(3.0)
+   Out[109]: 0.12964175479131679
+
+One important thing to note: a module is only imported once.  If you
+make a chance to :file:`mymodule.py`, it will not be seen by Python
+within a single interpreter session even if you re-import the module.
+This is an efficiency that saves Python time when multiple scripts and
+modules import the same library: the import actually happens only
+once.  If you want to work interactively from the Python or IPython
+shell while changing and debugging your module, you must *reload* it.
+
+.. ipython::
+   :verbatim:
+
+   In [110]: import mypackage.mymodule
+
+   In [111]: reload mypackage.mymodule
+   --------> reload(mypackage.mymodule )
+   Out[111]: <module 'mypackage.mymodule' from 'mypackage/mymodule.py'>
+
+This is another reason why it is helpful to use the ``if
+__name__=='__main__'`` trick shown above, because you can repeatedly
+run the module as a script when debugging it rather than bother with
+reloading it when testing it as an imported module.  It's faster to
+repeatedly ``run`` the script when testing than ``reload`` followed by
+import and test.
 
 .. _numpy_getting_started:
 
@@ -1740,7 +1880,7 @@ array, and the datatype of the array (eg integer or float).
 
    # the dtype, or "data type" here is 'int32' for a 32 bit integer or
    # 'int64' for a 64 bit architecture.  The dtype depends on the
-   # archituecture of your machine
+   # architecture of your machine
    In [58]: myarray.dtype
    Out[58]: dtype('int32')
 

@@ -264,6 +264,7 @@ intersphinx_mapping = {'http://docs.python.org/': None}
 #todo_include_todos = True
 todo_include_todos = False
 
+
 latex_elements = dict(#docclass = 'article',
                       #classoptions = ',english,twocolumn',
                       fontpkg=r'\usepackage{textcomp}',
