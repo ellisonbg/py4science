@@ -55,7 +55,7 @@ see `here
 .. only:: instructor
 
    Solution
-   --------
+   ~~~~~~~~
 
    A solution to this problem is here:
      

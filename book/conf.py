@@ -231,8 +231,8 @@ all_latex_documents = [book, course_outline] + problems + [intro_problems]
 #latex_documents = problems[5:6]
 #latex_documents = problems
 #latex_documents = [intro_problems]
-#latex_documents = all_latex_documents
-latex_documents = [book]
+latex_documents = all_latex_documents
+#latex_documents = [book]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
