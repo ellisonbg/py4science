@@ -21,7 +21,6 @@ Contents:
    why_python
    getting_started
    whirlwind_tour
-   numpy_intro
    exercises_intro
    statistics
    roadshow
