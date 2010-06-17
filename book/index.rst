@@ -21,6 +21,7 @@ Contents:
    why_python
    getting_started
    whirlwind_tour
+   random_walks
    exercises_intro
    statistics
    roadshow
