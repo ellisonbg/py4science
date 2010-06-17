@@ -16,27 +16,70 @@ time and are still very useful for many purposes.  With Python, we can continue
 to benefit from them while using them as part of a modern worfklow, thanks to
 Numpy's f2py tool.
 
-As we said, Numpy itself doesn't need Fortran at all, but it does *provide* the
+As we said, Numpy itself doesn't need Fortran at all, but it does provide the
 f2py wrapper generator, so that by installing Numpy you automatically have the
 tools needed to create Python wrappers for Fortran libraries (thus making it
-possible to compile Scipy).  F2py was originally developed by Pearu Peterson,
-here we will only present a brief tutorial introduction of its basic usage; we
-refer our readers to the official manual for complete details.
+possible to compile Scipy).  F2py was originally developed by Pearu Peterson;
+here we will only present a brief tutorial introduction of its basic usage and
+we refer our readers to the official documentation for complete details.
 
+Below is a description intended for readers comfortable with the Python distutils
+machinery, who simply want a quick guide to f2py.  A more tutorial description,
+with examples, follows now.
+
+
+A first f2py example: Fibonacci numbers
+---------------------------------------
+
+The Fibonacci numbers, defined by the recursion
+
+.. math::
+
+    f_i = f_{i-1} + f_i
+
+can be computed with the following simple Fortran code:
+
+.. sourcecode:: Fortran
+
+	 SUBROUTINE FIB(A,N)
+   C
+   C     CALCULATE FIRST N FIBONACCI NUMBERS
+   C
+	 INTEGER N
+	 REAL*8 A(N)
+	 DO I=1,N
+	    IF (I.EQ.1) THEN
+	       A(I) = 0.0D0
+	    ELSEIF (I.EQ.2) THEN
+	       A(I) = 1.0D0
+	    ELSE
+	       A(I) = A(I-1) + A(I-2)
+	    ENDIF
+	 ENDDO
+	 END
+
+If this code is in the ``fib.f`` file, then we can generate automatically the
+sources for a Python module named ``example`` with::
+
+    f2py fib.f -h fib.pyf -m example
+
+The arguments to this call have the following meaning: ``-h fib.pyf`` gives the
+name of the generated ``.pyf`` interface file, where ...
 
 Usage for the impatient
 -----------------------
+
 
 Start by building a scratch signature file automatically from your Fortran
 sources (in this case all, you can choose only those .f files you need)::
 
     f2py -m MODULENAME -h MODULENAME.pyf *.f
 
-This writes the file MODULENAME.pyf, making the best guesses it can from the
-Fortran sources.  It builds an interface for the module to be accessed as
-'import adap1d' from python.
+This writes the file ``MODULENAME.pyf``, making the best guesses it can from
+the Fortran sources.  It builds an interface for the module to be accessed as
+``import MODULENAME`` from python.
 
-You will then edit the .pyf file to fine-tune the python interface exhibited
+You can then edit the ``.pyf`` file to fine-tune the python interface exhibited
 by the resulting extension.  This means for example making unnecessary scratch
 areas or array dimensions hidden, or making certain parameters be optional and
 take a default value.
@@ -46,14 +89,13 @@ with the Fortran sources it is meant to wrap.  f2py will build the module for
 you automatically, respecting all the interface specifications you made in the
 .pyf file.
 
-This approach is ultimately far easier than trying to get all the declarations
+This approach is ultimately easier than trying to get all the declarations
 (especially dependencies) right through Cf2py directives in the Fortran
-sources.  While that may seem appealing at first, experience seems to show
-that it's ultimately far more time-consuming and prone to subtle errors.
-Using this approach, the first f2py pass can do the bulk of the interface
-writing and only fine-tuning needs to be done manually.  I would only
-recommend embedded Cf2py directives for very simple problems (where it works
-very well).
+sources.  While C2fpy directives may seem appealing at first, experience seems
+to show that they are more time-consuming and prone to subtle errors.  Using
+this approach, the first f2py pass can do the bulk of the interface writing and
+only fine-tuning needs to be done manually.  I would only recommend embedded
+Cf2py directives for very simple problems (where it works very well).
 
 The only drawback of this approach is that the interface and the original
 Fortran source lie in different files, which need to be kept in sync.  This
