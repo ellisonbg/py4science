@@ -112,6 +112,9 @@ along ``axis=0`` which is the first axis, the number of steps.
 Here all the hard work is done by numpy at the C level and will be
 extremely fast.  
 
+Simple random walk
+-------------------
+
 We can easily draw our steps from other distributions.  For example,
 to draw random steps from 1 or -1, the simple random walk, we can use
 the numpy ``where`` function, which takes a logical mask as the first
@@ -130,7 +133,7 @@ negative direction where the deviates are less.
 
    In [141]: Position = Steps.cumsum(axis=0)
 
-   @ savefig simple_random_walk.png width=6in
+   @savefig simple_random_walk.png width=6in
    In [142]: plot(Position);
 
 Likewise, we can draw from the wealth of statistical distributions in
@@ -138,3 +141,15 @@ Likewise, we can draw from the wealth of statistical distributions in
 esoteric distributions, for example ``scipy.stats.levy_stable.rvs`` to create
 `Lévy flights <http://en.wikipedia.org/wiki/Levy_flights>`_.
 
+Geometric random walk
+-----------------------
+
+In quantitative models of equity prices, in which period returns are
+compounded rather than added, the geometric random walk is used. In
+the classical formulation of the Nobel prize winning Black Scholes
+equations for options prices, the period returns of the underlying
+financial instrument are samples of a normal distribution, and the
+total returns which model the underlying equity price are defined as
+the cumulative *product* $\prod_i (1+g_i)$ where $g_i$ is the period
+return.  Thsu equity prices in this formulation follow a geometric
+Brownian motion.
