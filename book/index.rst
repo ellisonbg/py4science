@@ -23,6 +23,7 @@ Contents:
    whirlwind_tour
    exercises_intro
    statistics
+   fortran
    roadshow
    glossary
 

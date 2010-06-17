@@ -1263,8 +1263,8 @@ primary difference is that IPython requires two empty/blank lines to
 terminate the indented block.
 
 
-list and generator comprehensions
-----------------------------------
+List and generator comprehensions
+---------------------------------
 
 Python provides a handy syntax for writing loop one-liners: the
 generator and list comprehensions.  A list comprehension uses the
@@ -1475,7 +1475,7 @@ on our system; as long as it quacks like a file, we can use it.
 
 
 Functions and classes
-----------------------
+---------------------
 
 The basic python function consists of a name, an optional list of
 arguments, and optional list of keyword argument which take default
