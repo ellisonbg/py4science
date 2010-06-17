@@ -1,0 +1,55 @@
+========================
+ Barcelona presentation
+========================
+
+9:00 - 9:30: Short intro talk
+9:30 - 10:00: Stock type along, with simple exercises
+
+- Create a mask of dates in a given year (say 2010).  Slice  the recarray to
+  read off only data for this year.
+
+- Define daily return:
+
+  (today's price - yesterday's price)/(yesterday's price)
+
+  Find mean, max, stdev and compare to the same for the whole dataset.
+
+- Serial autocorrelation: correlate offset by one day.
+
+
+10:00 - 10:10: Numpy slides
+10:10 - 10:20: Trapezoid rule problem
+10:20 - 11:00: Barcelona image exercise and problems.
+
+- We load the data and explain the structure of the array.
+
+- We use imshow on whole image.
+
+- We Compute luminosity image, display as grayscale.
+
+- Ask them to display each channel as a separate image. Hint: cm.Reds,...
+
+- We show them a 1-d histogram of random numbers.
+
+- Ask them to get luminosity histogram.  Hint: .flatten()
+
+- We show them the full solution.
+
+
+11:00 - 11:30: Coffee break
+
+11:30 - 12:00: Worfklow: debugging, documentation, help.
+
+Bug: is volume correlated with daily return?
+
+Matplotlib overview: gallery, codex, math text typesetting, formats.
+
+12:00 - 12:30: f2py.
+
+12:30 - 1:00: Random walks, plotting and fitting.
+
+#
+
+- FFT/intro signal processing: sound files.
+
+- Cython intro, cython trapezoid.

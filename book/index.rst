@@ -24,6 +24,7 @@ Contents:
    random_walks
    exercises_intro
    statistics
+   fortran
    roadshow
    glossary
 
