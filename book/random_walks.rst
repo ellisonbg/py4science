@@ -61,7 +61,7 @@ population of random walkers over multiple steps.
        x = 0.          # the initial position
        for j in range(nsteps):
            x += randfunc()
-           position[j,i] = x	
+           position[i,j] = x	
 
    plt.plot(position)
 
@@ -125,16 +125,14 @@ sampled over [0,1] to randomly select steps in the positive direction
 where the random deviates are greater than 0.5, and steps in the
 negative direction where the deviates are less.
 
-.. ipython::
+.. plot::
+   :include-source:
 
-   In [139]: Uniform = np.random.random(size=(100,10))
-
-   In [140]: Steps = np.where(Uniform>0.5, 1, -1)
-
-   In [141]: Position = Steps.cumsum(axis=0)
-
-   @savefig simple_random_walk.png width=6in
-   In [142]: plot(Position);
+   Uniform = np.random.random(size=(100,10))
+   Steps = np.where(Uniform>0.5, 1, -1)
+   Position = Steps.cumsum(axis=0)
+   plt.plot(Position)
+   plt.title('10 simple random walkers')
 
 Likewise, we can draw from the wealth of statistical distributions in
 ``np.random`` and ``scipy.stats`` to create deviates from more
@@ -146,10 +144,20 @@ Geometric random walk
 
 In quantitative models of equity prices, in which period returns are
 compounded rather than added, the geometric random walk is used. In
-the classical formulation of the Nobel prize winning Black Scholes
+the classical formulation of the Nobel prize winning Black-Scholes
 equations for options prices, the period returns of the underlying
-financial instrument are samples of a normal distribution, and the
+financial instrument are samples from a normal distribution, and the
 total returns which model the underlying equity price are defined as
 the cumulative *product* $\prod_i (1+g_i)$ where $g_i$ is the period
-return.  Thsu equity prices in this formulation follow a geometric
+return.  Thus equity prices in this formulation follow a geometric
 Brownian motion.
+
+.. plot::
+   :include-source:
+
+   mu = 0.0005
+   sigma = 0.01
+   g = np.random.normal(mu, sigma, size=500)
+   total_return = (1+g).cumprod()
+   plt.plot(total_return)
+   plt.title('Geometric brownian motion modeling equity prices')
