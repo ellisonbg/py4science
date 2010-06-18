@@ -61,7 +61,7 @@ population of random walkers over multiple steps.
        x = 0.          # the initial position
        for j in range(nsteps):
            x += randfunc()
-           position[i,j] = x	
+           position[j,i] = x	
 
    plt.plot(position)
 
