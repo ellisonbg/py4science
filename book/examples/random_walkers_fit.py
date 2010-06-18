@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import leastsq
 
-nwalkers = 50
+nwalkers = 10
 nsteps = 100
 Steps = np.random.normal(size=(nsteps, nwalkers))
 
@@ -32,7 +32,13 @@ plt.figure()
 plt.plot(t, mu, 'b--', lw=2, label='empirical mean')
 plt.plot(t,np.zeros(nsteps), 'b-', lw=2, label='analytical mean')
 plt.plot(t, sigma, 'g--', lw=2, label='empirical std')
-plt.plot(t, t**alpha_fit, 'g-.', lw=2, label='empirical exp')
-plt.plot(t, t**alpha_true, 'g-', lw=2, label='analytical std')
-leg = plt.legend(loc='upper left')
+plt.plot(t, t**alpha_fit, 'g-.', lw=2, 
+         label='empirical std: alpha=%.2f'%alpha_fit)
+plt.plot(t, t**alpha_true, 'g-', lw=2, 
+         label='analytical std: alpha=%.2f'%alpha_true)
+leg = plt.legend(loc='upper left', fancybox=True)
+leg.get_frame().set_alpha(0.5)
+plt.grid()
+plt.xlabel('time')
+plt.title('Population mean and standard dev')
 plt.show()

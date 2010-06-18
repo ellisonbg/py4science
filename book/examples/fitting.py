@@ -73,3 +73,4 @@ plot_polyfit(x_vals,y_noisy,2,fignum)
 plot_polyfit(x_vals,y_noisy,3,fignum)
 
 plt.show()
+
