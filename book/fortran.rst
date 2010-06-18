@@ -39,7 +39,7 @@ The Fibonacci numbers, defined by the recursion
 
 can be computed with the following simple Fortran code:
 
-.. sourcecode:: Fortran
+.. sourcecode:: fortran
 
 	 SUBROUTINE FIB(A,N)
    C
