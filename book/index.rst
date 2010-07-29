@@ -27,7 +27,6 @@ Contents:
    fortran
    roadshow
    glossary
-
    
 Indices and tables
 ==================

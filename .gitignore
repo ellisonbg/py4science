@@ -1,6 +1,7 @@
 _build
 build
 bookdata/build
+
 book/dist/
 book/tmp/
 book/_static/stinkbug_*.png
