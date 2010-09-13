@@ -1,7 +1,8 @@
 .. _random_walks:
 
-Random Walks
---------------------
+==============
+ Random Walks
+==============
 
 The `random walk <http://en.wikipedia.org/wiki/Random_walk>`_, in
 which the next position is a random step from the current position, is
@@ -113,7 +114,7 @@ Here all the hard work is done by numpy at the C level and will be
 extremely fast.  
 
 Simple random walk
--------------------
+==================
 
 We can easily draw our steps from other distributions.  For example,
 to draw random steps from 1 or -1, the simple random walk, we can use
@@ -140,7 +141,7 @@ esoteric distributions, for example ``scipy.stats.levy_stable.rvs`` to create
 `Lévy flights <http://en.wikipedia.org/wiki/Levy_flights>`_.
 
 Geometric random walk
------------------------
+=====================
 
 In quantitative models of equity prices, in which period returns are
 compounded rather than added, the geometric random walk is used. In

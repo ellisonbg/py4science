@@ -1,19 +1,11 @@
-.. Py4Science documentation master file, created by
-   sphinx-quickstart on Tue Aug 25 23:58:54 2009.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to Py4Science's documentation!
 ======================================
-
-Contents:
 
 .. topic:: Links
    :class: hidden print
 
    .. target-notes::
       :class: hidden print
-
 
 .. toctree::
    :maxdepth: 2
@@ -22,16 +14,12 @@ Contents:
    getting_started
    whirlwind_tour
    random_walks
-   exercises_intro
    statistics
    fortran
-   roadshow
+   hpc/index
    glossary
+
    
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+.. Turned off for now:
+   exercises_intro
+   roadshow

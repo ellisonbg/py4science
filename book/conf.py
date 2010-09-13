@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 # The setting for student or instructor display. Uncomment the relevant line:
-tags.add('instructor')
-#tags.add('student')
+#tags.add('instructor')
+tags.add('student')
 
 #
 # Py4Science documentation build configuration file, created by
@@ -200,7 +200,7 @@ htmlhelp_basename = 'py4science'
 #latex_paper_size = 'letter'
 
 # The font size ('10pt', '11pt' or '12pt').
-latex_font_size = '11pt'
+latex_font_size = '12pt'
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).

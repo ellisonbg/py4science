@@ -58,9 +58,6 @@ def trapzf(f,a,b,npts=100):
 #-----------------------------------------------------------------------------
 # Tests
 #-----------------------------------------------------------------------------
-import nose, nose.tools as nt
-import numpy.testing as nptest
-
 # A simple function for testing
 def square(x): return x**2
 
@@ -85,6 +82,9 @@ def test_square2():
 
 # If called from the command line, run all the tests
 if __name__ == '__main__':
+    import nose, nose.tools as nt
+    import numpy.testing as nptest
+    import sys
     # This call form is ipython-friendly
-    nose.runmodule(argv=['-s','--with-doctest'],
+    nose.runmodule(argv=['-s','--with-doctest']+sys.argv[1:],
                    exit=False)
