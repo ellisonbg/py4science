@@ -1,0 +1,179 @@
+==============================
+ Numpy and MPL intro examples
+==============================
+
+Array creation::
+
+    In [5]: np.array([1,2,3])
+    Out[5]: array([1, 2, 3])
+
+
+    In [6]: np.array([1.0,2.2,3.14])
+    Out[6]: array([ 1.  ,  2.2 ,  3.14])
+
+
+    In [7]: np.arange(2,20,3)
+    Out[7]: array([ 2,  5,  8, 11, 14, 17])
+
+
+    In [8]: np.arange(2,20,3,float)
+    Out[8]: array([  2.,   5.,   8.,  11.,  14.,  17.])
+
+
+    In [9]: np.arange(2,20,3,np.float64)
+    Out[9]: array([  2.,   5.,   8.,  11.,  14.,  17.])
+
+    In [6]: np.linspace(0,1,5)
+    Out[6]: array([ 0.  ,  0.25,  0.5 ,  0.75,  1.  ])
+
+    In [8]: np.zeros((2,3))
+    Out[8]: 
+    array([[ 0.,  0.,  0.],
+	   [ 0.,  0.,  0.]])
+
+    In [9]: np.zeros((2,3),int32)
+    Out[9]: 
+    array([[0, 0, 0],
+	   [0, 0, 0]], dtype=int32)
+
+
+    In [13]: np.empty((2,2))
+    Out[13]: 
+    array([[  0.00000000e+000,   4.22653002e-317],
+	   [  1.65180256e-316,   1.79584681e-316]])
+
+    In [11]: np.*like*?
+    np.empty_like
+    np.ones_like
+    np.zeros_like
+
+    
+    In [22]: np.random.rand(2,3)
+    Out[22]: 
+    array([[ 0.51912359,  0.67920192,  0.42326918],
+	   [ 0.75500667,  0.4587301 ,  0.15232087]])
+
+
+Important attributes of an array::
+
+    In [27]: a=np.random.rand(2,3)
+
+    In [28]: a.ndim
+    Out[28]: 2
+
+    In [29]: a.shape
+    Out[29]: (2, 3)
+
+    In [30]: a.size
+    Out[30]: 6
+
+    In [31]: a.dtype
+    Out[31]: dtype('float64')
+
+    In [32]: a.flags
+    Out[32]: 
+      C_CONTIGUOUS : True
+      F_CONTIGUOUS : False
+      OWNDATA : True
+      WRITEABLE : True
+      ALIGNED : True
+      UPDATEIFCOPY : False
+
+Indexing and slicing, reshape
+
+In [50]: a = np.arange(24).reshape(4,6); a
+Out[50]: 
+array([[ 0,  1,  2,  3,  4,  5],
+       [ 6,  7,  8,  9, 10, 11],
+       [12, 13, 14, 15, 16, 17],
+       [18, 19, 20, 21, 22, 23]])
+
+In [51]: a[0,0]                           
+Out[51]: 0
+
+In [52]: a[1,0]
+Out[52]: 6
+
+In [53]: a[0,3]
+Out[53]: 3
+
+In [54]: a[4,4]
+---------------------------------------------------------------------------
+IndexError                                Traceback (most recent call last)
+
+/home/fperez/tmp/pub/<ipython console> in <module>()
+
+IndexError: index (4) out of range (0<=index<4) in dimension 0
+
+In [35]: b = np.arange(10)
+
+In [36]: b[:4]
+Out[36]: array([0, 1, 2, 3])
+
+In [37]: b = np.arange(10); a
+Out[37]: array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+In [38]: b[:4]
+Out[38]: array([0, 1, 2, 3])
+
+In [39]: b[4:]
+Out[39]: array([4, 5, 6, 7, 8, 9])
+
+masking
+
+In [91]: a<4
+Out[91]: 
+array([[ True,  True,  True,  True, False, False],
+       [False, False, False, False, False, False],
+       [False, False, False, False, False, False],
+       [False, False, False, False, False, False]], dtype=bool)
+
+In [92]: a[a<4]
+Out[92]: array([0, 1, 2, 3])
+
+In [93]: a[a>4]
+Out[93]: 
+array([ 5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+       22, 23])
+
+In [94]: a[logical_and(a>4, a<8)]
+Out[94]: array([5, 6, 7])
+
+In [95]: a[logical_and(a>4, a<8)]
+Out[95]: array([5, 6, 7])
+
+In [96]: np.where(a<4,a,0)
+Out[96]: 
+array([[0, 1, 2, 3, 0, 0],
+       [0, 0, 0, 0, 0, 0],
+       [0, 0, 0, 0, 0, 0],
+       [0, 0, 0, 0, 0, 0]])
+
+
+views vs copies
+
+arithmetic
+
+# Trapezoid rule exercise.
+
+common methods like mean/std/var and
+
+functions in the numpy namespace.
+
+the numpy docs and intro tutorial
+
+making a basic plot
+
+navigating on the plot window
+
+grids
+
+log vs linear axes
+
+imshow for images: random numbers
+
+Matplotlib: the website, gallery and codex search.
+
+imshow with a real image:
+
+http://fperez.org/tmp/stained_glass_barcelona.png
