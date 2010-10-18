@@ -82,7 +82,7 @@ def plot_function(f, xstart=0, xend=1, n=1000, style='b'):
     increment = (xend - xstart) / n
     xs = np.arange(xstart, xend + increment, increment)
     ys = f(xs)
-    plt.plot(xs, ys, style, label=label)
+    plt.plot(xs, ys, style)
     plt.xlim([xstart - 1, xend + 1])
 
 
@@ -140,6 +140,13 @@ def all_perms(iterable):
 #-------------------------------------------------------------------------------
 # Plots for statistics chapter
 
+def fig_norm_hist():
+    my_figure()
+    samples = np.random.randn(10000)
+    plt.hist(samples, bins=100, normed=True, color='gray',
+             rwidth=0.5)
+    plot_function(stats.norm.pdf, -4, 4, style='k')
+
 def fig_beta_pdfs():
     my_figure()
     plotf(stats.beta(2, 4).pdf, style='k--')
@@ -156,6 +163,20 @@ def fig_normal_pdf_cdf():
     plt.title(r'Normal(0, 1) PDF and CDF')
     plt.legend((r'PDF', 'CDF'), loc='best')
 
+def fig_kde():
+    my_figure()
+    np.random.seed(1234)
+    data = np.concatenate((np.random.normal(0, 1, 100),
+                           np.random.normal(4, 1, 100)))
+
+    kde = stats.kde.gaussian_kde(data)
+
+    plt.hist(data, bins=20, normed=True, color='gray',
+             rwidth=0.5)
+    plot_function(kde.evaluate, -10, 10, style='k')
+
+    plt.xlim([-6, 10])
+
 def my_figure():
     plt.figure(figsize=(10, 5))
 
@@ -166,5 +187,5 @@ def my_savefig(path):
 if __name__ == '__main__':
     # make_plots()
 
-    fig_normal_pdf_cdf()
+    fig_kde()
     plt.show()
