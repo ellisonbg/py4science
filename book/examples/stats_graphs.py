@@ -4,9 +4,6 @@ Bayesian statistics and then some
 
 from __future__ import division
 
-from pandas import Series, DataMatrix
-from pandas.util.testing import set_trace
-
 import numpy as np
 
 from matplotlib import ticker, cm
