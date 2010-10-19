@@ -65,8 +65,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Py4Science'
-authors = u'Brian Granger, John Hunter and Fernando Pérez.'
-copyright = u'2009, %s' % authors
+authors = u'Brian Granger\\\\John Hunter\\\\Wes McKinney\\\\Fernando Pérez'
+copyright = u'2010, %s' % authors
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
