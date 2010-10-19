@@ -201,8 +201,8 @@ Then execute code like this to obtain the below plots:
 
 .. sourcecode:: python
 
-   plot_function(beta(2, 4), 0, 1, style='k--')
-   plot_function(beta(2, 4), 0, 1, style='k')
+   plot_function(beta(2, 4).pdf, 0, 1, style='k--')
+   plot_function(beta(2, 4).pdf, 0, 1, style='k')
 
    figure()
    plot_function(stats.norm.pdf, -4, 4, style='k')
