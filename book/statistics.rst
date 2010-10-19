@@ -41,20 +41,13 @@ its data structures clunky and nuanced and its programming idioms ad
 hoc or sometimes "magical".
 
 Currently, Python does not have the breadth and depth of core
-statistical functionality that R does, but that is becoming less
-true as time goes on. We will not discuss in detail active projects
+statistical functionality that R does, but that is becoming less true
+as time goes on. We will not discuss in detail active projects
 implementing statistical methods in Python but rather introduce the
 core statistical tools in NumPy and SciPy. These include an array of
-basic descriptive statistics (mean, variance, skew, kurtosis,
-correlation, $\dots$), hypothesis testing, and numerical tools for
-working with almost every common discrete and continuous probability
-distribution you can think of (normal, gamma, poisson, weibull,
-lognormal, levy stable, $\dots$).
-
-.. _stats_descriptive:
-
-Computing descriptive statistics
---------------------------------
+basic descriptive statistics, hypothesis testing, and numerical tools
+for working with almost every common discrete and continuous
+probability distribution.
 
 .. _stats_distributions:
 
@@ -180,7 +173,7 @@ distribution whose parameters have been set elsewhere. All we care
 about is that we can sample from it, call its ``cdf`` and ``pdf``,
 etc. The object-oriented nature of Python made this quite easy to
 implement in SciPy:
-p
+
 .. ipython::
 
     In [3]: dist = beta(2, 6)
@@ -230,6 +223,224 @@ An important feature of the distributions in ``scipy.stats`` is that
 most of the functions can accept arrays as parameters for the
 distributions.
 
+.. _stats_descriptive:
+
+Computing descriptive statistics
+--------------------------------
+
+The first step in any statistical analysis should be to describe,
+charaterize and importantly, visualize your data.  The normal
+distribution lies at the heart of much of formal statistical analysis,
+and normal distributions have the tidy property that they are
+completely characterized by their mean and variance.  As you may have
+observed in your interactions with family and friends, most of the
+world is not normal, and many statistical analyses are flawed by
+summarizing data with just the mean and standard deviation (square
+root of variance) and associated signficance tests (eg the $t$-test)
+as if it were normally distributed data.
+
+``numpy`` and ``scipy.stats`` provide many of the common functions
+used in exploratory data analysis, such as mean, median, variance,
+skewness, kurtosis, and others. Given some data, we can compute all of
+these quantities easily:
+
+.. ipython::
+
+   In [1]: import scipy.stats as stats
+
+   In [1]: data = np.random.normal(2, 5, 50)
+
+   In [2]: data.mean()
+
+   In [4]: data.std()
+
+   In [5]: stats.skew(data) # Skewness
+
+   In [6]: stats.kurtosis(data)
+
+
+Here is a table of some of the most widely used functions:
+
+.. csv-table:: Common descriptive statistics
+   :header: "Statistic", "Where to find"
+   :widths: 40, 60
+
+   "``sum, min, max, mean, std, var``", "``ndarray`` instance methods and ``numpy`` namespace"
+   "``median``", "``numpy`` namespace"
+   "``mode``, ``skew``, ``kurtosis``, ``moment`` (higher moments)", "``scipy.stats``"
+
+A more exhaustive list can be found in the ``scipy.stats`` module
+docstring. If you can't find something you are looking for, it may be
+available in another library (see end of chapter for some places to
+look). Of course, there is nothing to stop you from writing a new
+function and contributing it to SciPy!
+
+"Object-oriented" statistics
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+In the exercise below, we write a class to provide descriptive
+statistics of a data set passed into the constructor, with class
+methods to pretty print the results and to create a battery of
+standard plots which may show structure missing in a casual analysis.
+Many new programmers, or even experienced programmers used to a
+procedural environment, are uncomfortable with the idea of classes,
+having heard their geekier programmer friends talk about them but not
+really sure what to do with them.  There are many interesting things
+one can do with classes (aka object-oriented programming) but at their
+heart they are a way of bundling data with methods that operate on
+that data.  The ``self`` variable is special in Python and is how the
+class refers to its own data and methods.  Here is a toy example:
+
+.. ipython::
+
+   In [115]: class MyData:
+      .....:     def __init__(self, x):
+      .....:         self.x = x
+      .....:     def sumsquare(self):
+      .....:         return (self.x**2).sum()
+      .....:
+      .....:
+
+   In [116]: mydata = MyData(np.random.rand(100))
+
+   In [117]: mydata.sumsquare()
+   Out[117]: 29.6851135284
+
+Along these lines, we might be in generating a standard set of output
+for a bunch of different data sets, like so:
+
+::
+
+    In [2]: Descriptive(data)
+    Npts     = 275
+    Mean     = 52.2873
+    Median   = 53.0000
+    Min      = 24.0000
+    Max      = 89.0000
+    Range    = 65.0000
+    Std      = 11.9170
+    Skew     = 0.1801
+    Kurtosis = 0.0748
+
+The recipe with plotting code follows. Note that the ``plots`` method
+makes use of a "dummy class" to store the various ``matplotlib``
+objects created. This is an alternative to returning a large tuple or
+dict and is a matter of preference. In practice this idiom is used
+widely throughout Python as ``obj.a`` is often more convenient than
+``obj['a']``.
+
+.. sourcecode:: python
+
+    class Descriptive:
+    	"""
+        A helper class for descriptive statistics
+        """
+    	def __init__(self, samples, name=None):
+	    samples = np.asarray(samples)
+	    self.samples = samples
+	    self.name = name
+	    self.npts = len(samples)
+	    self.median = stats.median(samples)
+	    self.min = samples.min()
+	    self.max = samples.max()
+	    self.mean = samples.mean()
+	    self.std = samples.std()
+	    self.var = samples.var()
+	    self.skew = stats.skew(samples)
+	    self.kurtosis = stats.kurtosis(samples)
+	    self.range = self.max - self.min
+
+	def __repr__(self):
+	    """
+	    Return a string representation of self; pretty print all the
+	    attributes:
+
+	     npts, median, min, max, mean, std, var, skew, kurtosis, range,
+	    """
+	    descriptives = []
+	    if self.name:
+		descriptives.append('Name     = %s'    % self.name)
+	    descriptives.extend([
+		'Npts     = %d'    % self.npts,
+		'Mean     = %1.4f' % self.mean,
+		'Median   = %1.4f' % self.median,
+		'Min      = %1.4f' % self.min,
+		'Max      = %1.4f' % self.max,
+		'Range    = %1.4f' % self.range,
+		'Std      = %1.4f' % self.std,
+		'Skew     = %1.4f' % self.skew,
+		'Kurtosis = %1.4f' % self.kurtosis,
+		])
+	    return '\n'.join(descriptives)
+
+	def plots(self, fig=None, maxlags=20, Fs=1, detrend=detrend_linear,
+		  fmt='-', bins=100 ):
+	    """
+	    plots the time series, histogram, autocorrelation and
+	    spectrogram
+
+	    Parameters
+	    ----------
+	    fig : figure object, optional
+	      If not given, a new figure is created.
+	    Fs : float, optional
+	      Sampling frequency of the data.
+	    maxlags : int, optional
+	      max number of lags for the autocorrelation.
+	    detrend : function, optional
+	      A function used to detrend the data for the correlation and
+	      spectral functions.
+	    fmt : string, optional
+	      The plot format string.
+	    bins : int, optional
+	      The bins argument to hist.
+
+	    Returns
+	    -------
+	    An object which stores plot axes and their return values from
+	    the plots.  Attributes of the return object are 'plot',
+	    'hist', 'acorr', 'psd', 'specgram' and these are the return
+	    values from the corresponding plots.  Additionally, the axes
+	    instances are attached as c.ax1...c.ax5 and the figure is
+	    c.fig
+	    """
+	    data = self.samples
+
+    	    # create dummy class
+    	    class C: pass
+	    c = C()
+
+	    # Set font size to be relatively small
+	    plt.rc('font', size=10)
+    	    c.fig = fig = plt.figure()
+
+    	    nplots = 5
+	    fig.subplots_adjust(hspace=0.4)
+	    ax = c.ax1 = fig.add_subplot(nplots,1,1)
+	    if self.name:
+		ax.set_title(self.name)
+	    c.plot = ax.plot(data, fmt)
+	    ax.set_ylabel('data')
+
+	    ax = c.ax2 = fig.add_subplot(nplots,1,2)
+	    c.hist = ax.hist(data, bins)
+	    ax.set_ylabel('hist')
+
+	    ax = c.ax3 = fig.add_subplot(nplots,1,3)
+	    c.acorr = ax.acorr(data, detrend=detrend, usevlines=True,
+			       maxlags=maxlags, normed=True)
+	    ax.set_ylabel('acorr')
+
+	    ax = c.ax4 = fig.add_subplot(nplots,1,4)
+	    c.psd = ax.psd(data, Fs=Fs, detrend=detrend)
+	    ax.set_ylabel('psd')
+	    return c
+
+.. plot:: examples/stats_descriptives2.py make_plot
+
+   Plot generated by ``Descriptive`` class
+
 Example: Monte Carlo approximation
 ----------------------------------
 
@@ -239,14 +450,14 @@ first case, this amounts to evaluating a potentially hairy integral
 
 .. math::
 
-   \int_{-\infty}^\infty \int_{-\infty}^y f_X(x) f_Y(y) dx\> dy
+   \int_{-\infty}^\infty \int_{-\infty}^y f_X(x) f_Y(y) dx\> dy.
 
-Assuming we know how to sample random numbers from $X$ and $Y$, a
-common computational approach is called *Monto Carlo approximation*,
-which is a fancy way of saying: generate a bunch of samples from $X$
-and $Y$ and compute the empirical statistic. For $P(X < Y)$, we could
-write a reusable function accepting arbitrary ``scipy.stats``
-distributions:
+Assuming we know how to sample from the respective distributions of
+$X$ and $Y$, a common computational approach is called *Monto Carlo
+approximation*, which is a fancy way of saying: generate a bunch of
+samples from $X$ and $Y$ and compute the empirical statistic. For $P(X
+< Y)$, we could write a reusable function accepting arbitrary
+``scipy.stats`` distributions:
 
 .. sourcecode:: python
 
@@ -264,14 +475,21 @@ this book.  Note that using this method we could have computed $P(|X -
 Y| < 5)$ by changing only one line of code, while the respective
 integral would be more complicated to write down.
 
+Example: Example 2 here
+-----------------------
+
+Example: Example 3 here
+-----------------------
+
 Other ``scipy.stats`` goodies
 -----------------------------
 
-In large part, it will be up to the reader to explore NumPy and
-SciPy's documentation and source code to find other statistical tools
-of interest. Unfortunately still as of this writing there are some
-parts of ``scipy.stats`` without documentation, so reading the actual
-source code (easy to find online) would be necessary.
+In large part we will refer the reader to NumPy's and SciPy's
+documentation and source code to find other statistical tools of
+interest. Unfortunately still as of this writing there are some parts
+of ``scipy.stats`` without documentation, so reading the actual source
+code (easy to find online) may at times be necessary (reading other
+people's code is good practice, anyway).
 
 We will mention a couple of additional useful tools in the package;
 what we have described here is by no means exhaustive.
@@ -290,7 +508,7 @@ fit the data.
 
 Using this class is easy: create a instance with your (1-dimensional)
 data set, then call its ``evaluate`` method. We generate some data
-from a mixture of Normal(0, 1) and Normal(0, 4) random variables and
+from a mixture of Normal(0, 1) and Normal(4, 1) random variables and
 plot its density estimate with the following code:
 
 .. sourcecode:: python
@@ -304,7 +522,7 @@ plot its density estimate with the following code:
 
 .. plot:: examples/stats_graphs_kde.py
 
-   Kernel density estimate of mix of N(0, 1) and N(0, 4)
+   Kernel density estimate of mix of N(0, 1) and N(4, 1)
 
 As we can see, it does a reasonably good job of estimating the true
 density.
