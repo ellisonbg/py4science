@@ -13,15 +13,16 @@ def fourier_approx(x, frac=0.5, makeplot=True, Fs=11000):
     
     return the approximated signal
 
-    if makeplot is True, plot thw original time series and approximation in a
+    if makeplot is True, plot the original time series and approximation in a
     pyplot figure
     """
     out = np.fft.rfft(x)
-    # normally the output of fft is the same size as the input, but for real
-    # inputs, the fft is symmetric around the DC component, so rfft is a helper
-    # funciton which only returns the positive freqeuncies and ignores the
-    # identical, symmetric negative frequencies.  The output array is half the
-    # size of the input plus 1; the extra component is the DC frequency        
+    # normally the output of fft is the same size as the input, but
+    # for real inputs, the fft is symmetric around the DC component,
+    # so rfft is a helper function which only returns the positive
+    # frequencies and ignores the identical, symmetric negative
+    # frequencies.  The output array is half the size of the input
+    # plus 1; the extra component is the DC frequency
     magnitude = np.abs(out)
     ind = magnitude.argsort()
     # zero out the 1-frac smallest frequency components
