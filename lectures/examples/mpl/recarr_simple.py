@@ -36,7 +36,7 @@ dt = dict(names = ('station','lat','lon','elev'),
 tab = np.loadtxt(data_fname, dt).view(np.recarray)
 
 sizes = 30*(tab.elev+1)
-title = 'Seismic stations in the Himalaya'
+ptitle = 'Seismic stations in the Himalaya'
 
 if 0:
     print 'Stations:', tab.station
@@ -48,7 +48,7 @@ if 0:
     ax = f1.add_subplot(111)
     s = ax.scatter(tab.lon, tab.lat, s=sizes, c=tab.elev)
     f1.colorbar(s)
-    f1.suptitle(title)
+    f1.suptitle(ptitle)
 
 if have_basemap:
     # Draw the stations on a real map of the Earth.
@@ -74,7 +74,7 @@ if have_basemap:
     m.drawmeridians(meridians, labels=[0,0,0,1], fmt='%.2f')
     s = m.scatter(tab.lon, tab.lat, s=sizes, c=tab.elev, zorder=10, alpha=0.5)
     f2.colorbar(s)
-    f2.suptitle(title)
+    f2.suptitle(ptitle)
     
     
 plt.show()
