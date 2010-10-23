@@ -8,7 +8,8 @@ Contents:
 
    elementary_chaos
    random_walks.rst
-   glass_dots.rst
-   convolution.rst
    matplotlib_beyond_basics
    introductory_spectral_methods
+   fft_audio.rst
+   glass_dots.rst
+   convolution.rst
