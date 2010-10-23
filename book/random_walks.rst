@@ -149,9 +149,9 @@ the classical formulation of the Nobel prize winning Black-Scholes
 equations for options prices, the period returns of the underlying
 financial instrument are samples from a normal distribution, and the
 total returns which model the underlying equity price are defined as
-the cumulative *product* $\prod_i (1+g_i)$ where $g_i$ is the period
-return.  Thus equity prices in this formulation follow a geometric
-Brownian motion.
+the cumulative *product* :math:`\prod_i (1+g_i)` where :math:`g_i` is
+the period return.  Thus equity prices in this formulation follow a
+geometric Brownian motion.
 
 .. plot::
    :include-source:
@@ -161,4 +161,4 @@ Brownian motion.
    g = np.random.normal(mu, sigma, size=500)
    total_return = (1+g).cumprod()
    plt.plot(total_return)
-   plt.title('Geometric brownian motion modeling equity prices')
+   plt.title('Geometric Brownian motion modeling equity prices')

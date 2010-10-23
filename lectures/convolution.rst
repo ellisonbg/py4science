@@ -110,3 +110,43 @@ We now plot the input spike train and output membrane voltage below.
 
   @savefig convolution_spikes.png
   In [302]: ax2.set_xlabel('time (s)');
+
+Convolution of a time series
+============================
+
+In the examples above, we convolved the impulse response function with
+a series of impuses.  We can use the same methodology to convolve a
+discretely sampled continous time series with the impulse response
+function.  The basic idea is that the sample points are Dirac delta
+functions, as above, scaled by the amplitude of the signal at the
+sample point.  We can represent the spike train above as the sum of
+Dirac delta functions, each shifted in time to the time of the
+:math:`k`-th spike :math:`t_k`.
+
+.. math::
+
+  s(t) = \sum_k \delta(t-t_k)
+
+For a discretely sampled time series, where the :math:`k`-th sample
+point has amplitude :math:`a_k`, we can represent the time series as 
+
+.. math::
+
+  x(t) = \sum_k a_k \delta(t-t_k)
+ 
+and treat the discretely sampled continuous process as a sum of amplitude
+modulated pulses.
+
+Consider the white noise process of Guassian distributed random
+variates -- we can obtain the convolution on the noise with the impulse response function just as we did with the spike impulse train.
+
+.. ipython::
+
+   # gaussian white noise; Nt discrete samples
+   In [304]: x = np.random.randn(Nt)   
+
+   # convolution of noise x with impulse response r
+   In [305]: y = np.convolve(x, r, mode='full')    
+
+   In [306]: y = y[:Nt]
+
