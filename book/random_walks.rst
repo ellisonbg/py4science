@@ -30,9 +30,6 @@ distribution using a ``for`` loop in Python.
 .. plot::
    :include-source:
 
-   import numpy as np
-   import matplotlib.pyplot as plt
-
    x = 0.          # the initial position
    nsteps = 100    # the number of steps
    position = np.zeros(nsteps)
@@ -43,14 +40,11 @@ distribution using a ``for`` loop in Python.
 
    plt.plot(position)
 
-But Python is slow with looks, and typically we want to compute a
+But Python is slow with loops, and typically we want to compute a
 population of random walkers over multiple steps.
 
 .. plot::
    :include-source:
-
-   import numpy as np
-   import matplotlib.pyplot as plt
 
    nsteps = 100    # the number of steps
    nwalkers = 10   # the number of walkers
