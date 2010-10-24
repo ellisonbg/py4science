@@ -134,7 +134,7 @@ The time series of the audio track is easily plotted
    In [38]: plt.xlabel('time (s)');
 
 
-But more interesting is the spectrogram, which shows the power spectra
+But more interesting is the spectrogram, which shows the power spectra 
 density as it evolves over time.  The spectral power (intensity at a
 give frequency) is color coded using matplotlib's default colormap
 ``cm.jet``, so red is high intenisty and blue is low intensity.  The
