@@ -266,7 +266,7 @@ def plot_graph(wgraph, pos=None):
     nx.draw_networkx_edges(wgraph, pos, width=width, edge_color=width,
                            edge_cmap=plt.cm.Blues)
     nx.draw_networkx_edge_labels(wgraph, pos, edge_labels=labels)
-    ax.set_title('Node color:degree, size:count, edge: co-occurrence count')
+    ax.set_title('Nodes, color:degree, size:count. Edges, co-occurr:count')
 
 
 def plot_word_histogram(freqs, show=10, title=None):
@@ -285,7 +285,7 @@ def plot_word_histogram(freqs, show=10, title=None):
         
     # Now, extract words and counts, plot
     n_words = len(show_f)
-    ind = np.arange(n_words)
+    xbar = np.arange(n_words)
     words = [i[0] for i in show_f]
     counts = [i[1] for i in show_f]
 
@@ -293,13 +293,14 @@ def plot_word_histogram(freqs, show=10, title=None):
     if n_words<=20:
         # Only show bars and x labels for small histograms, they don't make
         # sense otherwise
-        ax.bar(ind, counts)
-        ax.set_xticks(ind)
-        ax.set_xticklabels(words, rotation=45)
+        ax.bar(xbar, counts)
+        # offset the x tick locations so they are in the center of the bars
+        ax.set_xticks(xbar+0.5)
+        ax.set_xticklabels(words, rotation=45, horizontalalignment='right')
         fig.subplots_adjust(bottom=0.25)
     else:
         # For larger ones, do a step plot
-        ax.step(ind, counts)
+        ax.step(xbar, counts)
 
     # If it spans more than two decades, use a log scale
     if float(max(counts))/min(counts) > 100:
