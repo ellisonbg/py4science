@@ -1,0 +1,8 @@
+==========================
+ Claremont workshop notes
+==========================
+
+VNC full screen at Claremont?
+VNC: http://www.jsd.claremont.edu/vncviewer
+username jhunter
+passwd no,no
