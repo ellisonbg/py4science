@@ -33,7 +33,7 @@ class Descriptives:
         self.samples = samples
         self.name = name
         self.npts = len(samples)
-        self.median = stats.median(samples)
+        self.median = np.median(samples)
         self.min = samples.min()
         self.max = samples.max()
         self.mean = samples.mean()
