@@ -168,6 +168,8 @@ The following code is a simple solution:
         x = x[drop_points:]
         rplot = r*np.ones_like(x)
         ax.plot(rplot, x, 'b,')
+        
+    plt.show()
 
 .. admonition:: Exercise
 

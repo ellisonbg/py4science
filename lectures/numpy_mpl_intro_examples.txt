@@ -2,6 +2,19 @@
  Numpy and MPL intro examples
 ==============================
 
+Basic Plotting (using pylab) (1 hr 30 min) (Fernando)
+
+    * getting started with ipython
+    * using the plot command interactively
+    * embellishing a plot
+    * saving plots
+    * multiple plots
+    * saving to scripts and running them (from ipython)
+    * running the same thing in sage notebook
+          o change language to python, import pylab, simple plot,
+savefig
+
+
 Array creation::
 
     In [5]: np.array([1,2,3])
