@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 # The setting for student or instructor display. Uncomment the relevant line:
-#tags.add('instructor')
-tags.add('student')
+tags.add('instructor')
+#tags.add('student')
 
 #
 # Py4Science documentation build configuration file, created by
@@ -49,7 +49,7 @@ extensions = ['sphinx.ext.doctest',
 # Turn plot errors into full build stops
 import warnings
 from matplotlib.sphinxext import plot_directive
-warnings.simplefilter('error', plot_directive.PlotWarning)
+#warnings.simplefilter('error', plot_directive.PlotWarning)
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

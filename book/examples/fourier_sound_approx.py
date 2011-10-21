@@ -1,8 +1,31 @@
+"""Simple illustration of audio compression by dropping frequency components.
+
+Usage: Run as
+
+  fourier_sound_approx.py [filename.wav]
+
+whith the name of a .wav file containing an audio signal.  If none is given, it
+will assume that a single-channel file named 'test_mono.wav' is present in the
+current directory.
+"""
+
+#-----------------------------------------------------------------------------
+# Imports
+#-----------------------------------------------------------------------------
+
+# Stdlib
 import os
+import sys
+
+# Third-party
 import numpy as np
+
 from matplotlib import pyplot as plt
 from scipy.io import wavfile
 
+#-----------------------------------------------------------------------------
+# Function definitions
+#-----------------------------------------------------------------------------
 
 def fourier_approx(x, frac=0.5, makeplot=True, Fs=11000):
     """
@@ -56,25 +79,33 @@ def fourier_approx(x, frac=0.5, makeplot=True, Fs=11000):
 
     return xapprox
         
-            
+#-----------------------------------------------------------------------------
+# Main script
+#-----------------------------------------------------------------------------
+if __name__ == '__main__':
+
+    try:
+        infile = sys.argv[1]
+    except IndexError:
+        infile = 'test_mono.wav'
+
+    # Fraction of frequencies to keep (as a number in [0,1]).
+    frac = 0.2
         
-infile = 'test_mono.wav'
-basename, ext = os.path.splitext(infile)
-frac = 0.2
+    basename, ext = os.path.splitext(infile)
 
-rate, x = wavfile.read(infile)
+    rate, x = wavfile.read(infile)
 
-if len(x.shape)==2:
-    # looks like a stereo wave
-    print 'extracting mono channel'
-    x = x[:,0]
+    if len(x.shape)==2:
+        # looks like a stereo wave
+        print 'extracting mono channel'
+        x = x[:,0]
 
-xapprox = fourier_approx(x, frac=frac, makeplot=True)
+    xapprox = fourier_approx(x, frac=frac, makeplot=True)
 
-# linearly rescale raw data to wav range and convert to integers
-sound = xapprox.astype(np.int16)
+    # linearly rescale raw data to wav range and convert to integers
+    sound = xapprox.astype(np.int16)
 
+    wavfile.write('%s_frac%d.wav' % (basename, 100*frac), rate, sound)
 
-wavfile.write('%s_frac%d.wav' % (basename, 100*frac), rate, sound)
- 
-plt.show()
+    plt.show()
