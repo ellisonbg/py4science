@@ -33,7 +33,7 @@ def fourier_approx(x, frac=0.5, makeplot=True, Fs=11000):
     is a float between 0..1
 
     Fs is the sampling frequency of the data
-    
+
     return the approximated signal
 
     if makeplot is True, plot the original time series and approximation in a
@@ -55,6 +55,13 @@ def fourier_approx(x, frac=0.5, makeplot=True, Fs=11000):
     xapprox = np.fft.irfft(out)
 
     if makeplot:
+        # x and xapprox could be of different lengths, so we trim all
+        # variables for plotting to be of the same length
+        common_len = min(len(x), len(xapprox))
+        x = x[:common_len]
+        xapprox = xapprox[:common_len]
+
+        # Now, build the figure for plotting
         t = np.arange(len(x), dtype=float)/Fs
         fig = plt.figure()
         plt.plot(t, x, label='original', lw=1)
@@ -78,7 +85,7 @@ def fourier_approx(x, frac=0.5, makeplot=True, Fs=11000):
         plt.ylabel('approx')
 
     return xapprox
-        
+
 #-----------------------------------------------------------------------------
 # Main script
 #-----------------------------------------------------------------------------
@@ -91,7 +98,7 @@ if __name__ == '__main__':
 
     # Fraction of frequencies to keep (as a number in [0,1]).
     frac = 0.2
-        
+
     basename, ext = os.path.splitext(infile)
 
     rate, x = wavfile.read(infile)
