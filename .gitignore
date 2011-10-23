@@ -8,3 +8,4 @@ book/tmp/
 book/_static/stinkbug_*.png
 book/_static/mystinkbug*
 book/_static/cmap_reversed.png
+data/*_frac*.wav
