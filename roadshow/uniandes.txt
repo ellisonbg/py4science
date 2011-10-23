@@ -1,0 +1,32 @@
+==========================
+ Uniandes Python workshop
+==========================
+
+Agenda
+======
+
+8:30-9: introducción, instalación,  chequeos
+9-10:30, clase
+
+10:30-11:00: refrigerio, preguntas informales (es bueno dejar un
+ratico aquí para que la gente me pueda hacer preguntas con cierta
+libertad)
+
+11-12:45: clase
+
+12:45-2:00: almuerzo
+
+2:00-4: clase
+
+4-4:30: refrigerio.
+
+4:30-6: discusión abierta con preguntas del público, puedo ir
+demostrando cosas sobre las que pregunten, indicando proyectos útiles,
+etc.
+
+Details
+=======
+
+8:30 - 10:30. Introduction
+
+
