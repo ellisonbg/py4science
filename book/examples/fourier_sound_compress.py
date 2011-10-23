@@ -9,6 +9,10 @@ will assume that a single-channel file named 'test_mono.wav' is present in the
 current directory.
 """
 
+# NOTE: this script has been converted to a notebook.  Do NOT update further
+# here, this will be removed once the notebook machinery is fully in shape.
+
+
 #-----------------------------------------------------------------------------
 # Imports
 #-----------------------------------------------------------------------------
@@ -94,7 +98,7 @@ if __name__ == '__main__':
     try:
         infile = sys.argv[1]
     except IndexError:
-        infile = 'test_mono.wav'
+        infile = 'data/CallRingingIn.wav'
 
     # Fraction of frequencies to keep (as a number in [0,1]).
     frac = 0.2

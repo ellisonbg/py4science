@@ -1,5 +1,8 @@
 """Reading and writing numpy arrays to wav files for sound playback. """
 
+# NOTE: this script has been converted to a notebook.  Do NOT update further
+# here, this will be removed once the notebook machinery is fully in shape.
+
 #-----------------------------------------------------------------------------
 # Library imports
 #-----------------------------------------------------------------------------

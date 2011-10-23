@@ -329,7 +329,7 @@ if __name__ == '__main__':
     # If not given, it's read from the command line as the first argument
 
     # 11226 titles of recent articles in arxiv/math/prob
-    default_url  = "http://bibserver.berkeley.edu/tmp/titles.txt"
+    default_url  = "data/titles_stats_papers.txt"
     # Number of words to display in detailed histogram
     n_words = 15
     # Number of words to use as nodes for co-occurrence graph.
